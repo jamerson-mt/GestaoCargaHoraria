@@ -1,24 +1,43 @@
 <script setup>
-import { ref } from "vue";
+import { shallowRef, markRaw } from "vue";
 import CardDocente from "@/components/Cards/CardDocente.vue";
 import Card from "@/components/Cards/Card.vue";
 import CardDocenteOne from "./CardDocenteOne.vue";
 import GerirDisciplinas from "../Docente/GerirDisciplinas.vue";
-const currentComponent = ref(null);
+const currentComponent = shallowRef(null);
+const componentProps = shallowRef({});
 
-const showComponent = (component) => {
-  currentComponent.value = component;
+const showComponent = (component, props = {}) => {
+  currentComponent.value = markRaw(component);
+  componentProps.value = props;
 };
+
+const toggleComponent = (component, props = {}) => {
+  if (currentComponent.value === component) {
+    currentComponent.value = null;
+    componentProps.value = {};
+  } else {
+    currentComponent.value = markRaw(component);
+    componentProps.value = props;
+  }
+};
+
+const docente = {
+  id: 1,
+  nome: 'jose jamerson',
+  email: "jjamersonmt@gmail.com"
+}
 </script>
 
 <template>
   <div class="container">
     <div class="cards">
-      <CardDocenteOne titulo="Gerir Disciplinas" qtdd="3" icone="book" @click="showComponent(GerirDisciplinas)" />
+      <CardDocenteOne titulo="Gerir Disciplinas" qtdd="3" icone="book"
+        @click="toggleComponent(GerirDisciplinas, { docente })" />
       <!-- Adicione mais cards conforme necessário -->
     </div>
     <div class="painel">
-      <component :is="currentComponent" />
+      <component :is="currentComponent" v-bind="componentProps" />
     </div>
   </div>
 </template>
@@ -32,12 +51,15 @@ const showComponent = (component) => {
   background-color: transparent;
   width: 100%;
   height: 100vh;
+  padding: 20px;
 }
+
 .cards {
   display: flex;
   flex-direction: row;
   gap: 10px;
 }
+
 .painel {
   margin-top: 20px;
   width: 100%;

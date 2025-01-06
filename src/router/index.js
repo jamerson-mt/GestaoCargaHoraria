@@ -1,11 +1,11 @@
+// src/router/index.js
 import { createRouter, createWebHistory } from 'vue-router'
 import DashboardView from '../views/DashboardView.vue'
-import DocentesView from '../views/DocentesView.vue'
-import DocenteOneView from '../views/DocenteOneView.vue'
 
-import DisciplinasView from '../views/DisciplinasView.vue'
-import OutrosView from '../views/OutrosView.vue'
-import PlanilhasView from '../views/DashboardView.vue'
+import cursosRoutes from './cursos'
+import disciplinasRoutes from './disciplinas'
+import DocentesRoutes from './docentes'
+
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -20,31 +20,10 @@ const router = createRouter({
       name: 'dashboard',
       component: DashboardView,
     },
-    {
-      path: '/docentes',
-      name: 'docentes',
-      component: DocentesView,
-    },
-    {
-      path: '/docentes/id',
-      name: 'docente',
-      component: DocenteOneView,
-    },
-    {
-      path: '/disciplinas',
-      name: 'disciplinas',
-      component: DisciplinasView,
-    },
-    {
-      path: '/outros',
-      name: 'outros',
-      component: OutrosView,
-    },
-    {
-      path: '/planilhas',
-      name: 'planilhas',
-      component: PlanilhasView,
-    },
+
+    ...DocentesRoutes,
+    ...cursosRoutes,
+    ...disciplinasRoutes,
   ],
 })
 
