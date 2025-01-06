@@ -19,6 +19,7 @@ import Painel from "@/components/Cards/Painel.vue"
   align-items: center;
   width: 100vw;
   height: 100%;
+
 }
 
 </style>

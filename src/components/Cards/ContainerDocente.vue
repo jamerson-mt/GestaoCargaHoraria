@@ -29,7 +29,7 @@ const showComponent = (component) => {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: white;
+  background-color: transparent;
   width: 100%;
   height: 100vh;
 }
@@ -42,6 +42,6 @@ const showComponent = (component) => {
   margin-top: 20px;
   width: 100%;
   height: 100%;
-  background-color: #f3f3f3;
+  background-color: transparent;
 }
 </style>

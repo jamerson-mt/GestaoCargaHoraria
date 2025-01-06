@@ -5,10 +5,10 @@ import SideBarButton from "./SideBarButton.vue"; // Importe o componente SideBar
 <template>
   <div class="container-sidebar">
     <SideBarButton title="Dashboard" link="/" />
-    <SideBarButton title="Docentes" />
-    <SideBarButton title="Disciplinas" />
-    <SideBarButton title="Outros" />
-    <SideBarButton title="Planilhas" />
+    <SideBarButton title="Docentes" link="/docentes" />
+    <SideBarButton title="Disciplinas" link="/disciplinas" />
+    <SideBarButton title="Cursos" link="/cursos" />
+
   </div>
 </template>
 

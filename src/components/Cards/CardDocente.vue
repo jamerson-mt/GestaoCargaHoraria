@@ -45,7 +45,9 @@ const nextPage = () => {
   padding: 10px;
   margin: 5px;
   border-radius: 10px;
-  gap: 5px
+  gap: 5px;
+  color: #2e2e2e;
+  cursor: pointer;
 
 }
 .status{

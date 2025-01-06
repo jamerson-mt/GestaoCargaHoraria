@@ -53,6 +53,7 @@ const nextPage = () => {
   padding: 20px;
   text-align: center;
   line-height: 24px;
+  cursor: pointer;
 }
 .content {
   width: 100%;

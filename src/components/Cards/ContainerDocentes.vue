@@ -17,7 +17,7 @@ import CardDocente from "@/components/Cards/CardDocente.vue";
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: white;
+  background-color: transparent;
   width: 100%;
   height: 100vh;
 }
