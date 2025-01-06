@@ -1,5 +1,5 @@
 <script setup>
-import CargaHoraria from "@/components/Cards/CargaHoraria.vue";
+import CargaHoraria from "./CargaHoraria.vue";
 import { defineProps } from "vue";
 import { useRouter } from "vue-router";
 

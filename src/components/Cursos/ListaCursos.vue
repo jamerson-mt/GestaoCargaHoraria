@@ -1,8 +1,8 @@
 <script setup>
 import { shallowRef, markRaw } from "vue";
 import { useRouter } from "vue-router";
-import CardCurso from "@/components/Cards/CardCurso.vue";
-import CursoDetalhes from "@/components/Cards/CursoDetalhes.vue";
+import CardCurso from "@/components/Cursos/CardCurso.vue";
+import CursoDetalhes from "@/components/Cursos/CursoDetalhes.vue";
 import { cursos } from "@/data/cursos";
 
 const router = useRouter();

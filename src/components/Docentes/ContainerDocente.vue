@@ -1,9 +1,9 @@
 <script setup>
 import { shallowRef, markRaw } from "vue";
-import CardDocente from "@/components/Cards/CardDocente.vue";
+import CardDocente from "@/components/Docentes/CardDocente.vue";
 import Card from "@/components/Cards/Card.vue";
 import CardDocenteOne from "./CardDocenteOne.vue";
-import GerirDisciplinas from "../Docente/GerirDisciplinas.vue";
+import GerirDisciplinas from "../Disciplinas/GerirDisciplinas.vue";
 const currentComponent = shallowRef(null);
 const componentProps = shallowRef({});
 

@@ -1,6 +1,6 @@
 
 <script setup>
-import CardDocente from "@/components/Cards/CardDocente.vue";
+import CardDocente from "@/components/Docentes/CardDocente.vue";
 </script>
 
 <template>

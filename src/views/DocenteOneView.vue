@@ -1,6 +1,6 @@
 <script setup>
 import SideBar from "@/components/SideBar/SideBar.vue";
-import ContainerDocente from "@/components/Cards/ContainerDocente.vue";
+import ContainerDocente from "@/components/Docentes/ContainerDocente.vue";
 </script>
 
 <template>

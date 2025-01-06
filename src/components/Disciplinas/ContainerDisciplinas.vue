@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { obterDisciplinas } from '../../data/disciplinas.js';
-import CardDocenteOne from '../Cards/CardDocenteOne.vue';
+import CardDocenteOne from '../Docentes/CardDocenteOne.vue';
 
 const disciplinasPendentes = ref(0);
 const disciplinasProntas = ref(0);
