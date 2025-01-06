@@ -1,11 +1,13 @@
 <script setup>
 import SideBar from "@/components/SideBar/SideBar.vue";
+import ListaCursos from "@/components/Cursos/ListaCursos.vue";
 </script>
 
 <template>
 
   <div class="container-cursos">
     <SideBar />
+    <ListaCursos />
 
   </div>
 </template>
