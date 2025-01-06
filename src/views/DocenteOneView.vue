@@ -1,13 +1,13 @@
 <script setup>
-import SideBar from "@/components/SideBar/SideBar.vue"
-import Painel from "@/components/Cards/Painel.vue"
+import SideBar from "@/components/SideBar/SideBar.vue";
+import ContainerDocente from "@/components/Cards/ContainerDocente.vue";
 </script>
 
 <template>
 
   <div class="container-dashboard">
     <SideBar />
-    <Painel/>
+    <ContainerDocente/>
 
   </div>
 </template>
@@ -18,7 +18,6 @@ import Painel from "@/components/Cards/Painel.vue"
   flex-direction: row;
   align-items: center;
   width: 100vw;
-  height: 100%;
+  height: 100vh;
 }
-
 </style>

@@ -1,6 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import DashboardView from '../views/DashboardView.vue'
 import DocentesView from '../views/DocentesView.vue'
+import DocenteOneView from '../views/DocenteOneView.vue'
+
 import DisciplinasView from '../views/DisciplinasView.vue'
 import OutrosView from '../views/OutrosView.vue'
 import PlanilhasView from '../views/DashboardView.vue'
@@ -22,6 +24,11 @@ const router = createRouter({
       path: '/docentes',
       name: 'docentes',
       component: DocentesView,
+    },
+    {
+      path: '/docentes/id',
+      name: 'docente',
+      component: DocenteOneView,
     },
     {
       path: '/disciplinas',

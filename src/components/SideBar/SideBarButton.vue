@@ -17,7 +17,7 @@ const props = defineProps({
     <div v-if="icon" id="icon">
       <img :src="`/images/${icon}.png`" alt="Ícone" />
     </div>
-    <router-link :to="title">
+    <router-link :to="'/'+title">
       <button>{{ title }}</button>
     </router-link>
   </div>

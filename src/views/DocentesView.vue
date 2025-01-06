@@ -1,15 +1,13 @@
 <script setup>
 import SideBar from "@/components/SideBar/SideBar.vue";
+import ContainerDocentes from "@/components/Cards/ContainerDocentes.vue";
 </script>
 
 <template>
 
   <div class="container-dashboard">
     <SideBar />
-    <div class="content-dashboard">
-      <h1>content</h1>
-      <h1>dadadadada</h1>
-    </div>
+    <ContainerDocentes />
   </div>
 </template>
 
