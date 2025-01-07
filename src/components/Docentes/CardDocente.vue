@@ -38,10 +38,11 @@ const nextPage = () => {
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: initial;
   background-color: white;
   border-bottom: 1px solid #f3f3f3;
   height: 50px;
+  width: 50%;
   padding: 10px;
   margin: 5px;
   border-radius: 10px;

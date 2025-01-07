@@ -27,7 +27,9 @@ const getDisciplinasProntas = () => {
 </script>
 
 <template>
+
   <div class="container">
+    <h1>Gerenciar Disciplinas</h1>
     <div class="card-container">
       <CardDocenteOne titulo="Disciplinas Pendentes" :qtdd="disciplinasPendentes" icone="book" />
       <CardDocenteOne titulo="Disciplinas Prontas" :qtdd="disciplinasProntas" icone="book" />
@@ -36,13 +38,16 @@ const getDisciplinasProntas = () => {
 </template>
 
 <style scoped>
+h1{
+  text-align: center;
+}
 .container {
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  flex-direction: column;
   width: 100%;
   padding: 20px;
-  background-color: white;
+  gap: 20px;
+  background-color: transparent;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }

@@ -21,7 +21,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="card" @click="nextPage">
+  <div class="card" >
     <h3>{{ props.titulo }}</h3>
     <div class="content">
       <h2>{{ props.qtdd }}</h2>
