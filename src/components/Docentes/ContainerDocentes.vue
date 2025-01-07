@@ -3,13 +3,12 @@ import { ref } from 'vue';
 import CardDocente from "@/components/Docentes/CardDocente.vue";
 import CardDocenteOne from "./CardDocenteOne.vue";
 import Card from "../Cards/Card.vue";
-import ContainerDocente from "./ContainerDocente.vue";
 import ListaDocentes from "./ListaDocentes.vue";
 
-const showContainerDocente = ref(false);
+const listaAtual = ref('');
 
-function toggleContainerDocente() {
-  showContainerDocente.value = !showContainerDocente.value;
+function toggleListaDocentes(tipo) {
+  listaAtual.value = listaAtual.value === tipo ? '' : tipo;
 }
 </script>
 
@@ -17,12 +16,11 @@ function toggleContainerDocente() {
   <div class="container">
     <h1>Gerenciar Docentes</h1>
     <div class="card-container">
-      <CardDocenteOne titulo="Docentes totais" qtdd="15" icone="pessoasgreen" @click="toggleContainerDocente" />
-      <CardDocenteOne titulo="Docentes prontos" qtdd="10" icone="pessoasgreen" />
-      <CardDocenteOne titulo="Docentes pendentes" qtdd="5" icone="pessoasred" />
+      <CardDocenteOne titulo="Docentes totais" qtdd=15 icone="pessoasgreen" @click="toggleListaDocentes('todos')" />
+      <CardDocenteOne titulo="Docentes prontos" qtdd=10 icone="pessoasgreen" @click="toggleListaDocentes('pronto')" />
+      <CardDocenteOne titulo="Docentes pendentes" qtdd=5 icone="pessoasred" @click="toggleListaDocentes('pendente')" />
     </div>
-    <ListaDocentes v-if="showContainerDocente" />
-
+    <ListaDocentes v-if="listaAtual" :tipo="listaAtual" />
   </div>
 </template>
 

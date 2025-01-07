@@ -7,9 +7,10 @@ import Card from "@/components/Cards/Card.vue";
     <h1>Painel principal</h1>
     <div class="painel-dashboard">
       <Card titulo="Total de Docentes" qtdd="8" icone="pessoasgreen" rota="docentes" />
-      <Card titulo="Total de Cursos" qtdd="4" icone="book" rota="cursos" />
+      <Card titulo="Total de Cursos" qtdd="4" icone="cursogreen" rota="cursos" />
       <Card titulo="Total de Disciplinas" qtdd="1" icone="book" rota="disciplinas" />
     </div>
+
   </div>
 </template>
 

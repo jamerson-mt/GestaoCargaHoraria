@@ -1,9 +1,14 @@
 <script setup>
 import { shallowRef, markRaw } from "vue";
+import { useRoute } from "vue-router";
 import CardDocente from "@/components/Docentes/CardDocente.vue";
 import Card from "@/components/Cards/Card.vue";
 import CardDocenteOne from "./CardDocenteOne.vue";
 import GerirDisciplinas from "../Disciplinas/GerirDisciplinas.vue";
+
+const route = useRoute();
+const queryValue = route.query.valor; // Pegando o valor vindo pela query
+
 const currentComponent = shallowRef(null);
 const componentProps = shallowRef({});
 
@@ -22,17 +27,15 @@ const toggleComponent = (component, props = {}) => {
   }
 };
 
-const docente = {
-  id: 1,
-  nome: 'jose jamerson',
-  email: "jjamersonmt@gmail.com"
-}
+
+
 </script>
 
 <template>
   <div class="container">
+  <h1>{{ docente.nome }}</h1>
     <div class="cards">
-      <CardDocenteOne titulo="Gerir Disciplinas" qtdd="3" icone="book"
+      <CardDocenteOne titulo="Gerir Disciplinas" qtdd=2 icone="book"
         @click="toggleComponent(GerirDisciplinas, { docente })" />
       <!-- Adicione mais cards conforme necessário -->
     </div>
@@ -51,6 +54,8 @@ const docente = {
   background-color: transparent;
   width: 100%;
   height: 100vh;
+  padding: 20px;
+  gap: 20px;
   padding: 20px;
 }
 

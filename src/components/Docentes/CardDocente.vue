@@ -10,24 +10,24 @@ const props = defineProps({
   },
   status: {
     type: String,
-    default: "statusgreen",
+    default: "pronto",
   },
   rota: {
     type: String,
-    default: "docentes/id",
+    default: 'docentes/',
   }
 });
 
 const router = useRouter();
 
 const nextPage = () => {
-  router.push('/' + props.rota);
+  router.push({ path: '/' + props.rota});
 };
 </script>
 
 <template>
-  <div class="card-docente" @click="nextPage">
-    <img :src="'svg/'+props.status+'.svg'" :alt="props.status" />
+  <div class="card-docente" @click="nextPage()">
+    <img :src="'svg/status'+props.status+'.svg'" :alt="props.status" />
     <h2>{{ props.nome }}</h2>
     <CargaHoraria />
   </div>
