@@ -48,23 +48,14 @@ const getDisciplinasProntas = () => {
 }
 .card-container {
   display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
   width: 100%;
-  justify-content: space-around;
-  margin: 20px 0;
+  gap: 20px;
+  padding: 0px;
 }
-.card {
-  background-color: #f9f9f9;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 20px;
-  text-align: center;
-  width: 200px;
-}
-.card h3 {
-  margin-bottom: 10px;
-}
-.card p {
-  font-size: 24px;
-  font-weight: bold;
-}
+
 </style>

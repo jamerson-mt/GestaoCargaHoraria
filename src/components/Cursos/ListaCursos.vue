@@ -63,7 +63,13 @@ const nextPage = (cursoId) => {
 .cards {
   display: flex;
   flex-direction: row;
-  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  width: 100%;
+  gap: 20px;
+  padding: 0px;
 }
 
 .painel {
