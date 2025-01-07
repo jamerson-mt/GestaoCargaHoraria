@@ -1,13 +1,9 @@
 <script setup>
 import { shallowRef, markRaw } from "vue";
 import { useRoute } from "vue-router";
-import CardDocente from "@/components/Docentes/CardDocente.vue";
-import Card from "@/components/Cards/Card.vue";
-import CardDocenteOne from "./CardDocenteOne.vue";
-import GerirDisciplinas from "../Disciplinas/GerirDisciplinas.vue";
-import GerirAbonamento from "../Abonar/GerirAbonamento.vue";
-import { docentes } from "../../data/docentes.js";
-import DetalhesAbonamento from "../Abonar/DetalhesAbonamento.vue";
+import CardAbonamento from "@/components/Abonar/CardAbonamento.vue";
+import DetalhesAbonamento from "@/components/Abonar/DetalhesAbonamento.vue";
+import { docentes } from "@/data/docentes.js";
 
 const route = useRoute();
 const docenteId = route.params.id; // Pegando o ID da rota
@@ -35,11 +31,9 @@ const toggleComponent = (component, props = {}) => {
 
 <template>
   <div class="container">
-  <h1>teste</h1>
+    <h1>Gerir Abonamento</h1>
     <div class="cards">
-      <CardDocenteOne titulo="Gerir Disciplinas" qtdd=2 icone="book"
-        @click="toggleComponent(GerirDisciplinas, { docente })" />
-        <CardDocenteOne titulo="Gerir Abonamento" qtdd=1 icone="pessoasgreen"
+      <CardAbonamento titulo="Detalhes do Abonamento" qtdd=2 icone="info"
         @click="toggleComponent(DetalhesAbonamento, { docente })" />
       <!-- Adicione mais cards conforme necessário -->
     </div>
@@ -60,7 +54,6 @@ const toggleComponent = (component, props = {}) => {
   height: 100vh;
   padding: 20px;
   gap: 20px;
-  padding: 20px;
 }
 
 .cards {
@@ -74,6 +67,5 @@ const toggleComponent = (component, props = {}) => {
   width: 100%;
   height: 100%;
   background-color: transparent;
-  overflow-y: auto; /* Adiciona rolagem vertical */
 }
 </style>

@@ -8,6 +8,8 @@ import SideBarButton from "./SideBarButton.vue"; // Importe o componente SideBar
     <SideBarButton title="Docentes" link="/docentes" />
     <SideBarButton title="Disciplinas" link="/disciplinas" />
     <SideBarButton title="Cursos" link="/cursos" />
+    <SideBarButton title="Abonar" link="/abonar" />
+
 
   </div>
 </template>

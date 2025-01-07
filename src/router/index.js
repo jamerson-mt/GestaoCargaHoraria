@@ -5,6 +5,7 @@ import DashboardView from '../views/DashboardView.vue'
 import cursosRoutes from './cursos'
 import disciplinasRoutes from './disciplinas'
 import DocentesRoutes from './docentes'
+import AbonarRoutes from './abonar'
 
 
 const router = createRouter({
@@ -24,6 +25,7 @@ const router = createRouter({
     ...DocentesRoutes,
     ...cursosRoutes,
     ...disciplinasRoutes,
+    ...AbonarRoutes,
   ],
 })
 

@@ -2,8 +2,13 @@
 import CargaHoraria from "./CargaHoraria.vue";
 import { defineProps } from "vue";
 import { useRouter } from "vue-router";
-
+import CargaHorariaAbonar from "@/components/Abonar/CargaHorariaAbonar.vue";
 const props = defineProps({
+  id: {
+    type: Number,
+    default: 1,
+    required: false,
+  },
   nome: {
     type: String,
     default: "Nome",
@@ -15,6 +20,16 @@ const props = defineProps({
   rota: {
     type: String,
     default: 'docentes/',
+    required: false
+  },
+  isAbonar: {
+    type: Boolean,
+    default: false,
+    required: false
+  },
+  docente: {
+    type: Object,
+    default: () => ({})
   }
 });
 
@@ -29,7 +44,8 @@ const nextPage = () => {
   <div class="card-docente" @click="nextPage()">
     <img :src="'svg/status'+props.status+'.svg'" :alt="props.status" />
     <h2>{{ props.nome }}</h2>
-    <CargaHoraria />
+    <CargaHoraria  v-if="!isAbonar" />
+    <CargaHorariaAbonar :horasUtilizadas="docente.horasUtilizadas"  v-if="isAbonar" />
   </div>
 </template>
 
@@ -42,7 +58,7 @@ const nextPage = () => {
   background-color: white;
   border-bottom: 1px solid #f3f3f3;
   height: 50px;
-  width: 50%;
+  width: 70%;
   padding: 10px;
   margin: 5px;
   border-radius: 10px;
