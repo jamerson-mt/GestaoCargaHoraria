@@ -6,9 +6,9 @@ export const docentes = [
     horasUtilizadas: 10,
     dataPedido: "2023-10-01",
     motivos: [
-      { motivo: "Emergência Médica", horas: 4, descricao: "Atendimento de emergência no hospital" },
-      { motivo: "Consulta Médica", horas: 3, descricao: "Consulta de rotina com o médico" },
-      { motivo: "Reunião Familiar", horas: 3, descricao: "Reunião importante com a família" }
+      { motivo: "Emergência Médica", horas: 4, descricao: "Atendimento de emergência no hospital", pdfUrl: "public/pdf/teste.pdf" },
+      { motivo: "Consulta Médica", horas: 3, descricao: "Consulta de rotina com o médico", pdfUrl: "public/pdf/teste.pdf" },
+      { motivo: "Reunião Familiar", horas: 3, descricao: "Reunião importante com a família", pdfUrl: "public/pdf/teste.pdf" }
     ]
   },
   {
@@ -18,8 +18,8 @@ export const docentes = [
     horasUtilizadas: 5,
     dataPedido: "2023-10-02",
     motivos: [
-      { motivo: "Emergência Médica", horas: 2, descricao: "Atendimento de emergência no hospital" },
-      { motivo: "Viagem", horas: 3, descricao: "Viagem a trabalho" }
+      { motivo: "Emergência Médica", horas: 2, descricao: "Atendimento de emergência no hospital", pdfUrl: "public/pdf/teste.pdf" },
+      { motivo: "Viagem", horas: 3, descricao: "Viagem a trabalho", pdfUrl: "public/pdf/teste.pdf" }
     ]
   },
   {
@@ -37,8 +37,8 @@ export const docentes = [
     horasUtilizadas: 8,
     dataPedido: "2023-10-04",
     motivos: [
-      { motivo: "Consulta Médica", horas: 4, descricao: "Consulta de rotina com o médico" },
-      { motivo: "Emergência Familiar", horas: 4, descricao: "Emergência com um membro da família" }
+      { motivo: "Consulta Médica", horas: 4, descricao: "Consulta de rotina com o médico", pdfUrl: "public/pdf/teste.pdf" },
+      { motivo: "Emergência Familiar", horas: 4, descricao: "Emergência com um membro da família", pdfUrl: "public/pdf/teste.pdf" }
     ]
   },
   {
@@ -48,7 +48,7 @@ export const docentes = [
     horasUtilizadas: 3,
     dataPedido: "2023-10-05",
     motivos: [
-      { motivo: "Consulta Médica", horas: 3, descricao: "Consulta de rotina com o médico" }
+      { motivo: "Consulta Médica", horas: 3, descricao: "Consulta de rotina com o médico", pdfUrl: "public/pdf/teste.pdf" }
     ]
   },
   {
@@ -66,8 +66,8 @@ export const docentes = [
     horasUtilizadas: 12,
     dataPedido: "2023-10-07",
     motivos: [
-      { motivo: "Emergência Médica", horas: 6, descricao: "Atendimento de emergência no hospital" },
-      { motivo: "Consulta Médica", horas: 6, descricao: "Consulta de rotina com o médico" }
+      { motivo: "Emergência Médica", horas: 6, descricao: "Atendimento de emergência no hospital", pdfUrl: "public/pdf/teste.pdf" },
+      { motivo: "Consulta Médica", horas: 6, descricao: "Consulta de rotina com o médico", pdfUrl: "public/pdf/teste.pdf" }
     ]
   },
   {
@@ -77,7 +77,7 @@ export const docentes = [
     horasUtilizadas: 4,
     dataPedido: "2023-10-08",
     motivos: [
-      { motivo: "Viagem", horas: 4, descricao: "Viagem a trabalho" }
+      { motivo: "Viagem", horas: 4, descricao: "Viagem a trabalho", pdfUrl: "public/pdf/teste.pdf" }
     ]
   },
   {
@@ -95,8 +95,8 @@ export const docentes = [
     horasUtilizadas: 9,
     dataPedido: "2023-10-10",
     motivos: [
-      { motivo: "Consulta Médica", horas: 5, descricao: "Consulta de rotina com o médico" },
-      { motivo: "Emergência Familiar", horas: 4, descricao: "Emergência com um membro da família" }
+      { motivo: "Consulta Médica", horas: 5, descricao: "Consulta de rotina com o médico", pdfUrl: "public/pdf/teste.pdf" },
+      { motivo: "Emergência Familiar", horas: 4, descricao: "Emergência com um membro da família", pdfUrl: "public/pdf/teste.pdf" }
     ]
   },
   {
@@ -106,8 +106,8 @@ export const docentes = [
     horasUtilizadas: 7,
     dataPedido: "2023-10-11",
     motivos: [
-      { motivo: "Consulta Médica", horas: 3, descricao: "Consulta de rotina com o médico" },
-      { motivo: "Reunião Familiar", horas: 4, descricao: "Reunião importante com a família" }
+      { motivo: "Consulta Médica", horas: 3, descricao: "Consulta de rotina com o médico", pdfUrl: "public/pdf/teste.pdf" },
+      { motivo: "Reunião Familiar", horas: 4, descricao: "Reunião importante com a família", pdfUrl: "public/pdf/teste.pdf" }
     ]
   },
   {
@@ -117,7 +117,7 @@ export const docentes = [
     horasUtilizadas: 6,
     dataPedido: "2023-10-12",
     motivos: [
-      { motivo: "Viagem", horas: 6, descricao: "Viagem a trabalho" }
+      { motivo: "Viagem", horas: 6, descricao: "Viagem a trabalho", pdfUrl: "public/pdf/teste.pdf" }
     ]
   },
   {
@@ -135,8 +135,8 @@ export const docentes = [
     horasUtilizadas: 10,
     dataPedido: "2023-10-14",
     motivos: [
-      { motivo: "Emergência Médica", horas: 5, descricao: "Atendimento de emergência no hospital" },
-      { motivo: "Consulta Médica", horas: 5, descricao: "Consulta de rotina com o médico" }
+      { motivo: "Emergência Médica", horas: 5, descricao: "Atendimento de emergência no hospital", pdfUrl: "public/pdf/teste.pdf" },
+      { motivo: "Consulta Médica", horas: 5, descricao: "Consulta de rotina com o médico", pdfUrl: "public/pdf/teste.pdf" }
     ]
   },
   {
@@ -146,7 +146,7 @@ export const docentes = [
     horasUtilizadas: 4,
     dataPedido: "2023-10-15",
     motivos: [
-      { motivo: "Consulta Médica", horas: 4, descricao: "Consulta de rotina com o médico" }
+      { motivo: "Consulta Médica", horas: 4, descricao: "Consulta de rotina com o médico", pdfUrl: "public/pdf/teste.pdf" }
     ]
   }
 ];
