@@ -1,11 +1,17 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import CardDocente from "@/components/Docentes/CardDocente.vue";
 import CardDocenteOne from "./CardDocenteOne.vue";
 import Card from "../Cards/Card.vue";
 import ListaDocentes from "./ListaDocentes.vue";
+import { docentes } from '@/data/docentes';
 
 const listaAtual = ref('');
+
+const totalDocentes = computed(() => docentes.length);
+const docentesProntos = computed(() => docentes.filter(docente => docente.status === 'pronto').length);
+const docentesPendentes = computed(() => docentes.filter(docente => docente.status === 'pendente').length);
+const docentesUrgentes = computed(() => docentes.filter(docente => docente.status === 'urgente').length);
 
 function toggleListaDocentes(tipo) {
   listaAtual.value = listaAtual.value === tipo ? '' : tipo;
@@ -16,9 +22,10 @@ function toggleListaDocentes(tipo) {
   <div class="container">
     <h1>Gerenciar Docentes</h1>
     <div class="card-container">
-      <CardDocenteOne titulo="Docentes totais" qtdd=15 icone="pessoasgreen" @click="toggleListaDocentes('todos')" />
-      <CardDocenteOne titulo="Docentes prontos" qtdd=10 icone="pessoasgreen" @click="toggleListaDocentes('pronto')" />
-      <CardDocenteOne titulo="Docentes pendentes" qtdd=5 icone="pessoasred" @click="toggleListaDocentes('pendente')" />
+      <CardDocenteOne :titulo="'Docentes totais'" :qtdd="totalDocentes" icone="pessoasgreen" @click="toggleListaDocentes('todos')" />
+      <CardDocenteOne :titulo="'Docentes prontos'" :qtdd="docentesProntos" icone="pessoasgreen" @click="toggleListaDocentes('pronto')" />
+      <CardDocenteOne :titulo="'Docentes pendentes'" :qtdd="docentesPendentes" icone="pessoasyellow" @click="toggleListaDocentes('pendente')" />
+      <CardDocenteOne :titulo="'Docentes urgentes'" :qtdd="docentesUrgentes" icone="pessoasred" @click="toggleListaDocentes('urgente')" />
     </div>
     <ListaDocentes v-if="listaAtual" :tipo="listaAtual" />
   </div>

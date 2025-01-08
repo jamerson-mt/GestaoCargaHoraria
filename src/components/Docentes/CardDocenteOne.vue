@@ -39,8 +39,8 @@ const props = defineProps({
   background-color: white;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
-  width: 280px;
-  height: 160px;
+  width: 200px;
+  height: 100px;
   gap: 15px;
   padding: 20px;
   text-align: center;
@@ -55,8 +55,8 @@ const props = defineProps({
   justify-content: space-evenly;
 }
 h3 {
-  font-size: 1.5rem;
-  font-weight:400;
+  font-size: 1rem;
+  font-weight:500;
   color: #2e2e2e;
 }
 h2 {
@@ -65,7 +65,7 @@ h2 {
   color: #2e2e2e;
 }
 img {
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
 }
 </style>

@@ -2,6 +2,7 @@
 import { ref, computed } from 'vue';
 import CardDocente from './CardDocente.vue';
 import { defineProps } from 'vue';
+import { docentes } from '@/data/docentes';
 
 const props = defineProps({
   tipo: {
@@ -10,18 +11,11 @@ const props = defineProps({
   }
 });
 
-const docentes = ref([
-  { id: 1, nome: ' José Jamerson', status: 'pendente' },
-  { id: 2, nome: 'Thomaz Rodrigues', status: 'pronto' },
-  { id: 3, nome: 'Caio Rodrigues', status: 'pendente'  },
-  // Adicione mais docentes conforme necessário
-]);
-
 const filteredDocentes = computed(() => {
   if (props.tipo === 'todos') {
-    return docentes.value;
+    return docentes;
   }
-  return docentes.value.filter(docente => docente.status === props.tipo);
+  return docentes.filter(docente => docente.status === props.tipo);
 });
 
 </script>
@@ -41,5 +35,6 @@ const filteredDocentes = computed(() => {
   background-color: transparent;
   border: 1px solid #ddd;
   border-radius: 8px;
+  overflow-x: auto;
 }
 </style>
