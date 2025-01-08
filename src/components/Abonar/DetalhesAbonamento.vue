@@ -24,7 +24,7 @@ function alternarMotivo(index) {
         <div v-if="motivosVisiveis[index]">
           <p><strong>Data:</strong> {{ docente.dataPedido }}</p>
           <p><strong>Horas:</strong> {{ motivo.horas }}h</p>
-          <a :href="'/'+motivo.pdfUrl" target="_blank">Ver PDF</a>
+          <a :href="'/'+motivo.pdfUrl" target="_blank">Ver comprovante em PDF</a>
         </div>
       </li>
     </ul>
