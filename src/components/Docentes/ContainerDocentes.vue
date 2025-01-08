@@ -14,7 +14,11 @@ const docentesPendentes = computed(() => docentes.filter(docente => docente.stat
 const docentesUrgentes = computed(() => docentes.filter(docente => docente.status === 'urgente').length);
 
 function toggleListaDocentes(tipo) {
-  listaAtual.value = listaAtual.value === tipo ? '' : tipo;
+  if (listaAtual.value === tipo) {
+    listaAtual.value = '';
+  } else {
+    listaAtual.value = tipo;
+  }
 }
 </script>
 
@@ -23,9 +27,6 @@ function toggleListaDocentes(tipo) {
     <h1>Gerenciar Docentes</h1>
     <div class="card-container">
       <CardDocenteOne :titulo="'Docentes totais'" :qtdd="totalDocentes" icone="pessoasgreen" @click="toggleListaDocentes('todos')" />
-      <CardDocenteOne :titulo="'Docentes prontos'" :qtdd="docentesProntos" icone="pessoasgreen" @click="toggleListaDocentes('pronto')" />
-      <CardDocenteOne :titulo="'Docentes pendentes'" :qtdd="docentesPendentes" icone="pessoasyellow" @click="toggleListaDocentes('pendente')" />
-      <CardDocenteOne :titulo="'Docentes urgentes'" :qtdd="docentesUrgentes" icone="pessoasred" @click="toggleListaDocentes('urgente')" />
     </div>
     <ListaDocentes v-if="listaAtual" :tipo="listaAtual" />
   </div>
