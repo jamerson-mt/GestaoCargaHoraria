@@ -1,10 +1,13 @@
 <script setup>
-import { ref, onMounted } from "vue";
-import { obterDisciplinas } from '../../data/disciplinas.js';
-import CardDocenteOne from '../Docentes/CardDocenteOne.vue';
-
+import { ref, onMounted, computed } from "vue";
 const disciplinasPendentes = ref(0);
 const disciplinasProntas = ref(0);
+const mostrarDisciplinas = ref(true);
+const searchQuery = ref('');
+const filterStatus = ref('');
+import CardDocenteOne from "@/components/Docentes/CardDocenteOne.vue";
+import CardDisciplina from "@/components/Disciplinas/CardDisciplina.vue";
+import { disciplinas } from "../../data/disciplinas";
 
 onMounted(() => {
   fetchDisciplinasStatus();
@@ -24,21 +27,52 @@ const getDisciplinasProntas = () => {
   // Implementação da lógica para obter disciplinas prontas
   return 10; // Exemplo de retorno
 };
+
+const alternarDisciplinas = () => {
+  mostrarDisciplinas.value = !mostrarDisciplinas.value;
+};
+
+const filteredDisciplinas = computed(() => {
+  return disciplinas.filter((disciplina) => {
+    const matchesSearch = disciplina.nome
+      .toLowerCase()
+      .includes(searchQuery.value.toLowerCase());
+    const matchesFilter = filterStatus.value
+      ? disciplina.status === filterStatus.value
+      : true;
+    return matchesSearch && matchesFilter;
+  });
+});
 </script>
 
 <template>
-
   <div class="container">
     <h1>Gerenciar Disciplinas</h1>
     <div class="card-container">
-      <CardDocenteOne titulo="Disciplinas Pendentes" :qtdd="disciplinasPendentes" icone="book" />
-      <CardDocenteOne titulo="Disciplinas Prontas" :qtdd="disciplinasProntas" icone="book" />
+      <CardDocenteOne
+        titulo="Total de Disciplinas "
+        :qtdd="disciplinasPendentes"
+        icone="book"
+        @click="alternarDisciplinas"
+      />
+    </div>
+    <div v-if="mostrarDisciplinas" class="container-abonar">
+      <div class="filtro">
+        <input type="text" v-model="searchQuery" placeholder="Pesquisar por nome..." />
+        <select v-model="filterStatus">
+          <option value="">Todos</option>
+          <option value="urgente">Urgente</option>
+          <option value="pronto">Pronto</option>
+          <option value="pendente">Pendente</option>
+        </select>
+      </div>
+      ola
     </div>
   </div>
 </template>
 
 <style scoped>
-h1{
+h1 {
   text-align: center;
 }
 .container {
@@ -63,4 +97,22 @@ h1{
   padding: 0px;
 }
 
+.filtro {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.filtro input[type="text"] {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.filtro select {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
 </style>

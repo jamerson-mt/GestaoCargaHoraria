@@ -2,7 +2,7 @@
 import { ref, onMounted, defineProps } from "vue";
 import DisciplinaItem from './DisciplinaItem.vue';
 import DisciplinaDetalhes from './DisciplinaDetalhes.vue';
-import { obterDisciplinas } from '../../data/disciplinas.js';
+import { disciplinas as todasDisciplinas } from '../../data/disciplinas';
 
 const disciplinas = ref([]);
 const disciplinaSelecionada = ref(null);
@@ -14,7 +14,7 @@ const props = defineProps({
 });
 
 onMounted(() => {
-  disciplinas.value = obterDisciplinas();
+  disciplinas.value = todasDisciplinas;
 });
 
 const selectDisciplina = (disciplina) => {
