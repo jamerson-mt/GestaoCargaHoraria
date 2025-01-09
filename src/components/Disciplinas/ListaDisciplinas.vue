@@ -1,9 +1,9 @@
 <script setup>
 import { shallowRef, markRaw } from "vue";
 import { useRouter } from "vue-router";
-import CardCurso from "@/components/Cursos/CardCurso.vue";
-import CursoDetalhes from "@/components/Cursos/CursoDetalhes.vue";
-import { cursos } from "@/data/cursos";
+import DisciplinaDetalhes from "@/components/Disciplinas/DisciplinaDetalhes.vue";
+import { disciplinas } from "@/data/disciplinas";
+import DisciplinaItem from "./DisciplinaItem.vue";
 
 const router = useRouter();
 const currentComponent = shallowRef(null);
@@ -24,26 +24,21 @@ const toggleComponent = (component, props = {}) => {
   }
 };
 
-const nextPage = (cursoId) => {
-  console.log(cursoId);
-  router.push('/Cursos/' + cursoId);
+const nextPage = (disciplinaId) => {
+  console.log(disciplinaId);
+  router.push('/Disciplinas/' + disciplinaId);
 };
 </script>
 
 <template>
   <div class="container">
-    <div class="cards">
-      <CardCurso
-        v-for="curso in cursos"
-        :key="curso.id"
-        :titulo="curso.nome"
-        :descricao="curso.descricao"
-        @click="showComponent(CursoDetalhes, { curso })"
-      />
+    <div class="container-disciplinas">
+      <DisciplinaItem v-for="disciplina in disciplinas" :key="disciplina.id" :disciplina="disciplina"
+        @click="showComponent(DisciplinaDetalhes, { disciplina })" />
     </div>
     <div class="painel">
       <component :is="currentComponent" v-bind="componentProps" />
-      <button hidden v-if="currentComponent" @click="nextPage(componentProps.curso.id)">editar</button>
+      <button v-if="currentComponent" @click="nextPage(componentProps.disciplina.id)">ver</button>
     </div>
   </div>
 </template>
@@ -59,7 +54,17 @@ const nextPage = (cursoId) => {
   height: 100vh;
   padding: 20px;
 }
-
+.container-disciplinas {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  width: 100%;
+  gap: 20px;
+  padding: 0px;
+}
 .cards {
   display: flex;
   flex-direction: row;

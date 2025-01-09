@@ -1,6 +1,10 @@
-
 <script setup>
 import { defineProps } from "vue";
+import { disciplinas } from "@/data/disciplinas";
+
+const quantidadeDisciplinas = (cursoId) => {
+  return disciplinas.filter(disciplina => disciplina.cursoId === cursoId).length;
+};
 
 const props = defineProps({
   curso: {
@@ -14,7 +18,7 @@ const props = defineProps({
 <template>
   <div class="curso-detalhes">
     <h2>{{ curso.nome }}</h2>
-    <p>{{ curso.quantidadeDisciplinas }}</p>
+    <p>Quantidade de Disciplinas: {{ quantidadeDisciplinas(curso.id) }}</p>
   </div>
 </template>
 

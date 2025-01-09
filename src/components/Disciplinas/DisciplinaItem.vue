@@ -7,12 +7,13 @@ defineProps({
 });
 </script>
 <template>
-  <div>
-    <li class="disciplina-item" @click="$emit('click')">{{ disciplina.nome }}
-    </li>
+    <div class="disciplina-item" @click="$emit('click')">{{ disciplina.nome }}
+
   </div>
 </template>
 <style scoped>
+
+
 .disciplina-item {
   cursor: pointer;
   padding: 10px;

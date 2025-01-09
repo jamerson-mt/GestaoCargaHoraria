@@ -1,7 +1,10 @@
+
+import {disciplinas} from "@/data/disciplinas";
+
 export const cursos = [
-  { id: 1, nome: "Sistemas para internet", quantidadeDisciplinas: 10 },
-  { id: 2, nome: "Administracao", quantidadeDisciplinas: 8 },
-  { id: 3, nome: "Qualidade", quantidadeDisciplinas: 6 },
+  { id: 1, nome: "Sistemas para internet"  },
+  { id: 2, nome: "Administracao" },
+  { id: 3, nome: "Qualidade" },
   // Adicione mais cursos conforme necessário
 ];
 

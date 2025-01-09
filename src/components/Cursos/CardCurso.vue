@@ -8,7 +8,6 @@ defineProps({
 <template>
   <div class="card" @click="$emit('click')">
     <h3>{{ titulo }}</h3>
-    <p>{{ descricao }}</p>
   </div>
 </template>
 
@@ -24,4 +23,5 @@ defineProps({
 .card:hover {
   background-color: #f0f0f0;
 }
+
 </style>
