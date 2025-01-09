@@ -6,7 +6,6 @@ const mostrarDisciplinas = ref(true);
 const searchQuery = ref('');
 const filterStatus = ref('');
 import CardDocenteOne from "@/components/Docentes/CardDocenteOne.vue";
-import CardDisciplina from "@/components/Disciplinas/CardDisciplina.vue";
 import { disciplinas } from "../../data/disciplinas";
 
 onMounted(() => {
