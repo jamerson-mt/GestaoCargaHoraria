@@ -43,24 +43,41 @@ const filteredDocentes = computed(() => {
   </div>
   <div class="lista-docentes">
     <h2>Lista de Docentes - {{ props.tipo }}</h2>
-    <CardDocente
-      v-for="docente in filteredDocentes"
-      :key="docente.id"
-      :nome="docente.nome"
-      :status="docente.status"
-      :rota="'docentes/' + docente.id"
-    />
+    <div class="carddocente">
+      <CardDocente
+        v-for="docente in filteredDocentes"
+        :key="docente.id"
+        :nome="docente.nome"
+        :status="docente.status"
+        :rota="'docentes/' + docente.id"
+        :docente="docente"
+      />
+    </div>
   </div>
 </template>
 
 <style scoped>
+
 .lista-docentes {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   width: 100%;
   padding: 20px;
   background-color: transparent;
   border: 1px solid #ddd;
   border-radius: 8px;
   overflow-x: auto;
+}
+.carddocente{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  gap: 10px;
 }
 
 .filtro {
