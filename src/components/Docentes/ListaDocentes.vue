@@ -29,6 +29,11 @@ const filteredDocentes = computed(() => {
   }
   return result;
 });
+
+const criarDocente = () => {
+  // Lógica para criar um novo docente
+  console.log("Criar novo docente");
+};
 </script>
 
 <template>
@@ -40,6 +45,7 @@ const filteredDocentes = computed(() => {
       <option value="pronto">Pronto</option>
       <option value="urgente">Urgente</option>
     </select>
+    <button @click="criarDocente">inserir Docente</button>
   </div>
   <div class="lista-docentes">
     <h2>Lista de Docentes - {{ props.tipo }}</h2>
@@ -97,5 +103,18 @@ const filteredDocentes = computed(() => {
   padding: 10px;
   border: 1px solid #ddd;
   border-radius: 4px;
+}
+
+.filtro button {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+}
+
+.filtro button:hover {
+  background-color: #0056b3;
 }
 </style>

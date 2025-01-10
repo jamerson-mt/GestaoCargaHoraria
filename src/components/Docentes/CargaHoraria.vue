@@ -64,7 +64,7 @@ onMounted(() => {
   gap: 10px;
   background-color: white;
   height: 100%;
-  border-radius: 10px;
+  border-radius: 0px 10px 10px 0px;
   transition: 0.1s;
 }
 .carga-horaria:hover {

@@ -57,10 +57,10 @@ console.log(props.docente.id)
   align-items: center;
   justify-content: space-between;
   background-color: transparent;
-  border: 0.2px solid #ddd;
+  border: 0.2px solid white;
   height: 50px;
   width: 500px;
-  border-radius: 10px;
+  border-radius: 15px;
   gap: 5px;
   color: #2e2e2e;
   cursor: pointer;
