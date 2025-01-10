@@ -14,7 +14,7 @@ const props = defineProps({
 });
 
 onMounted(() => {
-  disciplinas.value = todasDisciplinas;
+  disciplinas.value = todasDisciplinas.filter(disciplina => disciplina.docenteId === props.docente.id);
 });
 
 const selectDisciplina = (disciplina) => {
