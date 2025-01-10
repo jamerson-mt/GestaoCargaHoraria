@@ -148,5 +148,15 @@ export const docentes = [
     motivos: [
       { motivo: "Consulta Médica", horas: 4, descricao: "Consulta de rotina com o médico", pdfUrl: "pdf/teste.pdf" }
     ]
+  },
+  {
+    id: 999,
+    nome: "sem professor",
+    status: "",
+    horasUtilizadas: 0,
+    dataPedido: "2000-00-00",
+    motivos: [
+      { motivo: "sem valor", horas: 0, descricao: "sem descricao", pdfUrl: "pdf/teste.pdf" }
+    ]
   }
 ];

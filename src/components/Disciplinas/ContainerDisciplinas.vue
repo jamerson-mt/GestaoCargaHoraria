@@ -3,10 +3,11 @@ import { ref, onMounted, computed } from "vue";
 const disciplinasPendentes = ref(0);
 const disciplinasProntas = ref(0);
 const mostrarDisciplinas = ref(true);
-const searchQuery = ref('');
-const filterStatus = ref('');
+const searchQuery = ref("");
+const filterStatus = ref("");
 import CardDocenteOne from "@/components/Docentes/CardDocenteOne.vue";
 import { disciplinas } from "../../data/disciplinas";
+import ListaDisciplinas from "./ListaDisciplinas.vue";
 
 onMounted(() => {
   fetchDisciplinasStatus();
@@ -55,18 +56,7 @@ const filteredDisciplinas = computed(() => {
         @click="alternarDisciplinas"
       />
     </div>
-    <div v-if="mostrarDisciplinas" class="container-abonar">
-      <div class="filtro">
-        <input type="text" v-model="searchQuery" placeholder="Pesquisar por nome..." />
-        <select v-model="filterStatus">
-          <option value="">Todos</option>
-          <option value="urgente">Urgente</option>
-          <option value="pronto">Pronto</option>
-          <option value="pendente">Pendente</option>
-        </select>
-      </div>
-      ola
-    </div>
+    <ListaDisciplinas v-if="mostrarDisciplinas" :disciplinas="filteredDisciplinas" />
   </div>
 </template>
 

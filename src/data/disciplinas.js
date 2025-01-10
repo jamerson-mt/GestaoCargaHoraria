@@ -28,6 +28,86 @@ export const disciplinas = [
     docenteId: 3,
     horaSemanal: 2,
     horaTotal: 30
+  },
+  {
+    id: 4,
+    periodo: "2",
+    cursoId: 1,
+    turno: "Noturno",
+    nome: "Algoritmos",
+    docenteId: null,
+    horaSemanal: 3,
+    horaTotal: 45
+  },
+  {
+    id: 5,
+    periodo: "2",
+    cursoId: 1,
+    turno: "Matutino",
+    nome: "Estrutura de Dados",
+    docenteId: null,
+    horaSemanal: 4,
+    horaTotal: 60
+  },
+  {
+    id: 6,
+    periodo: "1",
+    cursoId: 2, // Administração
+    turno: "Matutino",
+    nome: "Introdução à Administração",
+    docenteId: 5,
+    horaSemanal: 4,
+    horaTotal: 60
+  },
+  {
+    id: 7,
+    periodo: "1",
+    cursoId: 2, // Administração
+    turno: "Vespertino",
+    nome: "Matemática Financeira",
+    docenteId: 6,
+    horaSemanal: 3,
+    horaTotal: 45
+  },
+  {
+    id: 8,
+    periodo: "2",
+    cursoId: 2, // Administração
+    turno: "Noturno",
+    nome: "Gestão de Pessoas",
+    docenteId: null,
+    horaSemanal: 4,
+    horaTotal: 60
+  },
+  {
+    id: 9,
+    periodo: "1",
+    cursoId: 3, // Qualidade
+    turno: "Matutino",
+    nome: "Fundamentos da Qualidade",
+    docenteId: 7,
+    horaSemanal: 3,
+    horaTotal: 45
+  },
+  {
+    id: 10,
+    periodo: "1",
+    cursoId: 3, // Qualidade
+    turno: "Vespertino",
+    nome: "Controle Estatístico de Processos",
+    docenteId: 8,
+    horaSemanal: 4,
+    horaTotal: 60
+  },
+  {
+    id: 11,
+    periodo: "2",
+    cursoId: 3, // Qualidade
+    turno: "Noturno",
+    nome: "Auditoria da Qualidade",
+    docenteId: null,
+    horaSemanal: 3,
+    horaTotal: 45
   }
 ];
 
