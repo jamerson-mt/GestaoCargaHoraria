@@ -27,6 +27,7 @@ function toggleListaDocentes(tipo) {
     <h1>Gerenciar Docentes</h1>
     <div class="card-container">
       <CardDocenteOne :titulo="'Docentes totais'" :qtdd="totalDocentes" icone="pessoasgreen" @click="toggleListaDocentes('todos')" />
+      <CardDocenteOne titulo="Abonamentos" :qtdd="totalDocentes" icone="pessoasgreen" @click="toggleListaDocentes('abonamentos')" />
     </div>
     <ListaDocentes v-if="listaAtual" :tipo="listaAtual" />
   </div>

@@ -41,9 +41,9 @@ const criarDocente = () => {
     <input type="text" v-model="searchQuery" placeholder="Pesquisar docentes..." />
     <select v-model="statusFilter">
       <option value="todos">Todos</option>
-      <option value="pendente">Pendente</option>
-      <option value="pronto">Pronto</option>
-      <option value="urgente">Urgente</option>
+      <option value="pendente">acima</option>
+      <option value="pronto">normal</option>
+      <option value="urgente">ultrapassou</option>
     </select>
     <button @click="criarDocente">inserir Docente</button>
   </div>
