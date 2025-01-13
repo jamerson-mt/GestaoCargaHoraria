@@ -8,10 +8,11 @@ import GerirDisciplinas from "../Disciplinas/GerirDisciplinas.vue";
 import GerirAbonamento from "../Abonar/GerirAbonamento.vue";
 import { docentes } from "../../data/docentes.js";
 import DetalhesAbonamento from "../Abonar/DetalhesAbonamento.vue";
+import DetalhesDocente from "./DetalhesDocente.vue";
 
 const route = useRoute();
 const docenteId = route.params.id; // Pegando o ID da rota
-const docente = docentes.find(d => d.id === parseInt(docenteId)); // Pegando o docente de ID 1
+const docente = docentes.find((d) => d.id === parseInt(docenteId)); // Pegando o docente de ID 1
 
 const currentComponent = shallowRef(null);
 const componentProps = shallowRef({});
@@ -30,17 +31,30 @@ const toggleComponent = (component, props = {}) => {
     componentProps.value = props;
   }
 };
-
 </script>
 
 <template>
   <div class="container">
-  <h1>teste</h1>
+    <h1>teste</h1>
     <div class="cards">
-      <CardDocenteOne titulo="Gerir Disciplinas" qtdd=2 icone="book"
-        @click="toggleComponent(GerirDisciplinas, { docente })" />
-        <CardDocenteOne titulo="Gerir Abonamento" qtdd=1 icone="pessoasgreen"
-        @click="toggleComponent(DetalhesAbonamento, { docente })" />
+      <CardDocenteOne
+        titulo="Detalhes do Docente"
+        qtdd="1"
+        icone="pessoasgreen"
+        @click="toggleComponent(DetalhesDocente, { docente })"
+      />
+      <CardDocenteOne
+        titulo="Gerir Disciplinas"
+        qtdd="2"
+        icone="book"
+        @click="toggleComponent(GerirDisciplinas, { docente })"
+      />
+      <CardDocenteOne
+        titulo="Gerir Abonamento"
+        qtdd="1"
+        icone="pessoasgreen"
+        @click="toggleComponent(DetalhesAbonamento, { docente })"
+      />
       <!-- Adicione mais cards conforme necessário -->
     </div>
     <div class="painel">

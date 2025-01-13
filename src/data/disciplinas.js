@@ -55,7 +55,7 @@ export const disciplinas = [
     cursoId: 2, // Administração
     turno: "Matutino",
     nome: "Introdução à Administração",
-    docenteId: 5,
+    docenteId: 1,
     horaSemanal: 4,
     horaTotal: 60
   },
