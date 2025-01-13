@@ -4,6 +4,9 @@ import CardDocenteOne from "@/components/Docentes/CardDocenteOne.vue";
 import { disciplinas } from "@/data/disciplinas";
 import { cursos } from "@/data/cursos";
 import { docentes } from "@/data/docentes";
+import { administracao } from '@/data/administracao';
+import { extensao } from '@/data/extensao';
+import { apoioaoensino } from '@/data/apoioAoEnsino';
 
 const selectedComponent = ref(null);
 
@@ -14,6 +17,9 @@ function handleCardClick(component) {
 const DocentesComponent = defineAsyncComponent(() => import('@/components/Docentes/ListaDocentes.vue'));
 const CursosComponent = defineAsyncComponent(() => import('@/components/Cursos/ListaCursos.vue'));
 const DisciplinasComponent = defineAsyncComponent(() => import('@/components/Disciplinas/ListaDisciplinas.vue'));
+const ApoioComponent = defineAsyncComponent(() => import('@/components/ApoioAdm/ListaApoioAdm.vue'));
+const AdministracaoComponent = defineAsyncComponent(() => import('@/components/Adm/ListaAttAdm.vue'));
+const ExtensaoComponent = defineAsyncComponent(() => import('@/components/Extensao/ListaExtensao.vue'));
 </script>
 
 <template>
@@ -23,7 +29,11 @@ const DisciplinasComponent = defineAsyncComponent(() => import('@/components/Dis
       <CardDocenteOne titulo="Total de Docentes" :qtdd="docentes.length" icone="pessoasgreen" @click="handleCardClick(DocentesComponent)" />
       <CardDocenteOne titulo="Total de Cursos" :qtdd="cursos.length" icone="cursogreen" @click="handleCardClick(CursosComponent)" />
       <CardDocenteOne titulo="Total de Disciplinas" :qtdd="disciplinas.length" icone="book" @click="handleCardClick(DisciplinasComponent)" />
+      <CardDocenteOne titulo="Apoio ao ensino" :qtdd="apoioaoensino.length" icone="book" @click="handleCardClick(ApoioComponent)" />
+      <CardDocenteOne titulo="Atividades Administrativa" :qtdd="administracao.length" icone="book" @click="handleCardClick(AdministracaoComponent)" />
+      <CardDocenteOne titulo="Atividades de Extensão" :qtdd="extensao.length" icone="book" @click="handleCardClick(ExtensaoComponent)" />
     </div>
+
     <div v-if="selectedComponent" class="info-display">
       <component :is="selectedComponent"></component>
     </div>
@@ -52,7 +62,6 @@ h1 {
   justify-content: center;
   background-color: transparent;
   width: 100%;
-
   gap: 20px;
   padding: 0px;
 }
