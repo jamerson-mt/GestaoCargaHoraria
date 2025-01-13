@@ -4,6 +4,7 @@ import { disciplinas } from '@/data/disciplinas';
 import { extensao } from '@/data/extensao';
 import { apoioaoensino } from '@/data/apoioAoEnsino';
 import { administracao } from '@/data/administracao';
+import Status from '@/components/Cards/Status.vue';
 
 const horasAulasSemanais = ref(0);
 const horasTotais = ref(0);
@@ -11,6 +12,10 @@ const horasTotais = ref(0);
 const props = defineProps({
   docenteId: {
     type: Number,
+    required: true,
+  },
+  status: {
+    type: String,
     required: true,
   },
 });
@@ -27,8 +32,6 @@ const pegarHorasTotais = async () => {
   const atividadesDocente = atividades.filter(atividade => atividade.docenteId === props.docenteId);
 
   horasTotais.value = atividadesDocente.reduce((total, atividade) => total + atividade.horaSemanal , 0); // Atribuir o valor total de horas do docente em atividades de extensão, apoio ao ensino e administração
-
-
 };
 
 onMounted(() => {
@@ -38,7 +41,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="carga-horaria">
+  <div :class="['carga-horaria', props.status]">
     <div class="content">
       <p id="tem">{{ horasAulasSemanais }}h</p>
       <p id="de">de</p>
@@ -49,21 +52,24 @@ onMounted(() => {
       <img src="/public/svg/book.svg" alt="book" />
       <img src="/public/svg/lupa.svg" alt="lupa" />
     </div>
+    <Status :status="props.status" />
 
-    <p class="p-bold">Total  {{ horasTotais+ (horasAulasSemanais*2) }}h</p>
+
   </div>
 </template>
 
 <style scoped>
 .carga-horaria {
   display: flex;
+
   flex-direction: row;
   align-items: center;
-  justify-content: center;
-  padding: 0px 10px;
+  justify-content: space-between;
   gap: 10px;
-  background-color: white;
   height: 100%;
+  width: 100%;
+  background-color: white;
+  padding: 0px 0px;
   border-radius: 0px 10px 10px 0px;
   transition: 0.1s;
 }
@@ -75,7 +81,7 @@ onMounted(() => {
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: start;
   gap: 2px;
 }
 #tem {
@@ -113,4 +119,5 @@ p {
   gap: 5px;
   justify-content: center;
 }
+
 </style>

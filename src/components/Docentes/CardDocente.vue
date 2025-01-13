@@ -19,72 +19,92 @@ const props = defineProps({
   },
   rota: {
     type: String,
-    default: 'docentes/',
-    required: false
+    default: "docentes/",
+    required: false,
   },
   isAbonar: {
     type: Boolean,
     default: false,
-    required: false
+    required: false,
   },
   docente: {
     type: Object,
-    default: () => ({})
-  }
+    default: () => ({}),
+  },
 });
 
 const router = useRouter();
 
 const nextPage = () => {
-  router.push({ path: '/' + props.rota});
+  router.push({ path: "/" + props.rota });
 };
-console.log(props.docente.id)
+console.log(props.docente.id);
 </script>
 
 <template>
   <div :class="['card-docente', props.status]" @click="nextPage()">
-    <div class="status">
-      <h3>{{ props.nome }}</h3></div>
-    <CargaHoraria :docenteId="props.docente.id"  v-if="!isAbonar" />
-    <CargaHorariaAbonar :horasUtilizadas="docente.horasUtilizadas"  v-if="isAbonar" />
+    <div class="nome">
+      <h3>{{ props.nome }}</h3>
+    </div>
+    <div class="cg">
+      <CargaHoraria
+        :docenteId="props.docente.id"
+        v-if="!isAbonar"
+        :status="props.status"
+      />
+      <CargaHorariaAbonar
+        :horasUtilizadas="docente.horasUtilizadas"
+        v-if="isAbonar"
+        :status="props.status"
+      />
+    </div>
   </div>
 </template>
 
 <style scoped>
-.card-docente{
+.card-docente {
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-between;
+
   background-color: transparent;
   border: 0.2px solid white;
   height: 50px;
-  width: 500px;
+  width: 400px;
   border-radius: 15px;
-  gap: 5px;
   color: #2e2e2e;
-  cursor: pointer;
 
+  cursor: pointer;
 }
-.status{
+.nome {
   display: flex;
   flex-direction: row;
   align-items: center;
-  width: 50%;
-  height:100%;
-  gap: 5px;
-  border-radius: 10px;
+  height: 100%;
+  min-width: 150px;
+  gap: 0px;
+  border-radius: 10px 0px 0px 10px;
   padding: 10px;
+  background-color: white;
 }
-h3{
+.cg{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  gap: 10px;
+  height: 100%;
   width: 100%;
+}
+h3 {
   text-align: left;
-  font-size: 1.2rem;
-  font-weight: 300;
+  font-size: 1rem;
+  font-weight: 600;
 }
 
 /* Adicione estilos para cada status */
-.pronto {
+/* .pronto {
   background-color: rgb(5, 129, 92);
   color: white;
 }
@@ -95,6 +115,5 @@ h3{
 .urgente {
   background-color: rgb(172, 56, 56);
   color: white;
-}
-
+} */
 </style>

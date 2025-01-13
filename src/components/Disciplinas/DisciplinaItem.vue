@@ -2,20 +2,25 @@
 defineProps({
   disciplina: {
     type: Object,
-    required: true
-  }
+    required: true,
+  },
 });
 // Adicione a importação da biblioteca de ícones
-
 </script>
 <template>
-    <div class="disciplina-item" @click="$emit('click')">
-        <span class="disciplina-nome">{{ disciplina.nome }}</span>
-        <span class="buttons">
-            <button class="editar" @click.stop="$emit('edit')">Editar</button>
-            <button class="remover" @click.stop="$emit('remove')">Remover</button>
-        </span>
+  <div class="disciplina-item" @click="$emit('click')">
+    <div class="content">
+      <span class="disciplina-nome">{{ disciplina.nome }}</span>
+      <span class="disciplina-turno"><b>turno: </b>{{ disciplina.turno }}</span>
+      <span class="disciplina-periodo"><b>periodo: </b>{{ disciplina.periodo }}</span>
+      <span class="disciplina-horas-semanais"><b>hora semanal: </b>{{ disciplina.horaSemanal }}h</span>
+
     </div>
+    <span class="buttons">
+      <button class="editar" @click.stop="$emit('edit')">Editar</button>
+      <button class="remover" @click.stop="$emit('remove')">Remover</button>
+    </span>
+  </div>
 </template>
 <style scoped>
 .disciplina-item {
@@ -25,13 +30,40 @@ defineProps({
   gap: 10px;
   background-color: white;
   cursor: pointer;
-  padding: 5px;
+  padding: 0px;
   height: 50px;
-  width: 300px;
+  width: 100%;
   border-radius: 5px;
   border-bottom: 1px solid #ddd;
   align-items: center;
+}
+.content{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: start;
+  gap: 20px;
+  height: 100%;
+}
+.content span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  gap: 10px ;
+  height:100%;
+  line-height: 100%;
+  height: 100%;
+  transition: 0.3s;
+  border-radius: 5px;
 
+}
+.content span:hover {
+  background-color: rgb(237, 240, 70);
+  transition: 0.3s;
+}
+b{
+  font-weight: bold;
 }
 
 .disciplina-item:hover {
@@ -46,7 +78,6 @@ defineProps({
   display: flex;
   gap: 10px;
   height: 100%;
-
 }
 
 .buttons button {
@@ -57,13 +88,13 @@ defineProps({
   padding: 5px 10px;
   border-radius: 5px;
 }
-.buttons .remover{
+.buttons .remover {
   background-color: #ff0000;
 }
 .buttons button:hover {
   background-color: #0056b3;
 }
-.buttons .editar{
+.buttons .editar {
   background-color: #e09b1b;
 }
 </style>

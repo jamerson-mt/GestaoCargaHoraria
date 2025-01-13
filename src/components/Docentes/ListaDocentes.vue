@@ -13,10 +13,9 @@ const props = defineProps({
 
 const searchQuery = ref("");
 const statusFilter = ref("todos");
-
 const filteredDocentes = computed(() => {
   let result = docentes;
-  if (props.tipo !== "todos") {
+  if (props.tipo !== "todos" && props.tipo !== "abonar") {
     result = result.filter((item) => item.tipo === props.tipo);
   }
   if (statusFilter.value !== "todos") {
@@ -29,10 +28,9 @@ const filteredDocentes = computed(() => {
   }
   return result;
 });
-
 const criarDocente = () => {
   // Lógica para criar um novo docente
-  console.log("Criar novo docente");
+
 };
 </script>
 
@@ -41,9 +39,9 @@ const criarDocente = () => {
     <input type="text" v-model="searchQuery" placeholder="Pesquisar docentes..." />
     <select v-model="statusFilter">
       <option value="todos">Todos</option>
-      <option value="pendente">acima</option>
-      <option value="pronto">normal</option>
-      <option value="urgente">ultrapassou</option>
+      <option value="pendente">pendente</option>
+      <option value="pronto">pronto</option>
+      <option value="urgente">urgente</option>
     </select>
     <button @click="criarDocente">inserir Docente</button>
   </div>
@@ -57,6 +55,7 @@ const criarDocente = () => {
         :status="docente.status"
         :rota="'docentes/' + docente.id"
         :docente="docente"
+        :isAbonar="props.tipo === 'abonar'"
       />
     </div>
   </div>
@@ -80,10 +79,10 @@ const criarDocente = () => {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
   width: 100%;
-  gap: 10px;
+  gap: 10px 20px;
 }
 
 .filtro {
