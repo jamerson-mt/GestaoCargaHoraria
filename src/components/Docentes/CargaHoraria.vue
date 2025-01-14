@@ -65,11 +65,11 @@ onMounted(() => {
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
+  gap: 0px;
   height: 100%;
   width: 100%;
   background-color: white;
-  padding: 0px 0px;
+  padding: 0px;
   border-radius: 0px 10px 10px 0px;
   transition: 0.1s;
 }
@@ -116,7 +116,8 @@ p {
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 5px;
+  gap: 2px;
+  padding: 2px;
   justify-content: center;
 }
 

@@ -73,16 +73,20 @@ const criarDocente = () => {
   background-color: transparent;
   border: 1px solid #ddd;
   border-radius: 8px;
-  overflow-x: auto;
+  overflow-y: scroll;
+  height: 400px;
 }
 .carddocente{
   display: flex;
+  background-color: transparent;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-around;
-  align-items: center;
+  align-items: start;
+  padding: 0px;
   width: 100%;
-  gap: 10px 20px;
+  height:100%;
+  gap: 5px ;
 }
 
 .filtro {

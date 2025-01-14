@@ -16,10 +16,11 @@ const props = defineProps({
 <style scoped>
 
 .container-status {
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100px;
+  width: 100%;
   padding: 10px;
   height: 100%;
   border-radius: 0px 10px 10px 0px;
