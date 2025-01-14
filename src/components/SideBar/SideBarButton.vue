@@ -1,4 +1,6 @@
 <script setup>
+import { useRouter } from 'vue-router';
+
 const props = defineProps({
   title: {
     type: String,
@@ -8,21 +10,28 @@ const props = defineProps({
     type: String,
     required: false,
   },
-
+  active: {
+    type: Boolean,
+    required: false,
+    default: false,
+  },
 });
+
+const router = useRouter();
+
+const navigate = () => {
+  router.push( "/"+props.title );
+};
 </script>
 
 <template>
-  <div class="container-button">
+  <div :class="['container-button', { active }]" @click="navigate">
     <div v-if="icon" id="icon">
       <img :src="`/images/${icon}.png`" alt="Ícone" />
     </div>
-    <router-link :to="'/'+title">
-      <button>{{ title }}</button>
-    </router-link>
+    <button>{{ title }}</button>
   </div>
 </template>
-
 
 <style scoped>
 .container-button {
@@ -43,6 +52,10 @@ const props = defineProps({
 }
 
 .container-button:hover {
+  background-color: #71A47A;
+}
+
+.container-button.active {
   background-color: #71A47A;
 }
 
