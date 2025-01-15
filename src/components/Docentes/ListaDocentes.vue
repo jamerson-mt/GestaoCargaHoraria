@@ -79,14 +79,15 @@ const criarDocente = () => {
 .carddocente{
   display: flex;
   background-color: transparent;
-  flex-direction: row;
+  flex-direction: column;
   flex-wrap: wrap;
-  justify-content: space-around;
-  align-items: start;
+  justify-content: center;
+  align-items: center;
   padding: 0px;
   width: 100%;
   height:100%;
   gap: 5px ;
+  margin: 0px;
 }
 
 .filtro {

@@ -19,10 +19,7 @@ const props = defineProps({
       <p id="meta">52h</p>
       <p class="text">anuais</p>
     </div>
-    <div class="buttons">
-      <img src="/public/svg/book.svg" alt="book">
-      <img src="/public/svg/lupa.svg" alt="lupa">
-    </div>
+
     <Status :status="props.status" />
   </div>
 </template>
@@ -34,7 +31,7 @@ const props = defineProps({
   align-items: center;
   justify-content: space-between;
   padding: 0px 0px;
-  gap: 10px;
+  gap: 0px;
   background-color: white;
   height: 100%;
   width: 100%;
