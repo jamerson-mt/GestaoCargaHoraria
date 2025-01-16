@@ -74,7 +74,7 @@ const criarDocente = () => {
   border: 1px solid #ddd;
   border-radius: 8px;
   overflow-y: scroll;
-  height: 400px;
+  height: 500px;
 }
 .carddocente{
   display: flex;
