@@ -1,5 +1,5 @@
 <script setup>
-import { shallowRef, markRaw } from "vue";
+import { shallowRef, markRaw, ref } from "vue";
 import { useRoute } from "vue-router";
 import CardDocente from "@/components/Docentes/CardDocente.vue";
 import Card from "@/components/Cards/Card.vue";
@@ -11,6 +11,8 @@ import DetalhesAbonamento from "../Abonar/DetalhesAbonamento.vue";
 import DetalhesDocente from "./DetalhesDocente.vue";
 
 const route = useRoute();
+const view = ref(route.query.view || 'disciplinas');
+
 const docenteId = route.params.id; // Pegando o ID da rota
 const docente = docentes.find((d) => d.id === parseInt(docenteId)); // Pegando o docente de ID 1
 
@@ -31,6 +33,15 @@ const toggleComponent = (component, props = {}) => {
     componentProps.value = props;
   }
 };
+
+// Ativar o componente correto com base no valor do parâmetro 'view'
+if (view.value === 'disciplinas') {
+  showComponent(GerirDisciplinas, { docente });
+} else if (view.value === 'abonamento') {
+  showComponent(DetalhesAbonamento, { docente });
+} else {
+  showComponent(DetalhesDocente, { docente }); // Componente padrão
+}
 </script>
 
 <template>

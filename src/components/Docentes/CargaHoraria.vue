@@ -1,5 +1,6 @@
 <script setup>
 import { ref, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
 import { disciplinas } from '@/data/disciplinas';
 import { extensao } from '@/data/extensao';
 import { apoioaoensino } from '@/data/apoioAoEnsino';
@@ -20,6 +21,8 @@ const props = defineProps({
   },
 });
 
+const router = useRouter();
+
 const pegarDisciplinasEDocente = async () => {
   // Filtrar as disciplinas do respectivo docente com base no id
   const disciplinasDocente = disciplinas.filter(disciplina => disciplina.docenteId === props.docenteId);
@@ -32,6 +35,14 @@ const pegarHorasTotais = async () => {
   const atividadesDocente = atividades.filter(atividade => atividade.docenteId === props.docenteId);
 
   horasTotais.value = atividadesDocente.reduce((total, atividade) => total + atividade.horaSemanal , 0); // Atribuir o valor total de horas do docente em atividades de extensão, apoio ao ensino e administração
+};
+
+const irParaDisciplinas = () => {
+  router.push({ path: `/docentes/${props.docenteId}`, query: { view: 'disciplinas' } });
+};
+
+const irParaAbonamento = () => {
+  router.push({ path: `/docentes/${props.docenteId}`, query: { view: 'abonamento' } });//
 };
 
 onMounted(() => {
@@ -49,12 +60,10 @@ onMounted(() => {
       <p class="text">semanais</p>
     </div>
     <div class="buttons">
-      <img src="/public/svg/book.svg" alt="book" />
-      <img src="/public/svg/lupa.svg" alt="lupa" />
+      <img src="/public/svg/book.svg" alt="book" title="disciplinas" @click="irParaDisciplinas" />
+      <img src="/public/images/health-checkup.png" alt="abonamento" title="Abonamento" @click="irParaAbonamento" />
     </div>
     <Status :status="props.status" />
-
-
   </div>
 </template>
 
@@ -121,4 +130,9 @@ p {
   justify-content: center;
 }
 
+img{
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
 </style>

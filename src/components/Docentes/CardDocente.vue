@@ -31,25 +31,24 @@ const props = defineProps({
     type: Object,
     default: () => ({}),
   },
+
 });
 
 const router = useRouter();
 
-const nextPage = () => {
-  router.push({ path: "/" + props.rota });
-};
+
 console.log(props.docente.id);
 </script>
 
 <template>
-  <div :class="['card-docente', props.status]" @click="nextPage()">
+  <div :class="['card-docente', props.status]" >
     <div class="nome">
       <h3>{{ props.nome }}</h3>
     </div>
     <div class="cg">
       <CargaHoraria
         :docenteId="props.docente.id"
-        v-if="!isAbonar"
+        v-if="!isAbonar "
         :status="props.status"
       />
       <CargaHorariaAbonar
@@ -74,7 +73,6 @@ console.log(props.docente.id);
   border-radius: 15px;
   color: #2e2e2e;
 
-  cursor: pointer;
 }
 .nome {
   display: flex;

@@ -29,9 +29,9 @@ const ExtensaoComponent = defineAsyncComponent(() => import('@/components/Extens
       <CardDocenteOne titulo="Total de Docentes" :qtdd="docentes.length" icone="pessoasgreen" @click="handleCardClick(DocentesComponent)" />
       <CardDocenteOne titulo="Total de Cursos" :qtdd="cursos.length" icone="cursogreen" @click="handleCardClick(CursosComponent)" />
       <CardDocenteOne titulo="Total de Disciplinas" :qtdd="disciplinas.length" icone="book" @click="handleCardClick(DisciplinasComponent)" />
-      <CardDocenteOne titulo="Apoio ao ensino" :qtdd="apoioaoensino.length" icone="book" @click="handleCardClick(ApoioComponent)" />
-      <CardDocenteOne titulo="Atividades Administrativa" :qtdd="administracao.length" icone="book" @click="handleCardClick(AdministracaoComponent)" />
-      <CardDocenteOne titulo="Atividades de Extensão" :qtdd="extensao.length" icone="book" @click="handleCardClick(ExtensaoComponent)" />
+      <!-- <CardDocenteOne titulo="Apoio ao ensino" :qtdd="apoioaoensino.length" icone="book" @click="handleCardClick(ApoioComponent)" /> -->
+      <!-- <CardDocenteOne titulo="Atividades Administrativa" :qtdd="administracao.length" icone="book" @click="handleCardClick(AdministracaoComponent)" />
+      <CardDocenteOne titulo="Atividades de Extensão" :qtdd="extensao.length" icone="book" @click="handleCardClick(ExtensaoComponent)" /> -->
     </div>
 
     <div v-if="selectedComponent" class="info-display">
