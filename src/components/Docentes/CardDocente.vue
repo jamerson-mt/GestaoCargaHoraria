@@ -36,7 +36,11 @@ const props = defineProps({
 
 const router = useRouter();
 const nextPage = () => {
-  router.push(`/docentes/${props.docente.id}`);
+  if(!props.isAbonar){
+    router.push(`/docentes/${props.docente.id}`);
+  }else{
+    router.push(`/docentes/${props.docente.id}?view=abonamento`);
+  }
 }
 
 

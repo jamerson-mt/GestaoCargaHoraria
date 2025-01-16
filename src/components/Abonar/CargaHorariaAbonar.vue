@@ -9,10 +9,14 @@ const props = defineProps({
   status: String,
 });
 
+const nextPage = () => {
+  router.push(`/docentes/props`)
+}
+
 </script>
 
 <template>
-  <div class="carga-horaria-abonar">
+  <div class="carga-horaria-abonar" @click="nextPage()">
     <div class="content">
       <p id="tem">{{ horasUtilizadas }}h</p>
       <p id="de">de</p>
