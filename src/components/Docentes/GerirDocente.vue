@@ -11,7 +11,7 @@ import DetalhesAbonamento from "../Abonar/DetalhesAbonamento.vue";
 import DetalhesDocente from "./DetalhesDocente.vue";
 
 const route = useRoute();
-const view = ref(route.query.view || 'disciplinas');
+const view = ref(route.query.view );
 
 const docenteId = route.params.id; // Pegando o ID da rota
 const docente = docentes.find((d) => d.id === parseInt(docenteId)); // Pegando o docente de ID 1

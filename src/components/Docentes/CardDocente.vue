@@ -35,13 +35,15 @@ const props = defineProps({
 });
 
 const router = useRouter();
+const nextPage = () => {
+  router.push(`/docentes/${props.docente.id}`);
+}
 
 
-console.log(props.docente.id);
 </script>
 
 <template>
-  <div :class="['card-docente', props.status]" >
+  <div :class="['card-docente', props.status]" @click="nextPage()" >
     <div class="nome">
       <h3>{{ props.nome }}</h3>
     </div>
