@@ -11,8 +11,7 @@ const { activeButton, setActiveButton } = useActiveButton();
     <SideBarButton title="Dashboard" :active="activeButton === 'Dashboard'" @click="setActiveButton('Dashboard')" />
     <SideBarButton title="Docentes" :active="activeButton === 'Docentes'" @click="setActiveButton('Docentes')" />
     <SideBarButton title="Disciplinas" :active="activeButton === 'Disciplinas'" @click="setActiveButton('Disciplinas')" />
-    <SideBarButton title="Cursos" :active="activeButton === 'Cursos'" @click="setActiveButton('Cursos')" />
-    <SideBarButton title="Abonar" :active="activeButton === 'Abonar'" @click="setActiveButton('Abonar')" />
+    <!-- <SideBarButton title="Cursos" :active="activeButton === 'Cursos'" @click="setActiveButton('Cursos')" /> -->
   </div>
 </template>
 

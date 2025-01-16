@@ -1,12 +1,11 @@
 <script setup>
 import { ref, onMounted, computed } from "vue";
-const disciplinasPendentes = ref(0);
-const disciplinasProntas = ref(0);
+const disciplinasqtdd = ref(0);
 const mostrarDisciplinas = ref(true);
 const searchQuery = ref("");
 const filterStatus = ref("");
 import CardDocenteOne from "@/components/Docentes/CardDocenteOne.vue";
-import { disciplinas } from "../../data/disciplinas";
+import {disciplinas} from "../../data/disciplinas";
 import ListaDisciplinas from "./ListaDisciplinas.vue";
 
 onMounted(() => {
@@ -14,18 +13,7 @@ onMounted(() => {
 });
 
 const fetchDisciplinasStatus = () => {
-  disciplinasPendentes.value = getDisciplinasPendentes();
-  disciplinasProntas.value = getDisciplinasProntas();
-};
-
-const getDisciplinasPendentes = () => {
-  // Implementação da lógica para obter disciplinas pendentes
-  return 5; // Exemplo de retorno
-};
-
-const getDisciplinasProntas = () => {
-  // Implementação da lógica para obter disciplinas prontas
-  return 10; // Exemplo de retorno
+   disciplinasqtdd.value =  disciplinas.length;
 };
 
 const alternarDisciplinas = () => {
@@ -51,7 +39,7 @@ const filteredDisciplinas = computed(() => {
     <div class="card-container">
       <CardDocenteOne
         titulo="Total de Disciplinas "
-        :qtdd="disciplinasPendentes"
+        :qtdd="disciplinasqtdd"
         icone="book"
         @click="alternarDisciplinas"
       />

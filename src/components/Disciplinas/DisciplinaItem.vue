@@ -10,7 +10,7 @@ defineProps({
 <template>
   <div class="disciplina-item" @click="$emit('click')">
     <div class="content">
-      <span class="disciplina-nome">{{ disciplina.nome }}</span>
+      <span class="disciplina-nome"><p>{{ disciplina.nome }}</p></span>
       <span class="disciplina-turno"><b>turno: </b>{{ disciplina.turno }}</span>
       <span class="disciplina-periodo"><b>periodo: </b>{{ disciplina.periodo }}</span>
       <span class="disciplina-horas-semanais"><b>hora semanal: </b>{{ disciplina.horaSemanal }}h</span>
@@ -48,12 +48,14 @@ defineProps({
 .content span {
   display: flex;
   align-items: center;
-  justify-content: center;
-  padding: 10px;
+  justify-content: left;
+  flex-direction: row;
+  padding-left: 10px;
   gap: 10px ;
   height:100%;
   line-height: 100%;
-  height: 100%;
+  height: 50px;
+  width: 150px;
   transition: 0.3s;
   border-radius: 5px;
 
@@ -71,8 +73,19 @@ b{
 }
 
 .disciplina-nome {
-  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
 }
+.disciplina-nome p{
+  padding-left: 10px;
+  text-align: start;
+  width: 100%;
+}
+
+
+
 
 .buttons {
   display: flex;

@@ -89,12 +89,6 @@ watch([searchQuery, filterStatus, filterProfessor, filterCurso], () => {
         <input type="checkbox" v-model="filterProfessor" @change="deactivateDetails" />
         Sem Professor
       </label>
-      <select v-model="filterStatus" @change="deactivateDetails">
-        <option value="">Todos</option>
-        <option value="urgente">Urgente</option>
-        <option value="pronto">Pronto</option>
-        <option value="pendente">Pendente</option>
-      </select>
     </div>
     <div class="container-disciplinas">
       <DisciplinaItem
@@ -124,14 +118,15 @@ watch([searchQuery, filterStatus, filterProfessor, filterCurso], () => {
 }
 .container-disciplinas {
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: start;
   background-color: transparent;
   width: 100%;
-  gap: 20px;
+  height: 400px;
+  gap: 5px;
   padding: 0px;
+  overflow-x: auto;
 }
 .cards {
   display: flex;
