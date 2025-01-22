@@ -1,7 +1,7 @@
 # Gestão de Carga Horária
 
 ## Visão Geral
-Este projeto é uma aplicação para gerenciar a carga horária de funcionários. Ele permite o cadastro, edição e visualização das horas trabalhadas, facilitando o controle e a gestão do tempo.
+Este projeto é uma aplicação para gerenciar a carga horária de docentes. Ele permite o cadastro, edição e visualização das horas trabalhadas, facilitando o controle e a gestão do tempo.
 
 ## Instalação
 Para instalar e configurar o projeto, siga os passos abaixo:
@@ -29,7 +29,7 @@ Para iniciar a aplicação, execute o comando abaixo:
 npm run dev
 ```
 
-A aplicação estará disponível em `http://localhost:3000`.
+A aplicação estará disponível em `http://localhost:5173`.
 
 ## Estrutura do Projeto
 A estrutura do projeto é a seguinte:
@@ -37,9 +37,9 @@ A estrutura do projeto é a seguinte:
 GestaoCargaHoraria/
 ├── src/
 │   ├── components/
-│   ├── pages/
-│   ├── services/
-│   └── ...
+│   ├── views/
+│   ├── data/
+│   └── store/
 ├── public/
 ├── package.json
 └── README.md
