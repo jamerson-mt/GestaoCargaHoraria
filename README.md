@@ -1,35 +1,70 @@
-# gchd
+# Gestão de Carga Horária
 
-This template should help get you started developing with Vue 3 in Vite.
+## Visão Geral
+Este projeto é uma aplicação para gerenciar a carga horária de funcionários. Ele permite o cadastro, edição e visualização das horas trabalhadas, facilitando o controle e a gestão do tempo.
 
-## Recommended IDE Setup
+## Instalação
+Para instalar e configurar o projeto, siga os passos abaixo:
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+1. Clone o repositório:
+    ```sh
+    git clone https://github.com/seu-usuario/GestaoCargaHoraria.git
+    cd GestaoCargaHoraria
+    ```
 
-## Customize configuration
+2. Instale o Node.js versão 22 usando o NVM:
+    ```sh
+    nvm install 22
+    nvm use 22
+    ```
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+3. Instale as dependências do projeto:
+    ```sh
+    npm install
+    ```
 
-## Project Setup
-
-```sh
-npm install
-```
-
-### Compile and Hot-Reload for Development
-
+## Uso
+Para iniciar a aplicação, execute o comando abaixo:
 ```sh
 npm run dev
 ```
 
-### Compile and Minify for Production
+A aplicação estará disponível em `http://localhost:3000`.
 
-```sh
-npm run build
+## Estrutura do Projeto
+A estrutura do projeto é a seguinte:
+```
+GestaoCargaHoraria/
+├── src/
+│   ├── components/
+│   ├── pages/
+│   ├── services/
+│   └── ...
+├── public/
+├── package.json
+└── README.md
 ```
 
-### Lint with [ESLint](https://eslint.org/)
+- `src/`: Contém o código-fonte da aplicação.
+- `public/`: Contém arquivos públicos, como o `index.html`.
+- `package.json`: Contém as dependências e scripts do projeto.
 
-```sh
-npm run lint
-```
+## Contribuição
+Se você deseja contribuir com o projeto, siga os passos abaixo:
+
+1. Faça um fork do repositório.
+2. Crie uma nova branch:
+    ```sh
+    git checkout -b minha-feature
+    ```
+3. Faça as alterações desejadas e commit:
+    ```sh
+    git commit -m "Minha nova feature"
+    ```
+4. Envie as alterações para o seu fork:
+    ```sh
+    git push origin minha-feature
+    ```
+5. Abra um Pull Request no repositório original.
+
+Agradecemos suas contribuições!
