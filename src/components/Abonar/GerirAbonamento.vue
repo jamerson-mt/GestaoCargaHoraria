@@ -1,40 +1,43 @@
 <script setup>
-import { shallowRef, markRaw } from "vue";
-import { useRoute } from "vue-router";
-import CardAbonamento from "@/components/Abonar/CardAbonamento.vue";
-import DetalhesAbonamento from "@/components/Abonar/DetalhesAbonamento.vue";
-import { docentes } from "@/data/docentes.js";
+import { shallowRef, markRaw } from 'vue'
+import { useRoute } from 'vue-router'
+import CardAbonamento from '@/components/Abonar/CardAbonamento.vue'
+import DetalhesAbonamento from '@/components/Abonar/DetalhesAbonamento.vue'
+import { docentes } from '@/data/docentes.js'
 
-const route = useRoute();
-const docenteId = route.params.id; // Pegando o ID da rota
-const docente = docentes.find(d => d.id === parseInt(docenteId)); // Pegando o docente de ID 1
+const route = useRoute()
+const docenteId = route.params.id // Pegando o ID da rota
+const docente = docentes.find((d) => d.id === parseInt(docenteId)) // Pegando o docente de ID 1
 
-const currentComponent = shallowRef(null);
-const componentProps = shallowRef({});
+const currentComponent = shallowRef(null)
+const componentProps = shallowRef({})
 
 const showComponent = (component, props = {}) => {
-  currentComponent.value = markRaw(component);
-  componentProps.value = props;
-};
+  currentComponent.value = markRaw(component)
+  componentProps.value = props
+}
 
 const toggleComponent = (component, props = {}) => {
   if (currentComponent.value === component) {
-    currentComponent.value = null;
-    componentProps.value = {};
+    currentComponent.value = null
+    componentProps.value = {}
   } else {
-    currentComponent.value = markRaw(component);
-    componentProps.value = props;
+    currentComponent.value = markRaw(component)
+    componentProps.value = props
   }
-};
-
+}
 </script>
 
 <template>
   <div class="container">
     <h1>Gerir Abonamento</h1>
     <div class="cards">
-      <CardAbonamento titulo="Detalhes do Abonamento" qtdd=2 icone="info"
-        @click="toggleComponent(DetalhesAbonamento, { docente })" />
+      <CardAbonamento
+        titulo="Detalhes do Abonamento"
+        qtdd="2"
+        icone="info"
+        @click="toggleComponent(DetalhesAbonamento, { docente })"
+      />
       <!-- Adicione mais cards conforme necessário -->
     </div>
     <div class="painel">

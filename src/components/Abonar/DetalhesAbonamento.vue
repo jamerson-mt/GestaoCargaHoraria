@@ -1,30 +1,35 @@
 <script setup>
-import { defineProps, ref } from "vue";
+import { defineProps, ref } from 'vue'
 
 const props = defineProps({
-  docente: Object
-});
+  docente: Object,
+})
 
-const motivosVisiveis = ref(props.docente.motivos.map(() => false));
+const motivosVisiveis = ref(props.docente.motivos.map(() => false))
 
 function alternarMotivo(index) {
-  motivosVisiveis.value[index] = !motivosVisiveis.value[index];
+  motivosVisiveis.value[index] = !motivosVisiveis.value[index]
 }
 </script>
 
 <template>
   <div class="detalhes-abonamento">
-    <h2>Detalhes do Abonamento</h2>
+    <div class="head-detalhes">
+      <h2>Detalhes do Abonamento</h2>
+      <button class="criar-abonamento" @click.stop="$emit('create')">Novo Abonamento</button>
+    </div>
     <p><strong>Nome:</strong> {{ docente.nome }}</p>
     <p><strong>Horas Utilizadas:</strong> {{ docente.horasUtilizadas }}h de <b> 52h</b></p>
     <p><strong>Motivos:</strong></p>
     <ul>
       <li v-for="(motivo, index) in docente.motivos" :key="index" @click="alternarMotivo(index)">
-        <p><strong>Motivo {{ index + 1 }}:</strong> {{ motivo.descricao }}</p>
+        <p>
+          <strong>Motivo {{ index + 1 }}:</strong> {{ motivo.descricao }}
+        </p>
         <div v-if="motivosVisiveis[index]">
           <p><strong>Data:</strong> {{ docente.dataPedido }}</p>
           <p><strong>Horas:</strong> {{ motivo.horas }}h</p>
-          <a :href="'/'+motivo.pdfUrl" target="_blank">Ver comprovante em PDF</a>
+          <a :href="'/' + motivo.pdfUrl" target="_blank">Ver comprovante em PDF</a>
         </div>
       </li>
     </ul>
@@ -39,8 +44,23 @@ function alternarMotivo(index) {
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
-b{
-  font-weight: bold ;
+
+.head-detalhes {
+  display: flex;
+  justify-content: space-between;
+}
+
+.head-detalhes button {
+  padding: 0.8% 1.5rem;
+  font-size: 12pt;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+}
+
+b {
+  font-weight: bold;
 }
 ul {
   list-style-type: none;
