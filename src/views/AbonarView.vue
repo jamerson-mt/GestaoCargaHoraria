@@ -6,7 +6,6 @@ import SideBar from "@/components/SideBar/SideBar.vue";
 <template>
 
   <div class="container-abonar">
-    <SideBar />
     <ContainerAbonar/>
 
   </div>

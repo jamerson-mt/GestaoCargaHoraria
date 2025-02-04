@@ -11,12 +11,12 @@ const props = defineProps({
     <h2>Criar Novo Abonamento</h2>
     <p>Docente: {{ docente.nome }}</p>
     <form>
+
       <label for="motivo">Motivo:</label>
       <input type="text" id="motivo" name="motivo" />
 
       <label for="horas">Horas:</label>
       <input type="number" id="horas" name="horas" />
-
       <button type="submit">Salvar</button>
     </form>
   </div>
@@ -24,6 +24,9 @@ const props = defineProps({
 
 <style scoped>
 .criar-abonamento {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   padding: 20px;
   background-color: #f9f9f9;
   border-radius: 8px;

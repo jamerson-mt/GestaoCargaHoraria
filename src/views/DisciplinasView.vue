@@ -6,7 +6,6 @@ import ContainerDisciplinas from "@/components/Disciplinas/ContainerDisciplinas.
 <template>
 
   <div class="container-dashboard">
-    <SideBar />
     <ContainerDisciplinas/>
 
   </div>

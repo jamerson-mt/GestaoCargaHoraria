@@ -6,7 +6,6 @@ import ContainerDocente from "@/components/Docentes/GerirDocente.vue";
 <template>
 
   <div class="container-dashboard">
-    <SideBar />
     <ContainerDocente/>
 
   </div>

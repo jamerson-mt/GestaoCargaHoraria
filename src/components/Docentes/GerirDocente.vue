@@ -5,10 +5,10 @@ import CardDocente from "@/components/Docentes/CardDocente.vue";
 import Card from "@/components/Cards/Card.vue";
 import CardDocenteOne from "./CardDocenteOne.vue";
 import GerirDisciplinas from "../Disciplinas/GerirDisciplinas.vue";
-import GerirAbonamento from "../Abonar/GerirAbonamento.vue";
 import { docentes } from "../../data/docentes.js";
 import DetalhesAbonamento from "../Abonar/DetalhesAbonamento.vue";
 import DetalhesDocente from "./DetalhesDocente.vue";
+import CriarAbonamento from "../Abonar/CriarAbonamento.vue";
 
 const route = useRoute();
 const view = ref(route.query.view );
@@ -32,6 +32,10 @@ const toggleComponent = (component, props = {}) => {
     currentComponent.value = markRaw(component);
     componentProps.value = props;
   }
+};
+
+const handleCriarAbonamento = () => {
+  showComponent(CriarAbonamento, { docente });
 };
 
 // Ativar o componente correto com base no valor do parâmetro 'view'
@@ -69,7 +73,7 @@ if (view.value === 'disciplinas') {
       <!-- Adicione mais cards conforme necessário -->
     </div>
     <div class="painel">
-      <component :is="currentComponent" v-bind="componentProps" />
+      <component :is="currentComponent" v-bind="componentProps" @criarAbonamento="handleCriarAbonamento" />
     </div>
   </div>
 </template>

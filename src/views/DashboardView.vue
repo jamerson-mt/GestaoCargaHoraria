@@ -6,7 +6,6 @@ import Painel from "@/components/Cards/Painel.vue"
 <template>
 
   <div class="container-dashboard">
-    <SideBar />
     <Painel/>
 
   </div>

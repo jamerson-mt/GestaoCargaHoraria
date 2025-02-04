@@ -6,7 +6,6 @@ import ListaCursos from "@/components/Cursos/ListaCursos.vue";
 <template>
 
   <div class="container-cursos">
-    <SideBar />
     <ListaCursos />
 
   </div>

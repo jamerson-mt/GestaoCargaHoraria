@@ -6,7 +6,6 @@ import ContainerDocentes from "@/components/Docentes/ContainerDocentes.vue";
 <template>
 
   <div class="container-dashboard">
-    <SideBar />
     <ContainerDocentes />
   </div>
 </template>
