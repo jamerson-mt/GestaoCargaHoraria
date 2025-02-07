@@ -12,11 +12,21 @@ const props = defineProps({
     <p>Docente: {{ docente.nome }}</p>
     <form>
 
-      <label for="motivo">Motivo:</label>
-      <input type="text" id="motivo" name="motivo" />
+      <!-- docente id -->
+      <input type="hidden" name="docenteId" :value="docente.id" />
 
-      <label for="horas">Horas:</label>
-      <input type="number" id="horas" name="horas" />
+      <label for="titulo">Motivo:</label>
+      <input type="text" id="titulo" name="titulo" />
+
+      <label for="descricao">Descrição:</label>
+      <textarea id="descricao" name="descricao"></textarea>
+
+      <label for="duracao">horas utilizadas:</label>
+      <input type="number" id="duracao" name="duracao" />
+
+      <!-- pdf file -->
+      <label for="file">Anexar PDF:</label>
+      <input type="file" id="file" name="file" accept="application/pdf" />
       <button type="submit">Salvar</button>
     </form>
   </div>
