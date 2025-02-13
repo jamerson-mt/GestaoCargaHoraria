@@ -1,13 +1,17 @@
 <script setup>
-import { ref, computed } from "vue";
+import { ref, computed, onMounted } from "vue";
 import CardDocente from "./CardDocente.vue";
 import { defineProps } from "vue";
 import { docentes } from "@/data/docentes";
+
+console.log(docentes);
+
 
 const props = defineProps({
   tipo: {
     type: String,
     required: true,
+    default: "todos",
   },
 });
 
@@ -49,10 +53,10 @@ const criarDocente = () => {
     <h2>Lista de Docentes - {{ props.tipo }}</h2>
     <div class="carddocente">
       <CardDocente
-        v-for="docente in filteredDocentes"
+        v-for="docente in docentes"
         :key="docente.id"
         :nome="docente.nome"
-        :status="docente.status"
+        status="pendente"
         :rota="'docentes/' + docente.id"
         :docente="docente"
         :isAbonar="props.tipo === 'abonar'"

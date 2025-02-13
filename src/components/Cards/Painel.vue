@@ -8,6 +8,7 @@ import { administracao } from '@/data/administracao';
 import { extensao } from '@/data/extensao';
 import { apoioaoensino } from '@/data/apoioAoEnsino';
 
+
 const selectedComponent = ref(null);
 
 function handleCardClick(component) {

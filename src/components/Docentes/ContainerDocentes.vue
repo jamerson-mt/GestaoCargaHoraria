@@ -4,14 +4,16 @@ import CardDocente from "@/components/Docentes/CardDocente.vue";
 import CardDocenteOne from "./CardDocenteOne.vue";
 import Card from "../Cards/Card.vue";
 import ListaDocentes from "./ListaDocentes.vue";
-import { docentes } from '@/data/docentes';
+import  {docentes} from '@/data/docentes';
+
+
 
 const listaAtual = ref('todos');
 
 const totalDocentes = computed(() => docentes.length);
-const docentesProntos = computed(() => docentes.filter(docente => docente.status === 'pronto').length);
-const docentesPendentes = computed(() => docentes.filter(docente => docente.status === 'pendente').length);
-const docentesUrgentes = computed(() => docentes.filter(docente => docente.status === 'urgente').length);
+// const docentesProntos = computed(() => docentes.filter(docente => docente.status === 'pronto').length);
+// const docentesPendentes = computed(() => docentes.filter(docente => docente.status === 'pendente').length);
+// const docentesUrgentes = computed(() => docentes.filter(docente => docente.status === 'urgente').length);
 
 function toggleListaDocentes(tipo) {
   if (listaAtual.value === tipo) {

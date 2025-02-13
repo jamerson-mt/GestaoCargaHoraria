@@ -3,6 +3,7 @@ import { ref, onMounted, watch } from 'vue';
 import { docentes } from '@/data/docentes';
 import { cursos } from '@/data/cursos';
 
+
 const props = defineProps({
   disciplina: {
     type: Object,

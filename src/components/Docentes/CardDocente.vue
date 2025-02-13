@@ -4,24 +4,6 @@ import { defineProps } from "vue";
 import { useRouter } from "vue-router";
 import CargaHorariaAbonar from "@/components/Abonar/CargaHorariaAbonar.vue";
 const props = defineProps({
-  id: {
-    type: Number,
-    default: 1,
-    required: false,
-  },
-  nome: {
-    type: String,
-    default: "Nome",
-  },
-  status: {
-    type: String,
-    default: "pronto",
-  },
-  rota: {
-    type: String,
-    default: "docentes/",
-    required: false,
-  },
   isAbonar: {
     type: Boolean,
     default: false,
@@ -49,7 +31,7 @@ const nextPage = () => {
 <template>
   <div :class="['card-docente', props.status]" @click="nextPage()" >
     <div class="nome">
-      <h3>{{ props.nome }}</h3>
+      <h3>{{ props.docente.name }}</h3>
     </div>
     <div class="cg">
       <CargaHoraria
