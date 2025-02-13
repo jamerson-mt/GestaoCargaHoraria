@@ -85,7 +85,7 @@ const criarDocente = () => {
   background-color: transparent;
   flex-direction: column;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: start;
   align-items: center;
   padding: 0px;
   width: 100%;

@@ -1,19 +1,39 @@
 <script setup>
-defineProps({
-  disciplina: {
-    type: Object,
+import { onMounted, ref } from 'vue';
+
+const props = defineProps({
+  disciplinaId: {
+    type: Number,
     required: true,
   },
 });
+const response = ref("");
+
+// faca um fetch para busque a disciplina pelo id
+
+onMounted(async () => {
+  console.log(props.disciplinaId);
+  response.value = await fetch(`http://localhost:5117/api/disciplina/${props.disciplinaId}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  }).then((response) => response.json())
+    .then((data) => {
+      return data;
+    });
+});
+
+
 // Adicione a importação da biblioteca de ícones
 </script>
 <template>
   <div class="disciplina-item" @click="$emit('click')">
     <div class="content">
-      <span class="disciplina-nome"><p>{{ disciplina.nome }}</p></span>
-      <span class="disciplina-turno"><b>turno: </b>{{ disciplina.turno }}</span>
-      <span class="disciplina-periodo"><b>periodo: </b>{{ disciplina.periodo }}</span>
-      <span class="disciplina-horas-semanais"><b>hora semanal: </b>{{ disciplina.horaSemanal }}h</span>
+      <span class="disciplina-nome">
+        <p>{{ response.name }}</p>
+      </span>
+      <span class="disciplina-periodo"><b>periodo: </b>{{ response.periodo }}</span>
 
     </div>
     <span class="buttons">
@@ -37,7 +57,8 @@ defineProps({
   border-bottom: 1px solid #ddd;
   align-items: center;
 }
-.content{
+
+.content {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -45,14 +66,15 @@ defineProps({
   gap: 20px;
   height: 100%;
 }
+
 .content span {
   display: flex;
   align-items: center;
   justify-content: left;
   flex-direction: row;
   padding-left: 10px;
-  gap: 10px ;
-  height:100%;
+  gap: 10px;
+  height: 100%;
   line-height: 100%;
   height: 50px;
   width: 150px;
@@ -60,11 +82,13 @@ defineProps({
   border-radius: 5px;
 
 }
+
 .content span:hover {
   background-color: rgb(237, 240, 70);
   transition: 0.3s;
 }
-b{
+
+b {
   font-weight: bold;
 }
 
@@ -78,7 +102,8 @@ b{
   justify-content: start;
   align-items: start;
 }
-.disciplina-nome p{
+
+.disciplina-nome p {
   padding-left: 10px;
   text-align: start;
   width: 100%;
@@ -101,12 +126,15 @@ b{
   padding: 5px 10px;
   border-radius: 5px;
 }
+
 .buttons .remover {
   background-color: #ff0000;
 }
+
 .buttons button:hover {
   background-color: #0056b3;
 }
+
 .buttons .editar {
   background-color: #e09b1b;
 }
