@@ -1,27 +1,18 @@
 <script setup>
-import { onMounted, ref } from 'vue';
+import { onMounted, } from 'vue';
 
 const props = defineProps({
-  disciplinaId: {
-    type: Number,
+  disciplina: {
+    type: Object,
     required: true,
   },
 });
-const response = ref("");
+
 
 // faca um fetch para busque a disciplina pelo id
 
 onMounted(async () => {
-  console.log(props.disciplinaId);
-  response.value = await fetch(`http://localhost:5117/api/disciplina/${props.disciplinaId}`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  }).then((response) => response.json())
-    .then((data) => {
-      return data;
-    });
+ //
 });
 
 
@@ -31,9 +22,9 @@ onMounted(async () => {
   <div class="disciplina-item" @click="$emit('click')">
     <div class="content">
       <span class="disciplina-nome">
-        <p>{{ response.name }}</p>
+        <p>{{ props.disciplina.name }}</p>
       </span>
-      <span class="disciplina-periodo"><b>periodo: </b>{{ response.periodo }}</span>
+      <span class="disciplina-periodo"><b>periodo: </b>{{ props.disciplina.periodo }}</span>
 
     </div>
     <span class="buttons">

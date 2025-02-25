@@ -46,12 +46,12 @@ watch(() => props.disciplina, (newDisciplina) => {
 });
 </script>
 <template>
+
   <div class="disciplina-detalhes">
     <p><strong>Curso:</strong> {{ cursoNome }}</p>
-    <p><strong>Período:</strong> {{ disciplina.periodo }}</p>
-    <p><strong>Turno:</strong> {{ disciplina.turno }}</p>
+    <p><strong>Período:</strong> {{ props.disciplina.periodo }}</p>
     <p><strong>Docente Alocado:</strong> {{ docenteNome }}</p>
-    <p><strong>Hora Relógio Semanal:</strong> {{ disciplina.horaSemanal }}h</p>
+    <p><strong>Hora Relógio Semanal:</strong> {{ props.disciplina.cargaHoraria }}h</p>
   </div>
 </template>
 

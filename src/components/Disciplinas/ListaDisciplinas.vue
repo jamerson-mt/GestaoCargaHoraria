@@ -1,16 +1,40 @@
 <script setup>
-import { shallowRef, markRaw, watch } from "vue";
+import { shallowRef, markRaw, watch, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import DisciplinaDetalhes from "@/components/Disciplinas/DisciplinaDetalhes.vue";
-import { disciplinas } from "@/data/disciplinas";
 import DisciplinaItem from "./DisciplinaItem.vue";
 import { ref, computed } from "vue";
-import { cursos } from "@/data/cursos";
-import { debounce } from "lodash";
 
 const router = useRouter();
 const currentComponent = shallowRef(null);
 const componentProps = shallowRef({});
+const disciplinas = ref([]);
+const cursos = ref([]);
+
+const fetchDisciplinas = async () => {
+  try {
+    const response = await fetch("http://localhost:5117/api/disciplina");
+    const data = await response.json();
+    disciplinas.value = data;
+  } catch (error) {
+    console.error("Erro ao buscar disciplinas:", error);
+  }
+};
+
+const fetchCursos = async () => {
+  try {
+    const response = await fetch("http://localhost:5117/api/curso");
+    const data = await response.json();
+    cursos.value = data;
+  } catch (error) {
+    console.error("Erro ao buscar cursos:", error);
+  }
+};
+
+onMounted(() => {
+  fetchDisciplinas();
+  fetchCursos();
+});
 
 const deactivateDetails = () => {
   currentComponent.value = null;
@@ -18,26 +42,8 @@ const deactivateDetails = () => {
 };
 
 const showComponent = (component, dis = {}) => {
-  if (!dis.disciplina.docenteId) {
-    dis.disciplina.docenteId = 999;
-    return;
-  }
-  // Definir valor padrão vazio para docente se não encontrado
-  if (!dis.disciplina.docenteId) {
-    dis.disciplina.docenteId = "";
-  }
   currentComponent.value = markRaw(component);
-  componentProps.value = { ...dis }; // Passar todas as propriedades corretamente
-};
-
-const toggleComponent = (component, props = {}) => {
-  if (currentComponent.value === component) {
-    currentComponent.value = null;
-    componentProps.value = {};
-  } else {
-    currentComponent.value = markRaw(component);
-    componentProps.value = props;
-  }
+  componentProps.value = { ...dis };
 };
 
 const nextPage = (disciplinaId) => {
@@ -46,25 +52,22 @@ const nextPage = (disciplinaId) => {
 };
 
 const searchQuery = ref("");
-const filterStatus = ref("");
 const filterProfessor = ref(false);
 const filterCurso = ref("");
 
 const filteredDisciplinas = computed(() => {
-  return disciplinas.filter((disciplina) => {
-    const matchesQuery = disciplina.nome
-      .toLowerCase()
-      .includes(searchQuery.value.toLowerCase());
-    const matchesStatus =
-      filterStatus.value === "" || disciplina.status === filterStatus.value;
+  return disciplinas.value.filter((disciplina) => {
+    const matchesQuery = disciplina.name
+      ? disciplina.name.toLowerCase().includes(searchQuery.value.toLowerCase())
+      : false;
     const matchesProfessor = !filterProfessor.value || disciplina.docenteId === null;
     const matchesCurso =
       filterCurso.value === "" || disciplina.cursoId === filterCurso.value;
-    return matchesQuery && matchesStatus && matchesProfessor && matchesCurso;
+    return matchesQuery && matchesProfessor && matchesCurso;
   });
 });
 
-watch([searchQuery, filterStatus, filterProfessor, filterCurso], () => {
+watch([searchQuery, filterProfessor, filterCurso], () => {
   deactivateDetails();
 });
 </script>
@@ -72,17 +75,11 @@ watch([searchQuery, filterStatus, filterProfessor, filterCurso], () => {
 <template>
   <div class="container">
     <div class="filtro">
-      <input
-        type="text"
-        v-model="searchQuery"
-        @input="deactivateDetails"
-        placeholder="Pesquisar por nome..."
-      />
-
+      <input type="text" v-model="searchQuery" @input="deactivateDetails" placeholder="Pesquisar por nome..." />
       <select v-model="filterCurso" @change="deactivateDetails">
         <option value="">Todos os Cursos</option>
         <option v-for="curso in cursos" :key="curso.id" :value="curso.id">
-          {{ curso.nome }}
+          {{ curso.name }}
         </option>
       </select>
       <label>
@@ -91,12 +88,9 @@ watch([searchQuery, filterStatus, filterProfessor, filterCurso], () => {
       </label>
     </div>
     <div class="container-disciplinas">
-      <DisciplinaItem
-        v-for="disciplina in filteredDisciplinas"
-        :key="disciplina.id"
-        :disciplina="disciplina"
-        @click="showComponent(DisciplinaDetalhes, { disciplina })"
-      />
+
+      <DisciplinaItem v-for="disciplina in filteredDisciplinas" :key="disciplina.id" :disciplina="disciplina"
+        @click="showComponent(DisciplinaDetalhes, { disciplina })" />
     </div>
     <div class="painel">
       <component :is="currentComponent" v-bind="componentProps" />
@@ -116,6 +110,7 @@ watch([searchQuery, filterStatus, filterProfessor, filterCurso], () => {
   height: 100vh;
   padding: 20px;
 }
+
 .container-disciplinas {
   display: flex;
   flex-direction: column;
@@ -128,6 +123,7 @@ watch([searchQuery, filterStatus, filterProfessor, filterCurso], () => {
   padding: 0px;
   overflow-x: auto;
 }
+
 .cards {
   display: flex;
   flex-direction: row;
