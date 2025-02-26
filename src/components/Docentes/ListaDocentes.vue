@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onMounted } from "vue";
+import { ref, computed } from "vue";
 import CardDocente from "./CardDocente.vue";
 import { defineProps } from "vue";
 import { docentes } from "@/data/docentes";
@@ -27,7 +27,7 @@ const filteredDocentes = computed(() => {
   }
   if (searchQuery.value) {
     result = result.filter((item) =>
-      item.nome.toLowerCase().includes(searchQuery.value.toLowerCase())
+      item.name.toLowerCase().includes(searchQuery.value.toLowerCase())
     );
   }
   return result;
@@ -53,7 +53,7 @@ const criarDocente = () => {
     <h2>Lista de Docentes - {{ props.tipo }}</h2>
     <div class="carddocente">
       <CardDocente
-        v-for="docente in docentes"
+        v-for="docente in filteredDocentes"
         :key="docente.id"
         :nome="docente.nome"
         status="pendente"
