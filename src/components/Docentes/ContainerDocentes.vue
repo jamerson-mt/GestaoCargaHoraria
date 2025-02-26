@@ -1,19 +1,26 @@
 <script setup>
-import { ref, computed } from 'vue';
-import CardDocente from "@/components/Docentes/CardDocente.vue";
+import { ref, computed, onMounted, watch } from 'vue';
+import { useRoute } from 'vue-router';
 import CardDocenteOne from "./CardDocenteOne.vue";
-import Card from "../Cards/Card.vue";
 import ListaDocentes from "./ListaDocentes.vue";
-import  {docentes} from '@/data/docentes';
+import { docentes } from '@/data/docentes';
 
 
-
-const listaAtual = ref('todos');
-
+const route = useRoute();
+const listaAtual = ref(route.query.tipo || 'todos');
+console.log(listaAtual.value);
 const totalDocentes = computed(() => docentes.length);
 // const docentesProntos = computed(() => docentes.filter(docente => docente.status === 'pronto').length);
 // const docentesPendentes = computed(() => docentes.filter(docente => docente.status === 'pendente').length);
 // const docentesUrgentes = computed(() => docentes.filter(docente => docente.status === 'urgente').length);
+
+onMounted(() => {
+  listaAtual.value = route.query.tipo || 'todos';
+});
+
+watch(() => route.query.tipo, (newTipo) => {
+  listaAtual.value = newTipo || 'todos';
+});
 
 function toggleListaDocentes(tipo) {
   if (listaAtual.value === tipo) {
@@ -31,7 +38,8 @@ function toggleListaDocentes(tipo) {
       <CardDocenteOne :titulo="'Docentes totais'" :qtdd="totalDocentes" icone="pessoasgreen" @click="toggleListaDocentes('todos')" />
       <CardDocenteOne titulo="Abonamentos" :qtdd="totalDocentes" icone="pessoasgreen" @click="toggleListaDocentes('abonar')" />
     </div>
-    <ListaDocentes v-if="listaAtual" :tipo="listaAtual" />
+    <ListaDocentes v-if="listaAtual != 'criar' " :tipo="listaAtual" />
+
   </div>
 </template>
 

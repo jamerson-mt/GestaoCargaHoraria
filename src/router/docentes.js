@@ -2,6 +2,7 @@
 import DocentesView from '../views/DocentesView.vue'
 import DocenteOneView from '../views/DocenteOneView.vue'
 import ContainerDocente from '@/components/Docentes/GerirDocente.vue'
+import CriarDocente from '@/components/Docentes/CriarDocente.vue'
 
 export default [
   {
@@ -18,5 +19,10 @@ export default [
     path: '/docentes/:id',
     name: 'docente',
     component: DocenteOneView,
+  },
+  {
+    path: '/docentes/criar',
+    name: 'criar docente',
+    component: CriarDocente,
   }
 ]

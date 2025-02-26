@@ -3,6 +3,7 @@ import { ref, computed } from "vue";
 import CardDocente from "./CardDocente.vue";
 import { defineProps } from "vue";
 import { docentes } from "@/data/docentes";
+import { useRouter } from 'vue-router';
 
 console.log(docentes);
 
@@ -32,9 +33,9 @@ const filteredDocentes = computed(() => {
   }
   return result;
 });
+const router = useRouter();
 const criarDocente = () => {
-  // Lógica para criar um novo docente
-
+  router.push('/docentes/criar');
 };
 </script>
 
@@ -70,7 +71,7 @@ const criarDocente = () => {
 .lista-docentes {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: initial;
   align-items: center;
   width: 100%;
   padding: 20px;
@@ -78,20 +79,18 @@ const criarDocente = () => {
   border: 1px solid #ddd;
   border-radius: 8px;
   overflow-y: scroll;
-  height: 500px;
+  height:100%;
 }
 .carddocente{
   display: flex;
   background-color: transparent;
-  flex-direction: column;
+  flex-direction: row;
   flex-wrap: wrap;
-  justify-content: start;
-  align-items: center;
+  justify-content:center;
+  align-items:center;
   padding: 0px;
-  width: 100%;
-  height:100%;
-  gap: 5px ;
-  margin: 0px;
+  gap: 5px;
+  height:200px;
 }
 
 .filtro {
