@@ -1,7 +1,7 @@
 <script setup>
 
 import { defineProps } from "vue";
-import { useRouter } from "vue-router";
+
 import Status from "@/components/Cards/Status.vue";
 
 const props = defineProps({
@@ -9,9 +9,7 @@ const props = defineProps({
   status: String,
 });
 
-const nextPage = () => {
-  router.push(`/docentes/props`)
-}
+
 
 </script>
 
@@ -34,7 +32,7 @@ const nextPage = () => {
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  padding: 0px 0px;
+  padding: 0px 5px;
   gap: 0px;
   background-color: white;
   height: 100%;

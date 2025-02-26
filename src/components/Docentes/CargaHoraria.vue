@@ -5,7 +5,7 @@ import { disciplinas } from '@/data/disciplinas';
 import { extensao } from '@/data/extensao';
 import { apoioaoensino } from '@/data/apoioAoEnsino';
 import { administracao } from '@/data/administracao';
-import Status from '@/components/Cards/Status.vue';
+// import Status from '@/components/Cards/Status.vue';
 
 const horasAulasSemanais = ref(0);
 const horasTotais = ref(0);
@@ -45,6 +45,23 @@ const irParaAbonamento = () => {
   router.push({ path: `/docentes/${props.docenteId}`, query: { view: 'abonamento' } });//
 };
 
+const removeDocente = () => {
+  fetch(`http://localhost:5117/api/docente/${props.docenteId}`, {
+    method: 'DELETE',
+  })
+    .then(() => {
+      window.location.reload();
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+
+};
+
+const editarDocente = () => {
+  // Lógica para editar o docente
+};
+
 onMounted(() => {
   pegarDisciplinasEDocente();
   pegarHorasTotais();
@@ -63,7 +80,11 @@ onMounted(() => {
       <img src="/public/svg/book.svg" alt="book" title="disciplinas" @click="irParaDisciplinas" />
       <img src="/public/images/health-checkup.png" alt="abonamento" title="Abonamento" @click="irParaAbonamento" />
     </div>
-    <Status :status="props.status" />
+
+    <div class="actions">
+      <button @click.stop="removeDocente">Remover</button>
+      <button @click.stop="editarDocente">editar</button>
+    </div>
   </div>
 </template>
 
@@ -92,6 +113,25 @@ onMounted(() => {
   align-items: center;
   justify-content: start;
   gap: 2px;
+}
+.actions{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+
+}
+.actions button {
+  padding: 5px;
+  border: none;
+  background-color: white;
+  cursor: pointer;
+  color: #2e2e2e;
+  height: 100%;
+}
+.actions button:hover {
+  background-color: gray;
 }
 #tem {
   color: #3e3e3e;

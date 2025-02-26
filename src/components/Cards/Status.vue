@@ -11,6 +11,7 @@ const props = defineProps({
   <div :class="['container-status', props.status]">
     <p class="status">{{ props.status }}</p>
   </div>
+
 </template>
 
 <style scoped>

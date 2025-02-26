@@ -26,6 +26,7 @@ const nextPage = () => {
 }
 
 
+
 </script>
 
 <template>
@@ -45,6 +46,7 @@ const nextPage = () => {
         :status="props.status"
       />
     </div>
+
   </div>
 </template>
 
@@ -53,7 +55,6 @@ const nextPage = () => {
   display: flex;
   flex-direction: row;
   align-items: center;
-
   background-color: transparent;
   border: 0.2px solid white;
   height: 50px;
@@ -82,6 +83,25 @@ const nextPage = () => {
   gap: 10px;
   height: 100%;
   width: 100%;
+}
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  padding: 10px;
+}
+
+button {
+  background-color: red;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: darkred;
 }
 h3 {
   text-align: left;
