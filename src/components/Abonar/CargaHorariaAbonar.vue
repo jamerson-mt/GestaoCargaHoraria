@@ -38,12 +38,14 @@ const props = defineProps({
   height: 100%;
   width: 100%;
   border-radius: 0px 10px 10px 0px;
-  transition: 0.1s;
+  transition: 0.4s;
 }
+
 .carga-horaria-abonar:hover {
-  background-color: #48caeb ;
-  transition: 0.1s;
+  background-color: #eeeeee;
+  cursor: pointer;
 }
+
 .content {
   display: flex;
   flex-direction: row;

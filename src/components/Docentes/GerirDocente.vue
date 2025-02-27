@@ -9,6 +9,7 @@ import { docentes } from "../../data/docentes.js";
 import DetalhesAbonamento from "../Abonar/DetalhesAbonamento.vue";
 import DetalhesDocente from "./DetalhesDocente.vue";
 import CriarAbonamento from "../Abonar/CriarAbonamento.vue";
+import router from '@/router';
 
 const route = useRoute();
 const view = ref(route.query.view );
@@ -46,30 +47,37 @@ if (view.value === 'disciplinas') {
 } else {
   showComponent(DetalhesDocente, { docente }); // Componente padrão
 }
+
+const voltar = () => {
+  router.push('/docentes');
+};
 </script>
 
 <template>
   <div class="container">
-    <h1>teste</h1>
+    <h1>Gerir Docente</h1>
     <div class="cards">
-      <CardDocenteOne
+      <button id="voltar-button" @click="voltar">Voltar para Docentes</button>
+      <div id="cards-div">
+        <CardDocenteOne
         titulo="Detalhes do Docente"
         qtdd="1"
         icone="pessoasgreen"
         @click="toggleComponent(DetalhesDocente, { docente })"
-      />
-      <CardDocenteOne
+        />
+        <CardDocenteOne
         titulo="Gerir Disciplinas"
         qtdd="2"
         icone="book"
         @click="toggleComponent(GerirDisciplinas, { docente })"
-      />
-      <CardDocenteOne
+        />
+        <CardDocenteOne
         titulo="Gerir Abonamento"
         qtdd="1"
         icone="pessoasgreen"
         @click="toggleComponent(DetalhesAbonamento, { docente })"
-      />
+        />
+      </div>
       <!-- Adicione mais cards conforme necessário -->
     </div>
     <div class="painel">
@@ -94,15 +102,36 @@ if (view.value === 'disciplinas') {
 
 .cards {
   display: flex;
-  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
   gap: 10px;
 }
 
+#cards-div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+}
+
 .painel {
-  margin-top: 20px;
   width: 100%;
-  height: 100%;
+  height: 80%;
   background-color: transparent;
   overflow-y: auto; /* Adiciona rolagem vertical */
+}
+
+#voltar-button {
+  background-color: #127247;
+  padding: 0.4rem 1rem;
+  border-radius: 50px;
+  justify-self: flex-start;
+  border: none;
+  color: #ffffff;
+  font-size: 14pt;
+  font-weight: 600;
+  cursor: pointer;
 }
 </style>

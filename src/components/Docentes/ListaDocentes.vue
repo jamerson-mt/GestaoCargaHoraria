@@ -44,11 +44,11 @@ const criarDocente = () => {
     <input type="text" v-model="searchQuery" placeholder="Pesquisar docentes..." />
     <select v-model="statusFilter">
       <option value="todos">Todos</option>
-      <option value="pendente">pendente</option>
-      <option value="pronto">pronto</option>
-      <option value="urgente">urgente</option>
+      <option value="pendente">Pendente</option>
+      <option value="pronto">Pronto</option>
+      <option value="urgente">Urgente</option>
     </select>
-    <button @click="criarDocente">inserir Docente</button>
+    <button @click="criarDocente">Cadastrar Docente</button>
   </div>
   <div class="lista-docentes">
     <h2>Lista de Docentes - {{ props.tipo }}</h2>
@@ -73,52 +73,65 @@ const criarDocente = () => {
   flex-direction: column;
   justify-content: initial;
   align-items: center;
-  width: 100%;
-  padding: 20px;
-  background-color: transparent;
+  width: 80%;
+  padding: 2rem;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   border: 1px solid #ddd;
-  border-radius: 8px;
+  border-radius: 1rem;
   overflow-y: scroll;
-  height:100%;
+  max-height: 100%;
 }
+
+.lista-docentes::-webkit-scrollbar {
+  border-radius: 10px;
+}
+
 .carddocente{
   display: flex;
-  background-color: transparent;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content:space-around;
-  align-items:center;
-  padding: px;
-  gap: 5px;
-  height:200px;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  margin-top: 1rem;
 }
 
 .filtro {
   display: flex;
   gap: 10px;
-  margin-bottom: 20px;
+  margin: 0.4rem 0;
+  padding: 0 10rem;
 }
 
 .filtro input[type="text"] {
   flex: 1;
   padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 12pt;
+}
+
+.filtro input:focus {
+  outline: none;
+  border: 1px solid #a5a5a5;
 }
 
 .filtro select {
   padding: 10px;
   border: 1px solid #ddd;
-  border-radius: 4px;
+  border-radius: 10px;
+  font-size: 12pt;
 }
 
 .filtro button {
   padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+  border: 1px solid transparent;
+  border-radius: 10px;
   background-color: #007bff;
   color: white;
   cursor: pointer;
+  font-size: 12pt;
 }
 
 .filtro button:hover {

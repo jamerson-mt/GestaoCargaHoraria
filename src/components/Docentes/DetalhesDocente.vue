@@ -22,7 +22,7 @@ const totalHoras = docenteDisciplinas.reduce((sum, d) => sum + (d.horaSemanal * 
 
 <template>
   <div class="detalhes-docente">
-    <h1>{{ docente.nome }}</h1>
+    <h1>{{ docente.name }}</h1>
 
     <div class="container-detalhes">
       <div class="docente-info-left">
@@ -33,26 +33,26 @@ const totalHoras = docenteDisciplinas.reduce((sum, d) => sum + (d.horaSemanal * 
           </p>
         </div>
         <div class="docente-info-item">
-          <h1>Participação em Extensão:</h1>
-          <p v-for="ext in docenteExtensao" :key="ext.id">
-            {{ ext.titulo }} <b>hora semanal:</b> {{ ext.horaSemanal }}h
-          </p>
+          <h2>Participação em Extensão:</h2>
+          <li v-for="ext in docenteExtensao" :key="ext.id">
+            {{ ext.titulo }} <b>(Horas semanais:</b> {{ ext.horaSemanal }}h)
+          </li>
         </div>
         <div class="docente-info-item">
-          <h1>Apoio Administrativo:</h1>
-          <p v-for="apo in docenteApoio" :key="apo.id">
-            {{ apo.titulo }} <b>hora semanal:</b> {{ apo.horaSemanal }}h
-          </p>
+          <h2>Apoio Administrativo:</h2>
+          <li v-for="apo in docenteApoio" :key="apo.id">
+            {{ apo.titulo }} (<b>Horas semanais:</b> {{ apo.horaSemanal }}h)
+          </li>
         </div>
         <div class="docente-info-item">
-          <h1>Administrativo:</h1>
-          <p v-for="adm in docenteAdministracao" :key="adm.id">
-            {{ adm.titulo }} <b>hora semanal:</b> {{ adm.horaSemanal }}h
-          </p>
+          <h2>Administrativo:</h2>
+          <li v-for="adm in docenteAdministracao" :key="adm.id">
+            {{ adm.titulo }} (<b>Horas semanais:</b> {{ adm.horaSemanal }}h)
+          </li>
         </div>
       </div>
       <div class="docente-info-right">
-        <h1><b>Total de horas semanal:</b> {{ totalHoras }}h de <b>40h</b></h1>
+        <h3><b>Total de horas semanais:</b> {{ totalHoras }}h de <b>40h</b></h3>
       </div>
     </div>
   </div>
@@ -67,13 +67,27 @@ const totalHoras = docenteDisciplinas.reduce((sum, d) => sum + (d.horaSemanal * 
 h1 {
   text-transform: capitalize;
   color: #333;
-  font-size: 24px;
+  font-size: 20pt;
   margin-bottom: 10px;
 }
+
+h2 {
+  text-transform: capitalize;
+  color: #127247;
+  font-size: 14pt;
+  font-weight: 600;
+}
+
+h3 {
+  font-size: 20pt;
+}
+
 .container-detalhes {
   display: flex;
   gap: 20px;
 }
+
+
 .docente-info-right {
   background-color: #f9f9f9;
   width: 100%;
@@ -94,13 +108,20 @@ h1 {
 }
 
 .docente-info-item p {
-  margin: 0;
-  padding: 5px 0;
+  font-size: 14pt;
+}
+
+.docente-info-item li {
+  font-size: 14pt;
+  margin-left: 1rem;
+  text-transform: capitalize;
 }
 
 .docente-info-item p:first-child {
   font-weight: bold;
 }
+
+
 b {
   font-weight: bold;
   text-transform: capitalize;

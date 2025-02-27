@@ -40,9 +40,8 @@ const props = defineProps({
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
   width: 200px;
-  height: 100px;
-  gap: 15px;
-  padding: 20px;
+  gap: 0.4rem;
+  padding: 10px 20px;
   text-align: center;
   line-height: 24px;
   cursor: pointer;
@@ -60,12 +59,11 @@ h3 {
   color: #2e2e2e;
 }
 h2 {
-  font-size: 2rem;
+  font-size: 1.6rem;
   font-weight: bold;
   color: #2e2e2e;
 }
 img {
-  width: 40px;
-  height: 40px;
+  width: 2rem;
 }
 </style>

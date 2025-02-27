@@ -77,13 +77,13 @@ onMounted(() => {
       <p class="text">semanais</p>
     </div>
     <div class="buttons">
-      <img src="/public/svg/book.svg" alt="book" title="disciplinas" @click="irParaDisciplinas" />
+      <img src="/public/svg/book.svg" alt="book" title="Disciplinas" @click="irParaDisciplinas" />
       <img src="/public/images/health-checkup.png" alt="abonamento" title="Abonamento" @click="irParaAbonamento" />
     </div>
 
     <div class="actions">
       <button @click.stop="removeDocente">Remover</button>
-      <button @click.stop="editarDocente">editar</button>
+      <button @click.stop="editarDocente">Editar</button>
     </div>
   </div>
 </template>
@@ -91,22 +91,19 @@ onMounted(() => {
 <style scoped>
 .carga-horaria {
   display: flex;
-
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
   gap: 0px;
   height: 100%;
   width: 100%;
-  background-color: white;
-  padding: 0px;
+  background-color: transparent;
+  padding: 0 0.4rem;
   border-radius: 0px 10px 10px 0px;
-  transition: 0.1s;
+  transition: 0.2s;
 }
-.carga-horaria:hover {
-  background-color: #48caeb ;
-  transition: 0.1s;
-}
+
+
 .content {
   display: flex;
   flex-direction: row;
@@ -125,14 +122,18 @@ onMounted(() => {
 .actions button {
   padding: 5px;
   border: none;
-  background-color: white;
+  background-color: transparent;
   cursor: pointer;
   color: #2e2e2e;
   height: 100%;
+  padding: 0 0.4rem;
+  transition: 0.2s;
 }
+
 .actions button:hover {
-  background-color: gray;
+  transform: translateY(-2px);
 }
+
 #tem {
   color: #3e3e3e;
   font-weight: 400;
