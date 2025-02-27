@@ -35,7 +35,11 @@ const filteredDisciplinas = computed(() => {
 
 <template>
   <div class="container">
-    <h1>Gerenciar Disciplinas</h1>
+    <div class="head-disciplinas">
+      <button @click="goToHome()">Voltar</button>
+      <h1>Gerenciar Disciplinas</h1>
+      <span>Gestor de Carga Horaria</span>
+    </div>
     <div class="card-container">
       <CardDocenteOne
         titulo="Total de Disciplinas "
@@ -91,5 +95,24 @@ h1 {
   padding: 10px;
   border: 1px solid #ddd;
   border-radius: 4px;
+}
+
+.head-disciplinas {
+  display: flex;
+  width: 80%;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.head-disciplinas button {
+  background-color: #127247;
+  padding: 0.4rem 1rem;
+  border-radius: 50px;
+  justify-self: flex-start;
+  border: none;
+  color: #ffffff;
+  font-size: 14pt;
+  font-weight: 600;
+  cursor: pointer;
 }
 </style>

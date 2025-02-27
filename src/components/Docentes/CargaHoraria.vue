@@ -82,8 +82,8 @@ onMounted(() => {
     </div>
 
     <div class="actions">
-      <button @click.stop="removeDocente">Remover</button>
       <button @click.stop="editarDocente">Editar</button>
+      <button class="remover" @click.stop="removeDocente">Remover</button>
     </div>
   </div>
 </template>
@@ -98,7 +98,6 @@ onMounted(() => {
   height: 100%;
   width: 100%;
   background-color: transparent;
-  padding: 0 0.4rem;
   border-radius: 0px 10px 10px 0px;
   transition: 0.2s;
 }
@@ -117,21 +116,25 @@ onMounted(() => {
   align-items: center;
   justify-content: center;
   height: 100%;
-
+  padding-left: 0.6rem;
 }
 .actions button {
-  padding: 5px;
-  border: none;
-  background-color: transparent;
   cursor: pointer;
-  color: #2e2e2e;
+  background-color: #e09b1b;
+  border: none;
+  color: white;
+  padding: 5px 10px;
   height: 100%;
-  padding: 0 0.4rem;
-  transition: 0.2s;
+  transition: 0.4s;
+}
+
+.actions .remover {
+  background-color: #db0000;
+  border-radius: 0 0.4rem 0.4rem 0;
 }
 
 .actions button:hover {
-  transform: translateY(-2px);
+  background-color: #0056b3;
 }
 
 #tem {

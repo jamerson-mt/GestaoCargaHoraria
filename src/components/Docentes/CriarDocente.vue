@@ -43,7 +43,7 @@ const voltar = () => {
 <template>
   <div class="container-criar-docente">
     <button @click="voltar">Voltar</button>
-    <h1>Criar Docente</h1>
+    <h1>Cadastrar Docente</h1>
     <form @submit.prevent="criarDocente">
       <div>
         <label for="name">Nome do docente:</label>
