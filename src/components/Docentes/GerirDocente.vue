@@ -53,16 +53,19 @@ if (view.value === 'disciplinas') {
   showComponent(DetalhesDocente, { docente }); // Componente padrão
 }
 
-const voltar = () => {
-  router.push('/docente');
+const goToHome = () => {
+  router.push('/docentes');
 };
 </script>
 
 <template>
   <div class="container">
-    <h1>Gerir Docente</h1>
+    <div class="head-docentes">
+      <button @click="goToHome()">Voltar par Docentes</button>
+      <h1>Gerenciar Docentes</h1>
+      <span>Gestor de Carga Horaria</span>
+    </div>
     <div class="cards">
-      <button id="voltar-button" @click="voltar">Voltar para Docentes</button>
       <div id="cards-div">
         <CardDocenteOne titulo="Detalhes do Docente" qtdd="1" icone="pessoasgreen"
           @click="toggleComponent(DetalhesDocente, { docente })" />
@@ -89,8 +92,26 @@ const voltar = () => {
   width: 100%;
   height: 100vh;
   padding: 20px;
-  gap: 20px;
-  padding: 20px;
+  gap: 0.4rem;
+}
+
+.head-docentes {
+  display: flex;
+  width: 80%;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.head-docentes button {
+  background-color: #127247;
+  padding: 0.4rem 1rem;
+  border-radius: 50px;
+  justify-self: flex-start;
+  border: none;
+  color: #ffffff;
+  font-size: 14pt;
+  font-weight: 600;
+  cursor: pointer;
 }
 
 .cards {
@@ -117,15 +138,4 @@ const voltar = () => {
   /* Adiciona rolagem vertical */
 }
 
-#voltar-button {
-  background-color: #127247;
-  padding: 0.4rem 1rem;
-  border-radius: 50px;
-  justify-self: flex-start;
-  border: none;
-  color: #ffffff;
-  font-size: 14pt;
-  font-weight: 600;
-  cursor: pointer;
-}
 </style>

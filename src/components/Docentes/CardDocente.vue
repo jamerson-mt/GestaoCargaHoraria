@@ -56,7 +56,7 @@ const nextPage = () => {
   border: 1px solid #ccc;
   height: 50px;
   width: auto;
-  border-radius: 10px;
+  border-radius: 0.6rem;
   color: #2e2e2e;
   margin: 0 0.2rem;
   transition: 0.4s;

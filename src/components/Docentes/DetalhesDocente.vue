@@ -22,12 +22,10 @@ const totalHoras = docenteDisciplinas.reduce((sum, d) => sum + (d.horaSemanal * 
 
 <template>
   <div class="detalhes-docente">
-    <h1>{{ docente.name }}</h1>
-
     <div class="container-detalhes">
       <div class="docente-info-left">
         <div class="docente-info-item">
-          <h1>Disciplinas do Docente</h1>
+          <h1>Disciplinas de <strong>{{ docente.name }}</strong></h1>
           <p v-for="disciplina in docenteDisciplinas" :key="disciplina.id">
             {{ disciplina.nome }} <b>hora semanal:</b> {{ disciplina.horaSemanal }}h
           </p>
@@ -80,6 +78,10 @@ h2 {
 
 h3 {
   font-size: 20pt;
+}
+
+strong {
+  font-weight: 600;
 }
 
 .container-detalhes {
