@@ -32,21 +32,18 @@ const nextPage = () => {
 <template>
   <div :class="['card-docente', props.status]" @click="nextPage()" >
     <div class="nome">
-      <h3>{{ props.docente.name }}</h3>
+      <h3 title="Ir para Detalhes do Docente">{{ props.docente.name }}</h3>
     </div>
-    <div class="cg">
-      <CargaHoraria
-        :docenteId="props.docente.id"
-        v-if="!isAbonar "
-        :status="props.status"
-      />
-      <CargaHorariaAbonar
-        :horasUtilizadas="docente.horasUtilizadas"
-        v-if="isAbonar"
-        :status="props.status"
-      />
-    </div>
-
+    <CargaHoraria
+      :docenteId="props.docente.id"
+      v-if="!isAbonar "
+      :status="props.status"
+    />
+    <CargaHorariaAbonar
+      :horasUtilizadas="docente.horasUtilizadas"
+      v-if="isAbonar"
+      :status="props.status"
+    />
   </div>
 </template>
 
@@ -55,14 +52,21 @@ const nextPage = () => {
   display: flex;
   flex-direction: row;
   align-items: center;
-  background-color: transparent;
-  border: 0.2px solid white;
+  background-color: white;
+  border: 1px solid #ccc;
   height: 50px;
-  width: 400px;
-  border-radius: 15px;
+  width: auto;
+  border-radius: 10px;
   color: #2e2e2e;
-
+  margin: 0 0.2rem;
+  transition: 0.4s;
 }
+
+.card-docente:hover {
+  background-color: #eeeeee;
+  cursor: pointer;
+}
+
 .nome {
   display: flex;
   flex-direction: row;
@@ -72,18 +76,8 @@ const nextPage = () => {
   gap: 0px;
   border-radius: 10px 0px 0px 10px;
   padding: 10px;
-  background-color: white;
 }
-.cg{
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  background-color: white;
-  gap: 10px;
-  height: 100%;
-  width: 100%;
-}
+
 .actions {
   display: flex;
   justify-content: flex-end;

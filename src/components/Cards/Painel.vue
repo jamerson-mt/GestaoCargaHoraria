@@ -1,6 +1,7 @@
 <script setup>
 
 import { ref, defineAsyncComponent } from 'vue';
+import { useRouter } from 'vue-router';
 import CardDocenteOne from "@/components/Docentes/CardDocenteOne.vue";
 import { disciplinas } from "@/data/disciplinas";
 import { cursos } from "@/data/cursos";
@@ -16,7 +17,12 @@ function handleCardClick(component) {
   selectedComponent.value = component;
 }
 
-const DocentesComponent = defineAsyncComponent(() => import('@/components/Docentes/ListaDocentes.vue'));
+const router = useRouter();
+const telaDocentes = () => {
+  router.push('/docentes');
+};
+
+// const DocentesComponent = defineAsyncComponent(() => import('@/components/Docentes/ListaDocentes.vue'));
 const CursosComponent = defineAsyncComponent(() => import('@/components/Cursos/ListaCursos.vue'));
 const DisciplinasComponent = defineAsyncComponent(() => import('@/components/Disciplinas/ListaDisciplinas.vue'));
 // const ApoioComponent = defineAsyncComponent(() => import('@/components/ApoioAdm/ListaApoioAdm.vue'));
@@ -29,7 +35,7 @@ const DisciplinasComponent = defineAsyncComponent(() => import('@/components/Dis
     <h1>Painel principal</h1>
     <div class="painel-dashboard">
       <CardDocenteOne titulo="Total de Docentes" :qtdd="docentes.length" icone="pessoasgreen"
-        @click="handleCardClick(DocentesComponent)" />
+        @click="telaDocentes()" />
       <CardDocenteOne titulo="Total de Cursos" :qtdd="cursos.length" icone="cursogreen"
         @click="handleCardClick(CursosComponent)" />
       <CardDocenteOne titulo="Total de Disciplinas" :qtdd="disciplinas.length" icone="book"
@@ -74,8 +80,6 @@ h1 {
 }
 
 .info-display {
-  margin-top: 20px;
-  padding: 10px;
   width: 80%;
   background-color: transparent;
 }
