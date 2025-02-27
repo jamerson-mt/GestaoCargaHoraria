@@ -1,16 +1,23 @@
 <script setup>
-import { defineProps, ref, defineEmits } from 'vue'
+import { defineProps, ref } from 'vue'
 
 const props = defineProps({
   docente: Object,
 })
 
-const emit = defineEmits(['criarAbonamento'])
+// faca uma funcao para buscar abonamentos de um docente especifico
 
-const motivosVisiveis = ref(props.docente.motivos.map(() => false))
+const getAbonamentos = async () => {
+  const response = await fetch(`http://localhost:5117/api/abonamento/${props.docente.id}`)
+  return await response.json()
+}
 
-function alternarMotivo(index) {
-  motivosVisiveis.value[index] = !motivosVisiveis.value[index]
+// const emit = defineEmits(['criarAbonamento'])
+
+const abonamentos = ref(getAbonamentos)
+
+function alternarAbonamento(index) {
+  abonamentos.value[index] = !abonamentos.value[index]
 }
 </script>
 
@@ -21,14 +28,14 @@ function alternarMotivo(index) {
     </div>
     <ul>
       <p><strong>Histórico:</strong></p>
-      <li v-for="(motivo, index) in docente.motivos" :key="index" @click="alternarMotivo(index)">
+      <li v-for="(abonamento, index) in abonamentos" :key="index" @click="alternarAbonamento(index)">
         <p>
-          {{ motivo.descricao }}
+          {{ abonamento.descricao }}
         </p>
-        <div class="" v-if="motivosVisiveis[index]">
+        <div class="" v-if="abonamentos[index]">
           <p><strong>Data:</strong> {{ docente.dataPedido }}</p>
-          <p><strong>Horas:</strong> {{ motivo.horas }}h</p>
-          <a :href="'/' + motivo.pdfUrl" target="_blank">Ver comprovante em PDF</a>
+          <p><strong>Horas:</strong> {{ abonamento.horas }}h</p>
+          <a :href="'/' + abonamento.pdfUrl" target="_blank">Ver comprovante em PDF</a>
         </div>
       </li>
     </ul>

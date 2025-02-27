@@ -1,21 +1,15 @@
 <script setup>
-import { shallowRef, markRaw, ref } from "vue";
+import { shallowRef, markRaw, ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
-import CardDocente from "@/components/Docentes/CardDocente.vue";
-import Card from "@/components/Cards/Card.vue";
 import CardDocenteOne from "./CardDocenteOne.vue";
 import GerirDisciplinas from "../Disciplinas/GerirDisciplinas.vue";
-import { docentes } from "../../data/docentes.js";
 import DetalhesAbonamento from "../Abonar/DetalhesAbonamento.vue";
 import DetalhesDocente from "./DetalhesDocente.vue";
 import CriarAbonamento from "../Abonar/CriarAbonamento.vue";
 import router from '@/router';
 
 const route = useRoute();
-const view = ref(route.query.view );
-
-const docenteId = route.params.id; // Pegando o ID da rota
-const docente = docentes.find((d) => d.id === parseInt(docenteId)); // Pegando o docente de ID 1
+const view = ref(route.query.view);
 
 const currentComponent = shallowRef(null);
 const componentProps = shallowRef({});
@@ -35,6 +29,17 @@ const toggleComponent = (component, props = {}) => {
   }
 };
 
+//faca um fetch para pegar um docente especifico
+const docente = ref({});
+
+onMounted(async () => {
+  fetch(`http://localhost:5117/api/docente/${route.params.id}`)
+    .then((response) => response.json())
+    .then((data) => {
+      docente.value = data;
+    });
+});
+
 const handleCriarAbonamento = () => {
   showComponent(CriarAbonamento, { docente });
 };
@@ -49,7 +54,7 @@ if (view.value === 'disciplinas') {
 }
 
 const voltar = () => {
-  router.push('/docentes');
+  router.push('/docente');
 };
 </script>
 
@@ -59,24 +64,12 @@ const voltar = () => {
     <div class="cards">
       <button id="voltar-button" @click="voltar">Voltar para Docentes</button>
       <div id="cards-div">
-        <CardDocenteOne
-        titulo="Detalhes do Docente"
-        qtdd="1"
-        icone="pessoasgreen"
-        @click="toggleComponent(DetalhesDocente, { docente })"
-        />
-        <CardDocenteOne
-        titulo="Gerir Disciplinas"
-        qtdd="2"
-        icone="book"
-        @click="toggleComponent(GerirDisciplinas, { docente })"
-        />
-        <CardDocenteOne
-        titulo="Gerir Abonamento"
-        qtdd="1"
-        icone="pessoasgreen"
-        @click="toggleComponent(DetalhesAbonamento, { docente })"
-        />
+        <CardDocenteOne titulo="Detalhes do Docente" qtdd="1" icone="pessoasgreen"
+          @click="toggleComponent(DetalhesDocente, { docente })" />
+        <CardDocenteOne titulo="Gerir Disciplinas" qtdd="2" icone="book"
+          @click="toggleComponent(GerirDisciplinas, { docente })" />
+        <CardDocenteOne titulo="Gerir Abonamento" qtdd="1" icone="pessoasgreen"
+          @click="toggleComponent(DetalhesAbonamento, { docente })" />
       </div>
       <!-- Adicione mais cards conforme necessário -->
     </div>
@@ -120,7 +113,8 @@ const voltar = () => {
   width: 100%;
   height: 80%;
   background-color: transparent;
-  overflow-y: auto; /* Adiciona rolagem vertical */
+  overflow-y: auto;
+  /* Adiciona rolagem vertical */
 }
 
 #voltar-button {
