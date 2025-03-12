@@ -70,6 +70,10 @@ const filteredDisciplinas = computed(() => {
 watch([searchQuery, filterProfessor, filterCurso], () => {
   deactivateDetails();
 });
+
+const cadastrarDisciplina = () => {
+  router.push('/disciplinas/criar');
+};
 </script>
 
 <template>
@@ -86,6 +90,7 @@ watch([searchQuery, filterProfessor, filterCurso], () => {
         <input type="checkbox" v-model="filterProfessor" @change="deactivateDetails" />
         Sem Professor
       </label>
+      <button @click="cadastrarDisciplina">Cadastrar Disciplina</button>
     </div>
     <div class="container-disciplinas">
       <DisciplinaItem v-for="disciplina in filteredDisciplinas" :key="disciplina.id" :disciplina="disciplina"
@@ -108,6 +113,7 @@ watch([searchQuery, filterProfessor, filterCurso], () => {
   width: 100%;
   height: 100vh;
   padding: 20px;
+  gap: 0.4rem;
 }
 
 .container-disciplinas {

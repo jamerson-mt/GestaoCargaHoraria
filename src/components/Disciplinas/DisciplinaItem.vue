@@ -23,17 +23,16 @@ cursos.forEach(curso => {
 });
 
 console.log(cursoSelecionado)
-// Adicione a importação da biblioteca de ícones
 </script>
 <template>
-  <div class="disciplina-item" title="Ver detalhes" @click="$emit('click')">
+  <div class="disciplina-item" @click="$emit('click')">
     <div class="content">
-      <span class="disciplina-nome">
+      <span class="disciplina-nome" :title="props.disciplina.name">
         <p>{{ props.disciplina.name }}</p>
       </span>
       <span class="disciplina-periodo"><b>Periodo: </b>{{ props.disciplina.periodo }}</span>
       <span class="disciplina-periodo"><b>Carga Horária: </b>{{ props.disciplina.cargaHoraria }}</span>
-      <span class="disciplina-periodo" id="curso"><b>Curso: </b>{{ cursoSelecionado.nome }}</span>
+      <span class="disciplina-periodo" id="curso"><b>Curso: </b>{{ cursoSelecionado.name }}</span>
     </div>
     <span class="buttons">
       <button class="editar" @click.stop="$emit('edit')">Editar</button>
@@ -46,15 +45,18 @@ console.log(cursoSelecionado)
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: space-between;
   background-color: white;
   border: 1px solid #ccc;
-  height: 50px;
-  width: auto;
+  height: 8rem; /* ⬅ Define uma altura fixa */
+  width: 60rem; /* ⬅ Define uma largura fixa */
   border-radius: 0.6rem;
   color: #2e2e2e;
   margin: 0 0.2rem;
   transition: 0.4s;
   cursor: pointer;
+  overflow: hidden; /* ⬅ Evita que o conteúdo ultrapasse o card */
+  text-align: start;
 }
 
 .disciplina-item:hover {
@@ -83,6 +85,7 @@ console.log(cursoSelecionado)
   line-height: 100%;
   height: 50px;
   padding: 0.6rem;
+  text-align: start;
 }
 
 b {
@@ -92,10 +95,11 @@ b {
 
 .disciplina-nome {
   display: flex;
-  flex-direction: column;
-  justify-content: start;
-  align-items: start;
-  width: 5rem;
+  align-items: center;
+  width: 14rem; /* ⬅ Define um limite para o nome */
+  overflow-x: auto; /* ⬅ Permite rolagem horizontal */
+  white-space: nowrap; /* ⬅ Mantém o texto em uma única linha */
+  text-overflow: ellipsis; /* ⬅ Adiciona '...' quando o texto for muito grande */
 }
 
 .disciplina-nome p {

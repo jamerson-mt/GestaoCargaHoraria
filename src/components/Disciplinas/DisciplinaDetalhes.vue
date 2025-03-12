@@ -29,7 +29,7 @@ const fetchDocenteNome = (docenteId) => {
 const fetchCursoNome = (cursoId) => {
   const curso = cursos.find(c => c.id === cursoId);
   if (curso) {
-    cursoNome.value = curso.nome;
+    cursoNome.value = curso.name;
   } else {
     console.error('Curso não encontrado');
   }

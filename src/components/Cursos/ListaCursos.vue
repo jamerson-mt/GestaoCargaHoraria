@@ -36,7 +36,7 @@ const nextPage = (cursoId) => {
       <CardCurso
         v-for="curso in cursos"
         :key="curso.id"
-        :titulo="curso.nome"
+        :titulo="curso.name"
         :descricao="curso.descricao"
         @click="showComponent(CursoDetalhes, { curso })"
       />

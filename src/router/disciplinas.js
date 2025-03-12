@@ -1,5 +1,6 @@
 // src/router/disciplinas.js
 import DisciplinasView from '../views/DisciplinasView.vue'
+import CriarDisciplina from '../components/Disciplinas/CriarDisciplina.vue'
 
 export default [
   {
@@ -7,4 +8,9 @@ export default [
     name: 'disciplinas',
     component: DisciplinasView,
   },
+  {
+    path: '/disciplinas/criar',
+    name: 'disciplinas',
+    component: CriarDisciplina
+  }
 ]
