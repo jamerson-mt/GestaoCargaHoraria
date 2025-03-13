@@ -1,5 +1,5 @@
 <script setup>
-import { shallowRef, markRaw, watch, onMounted } from "vue";
+import { shallowRef, watch, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import DisciplinaDetalhes from "@/components/Disciplinas/DisciplinaDetalhes.vue";
 import DisciplinaItem from "./DisciplinaItem.vue";
@@ -10,6 +10,8 @@ const currentComponent = shallowRef(null);
 const componentProps = shallowRef({});
 const disciplinas = ref([]);
 const cursos = ref([]);
+const selectedDisciplina = ref(null)
+
 
 const fetchDisciplinas = async () => {
   try {
@@ -41,14 +43,8 @@ const deactivateDetails = () => {
   componentProps.value = {};
 };
 
-const showComponent = (component, dis = {}) => {
-  currentComponent.value = markRaw(component);
-  componentProps.value = { ...dis };
-};
-
-const nextPage = (disciplinaId) => {
-  console.log(disciplinaId);
-  router.push("/Disciplinas/" + disciplinaId);
+const showComponent = (disciplina) => {
+  selectedDisciplina.value = disciplina;
 };
 
 const searchQuery = ref("");
@@ -78,30 +74,40 @@ const cadastrarDisciplina = () => {
 
 <template>
   <div class="container">
-    <div class="filtro">
-      <input type="text" v-model="searchQuery" @input="deactivateDetails" placeholder="Pesquisar por nome..." />
-      <select v-model="filterCurso" @change="deactivateDetails">
-        <option value="">Todos os Cursos</option>
-        <option v-for="curso in cursos" :key="curso.id" :value="curso.id">
-          {{ curso.name }}
-        </option>
-      </select>
-      <label>
-        <input type="checkbox" v-model="filterProfessor" @change="deactivateDetails" />
-        Sem Professor
-      </label>
-      <button @click="cadastrarDisciplina">Cadastrar Disciplina</button>
-    </div>
-    <div class="container-disciplinas">
-      <DisciplinaItem v-for="disciplina in filteredDisciplinas" :key="disciplina.id" :disciplina="disciplina"
-        @click="showComponent(DisciplinaDetalhes, { disciplina })" />
-    </div>
-    <div class="painel">
-      <component :is="currentComponent" v-bind="componentProps" />
-      <button v-if="currentComponent" @click="nextPage(componentProps.disciplina?.id)">ver</button>
+    <DisciplinaDetalhes
+      v-if="selectedDisciplina"
+      :disciplina="selectedDisciplina"
+      @voltar="selectedDisciplina = null"
+    />
+
+    <div v-else>
+      <div class="filtro">
+        <input type="text" v-model="searchQuery" @input="deactivateDetails" placeholder="Pesquisar por nome..." />
+        <select v-model="filterCurso" @change="deactivateDetails">
+          <option value="">Todos os Cursos</option>
+          <option v-for="curso in cursos" :key="curso.id" :value="curso.id">
+            {{ curso.name }}
+          </option>
+        </select>
+        <label>
+          <input type="checkbox" v-model="filterProfessor" @change="deactivateDetails" />
+          Sem Professor
+        </label>
+        <button @click="cadastrarDisciplina">Cadastrar Disciplina</button>
+      </div>
+
+      <div class="container-disciplinas">
+        <DisciplinaItem
+          v-for="disciplina in filteredDisciplinas"
+          :key="disciplina.id"
+          :disciplina="disciplina"
+          @click="showComponent(disciplina)"
+        />
+      </div>
     </div>
   </div>
 </template>
+
 
 <style scoped>
 .container {
@@ -111,7 +117,7 @@ const cadastrarDisciplina = () => {
   justify-content: center;
   background-color: transparent;
   width: 100%;
-  height: 100vh;
+  height: 100%;
   padding: 20px;
   gap: 0.4rem;
 }
