@@ -1,5 +1,6 @@
 <script setup>
 import { onMounted, } from 'vue';
+import { cursos } from "@/data/cursos";
 
 const props = defineProps({
   disciplina: {
@@ -8,24 +9,30 @@ const props = defineProps({
   },
 });
 
-
-// faca um fetch para busque a disciplina pelo id
+// faça um fetch para busque a disciplina pelo id
 
 onMounted(async () => {
- //
 });
 
+console.log("ola")
+let cursoSelecionado = {};
+cursos.forEach(curso => {
+  if (curso.id == props.disciplina.cursoId) {
+    cursoSelecionado = curso
+  }
+});
 
-// Adicione a importação da biblioteca de ícones
+console.log(cursoSelecionado)
 </script>
 <template>
   <div class="disciplina-item" @click="$emit('click')">
     <div class="content">
-      <span class="disciplina-nome">
+      <span class="disciplina-nome" :title="props.disciplina.name">
         <p>{{ props.disciplina.name }}</p>
       </span>
-      <span class="disciplina-periodo"><b>periodo: </b>{{ props.disciplina.periodo }}</span>
-
+      <span class="disciplina-periodo"><b>Periodo: </b>{{ props.disciplina.periodo }}</span>
+      <span class="disciplina-periodo"><b>Carga Horária: </b>{{ props.disciplina.cargaHoraria }}</span>
+      <span class="disciplina-periodo" id="curso"><b>Curso: </b>{{ cursoSelecionado.name }}</span>
     </div>
     <span class="buttons">
       <button class="editar" @click.stop="$emit('edit')">Editar</button>
@@ -37,75 +44,73 @@ onMounted(async () => {
 .disciplina-item {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
-  gap: 10px;
-  background-color: white;
-  cursor: pointer;
-  padding: 0px;
-  height: 50px;
-  width: 100%;
-  border-radius: 5px;
-  border-bottom: 1px solid #ddd;
   align-items: center;
+  justify-content: space-between;
+  background-color: white;
+  border: 1px solid #ccc;
+  height: 8rem; /* ⬅ Define uma altura fixa */
+  width: 60rem; /* ⬅ Define uma largura fixa */
+  border-radius: 0.6rem;
+  color: #2e2e2e;
+  margin: 0 0.2rem;
+  transition: 0.4s;
+  cursor: pointer;
+  overflow: hidden; /* ⬅ Evita que o conteúdo ultrapasse o card */
+  text-align: start;
+}
+
+.disciplina-item:hover {
+  background-color: #f1f1f1;
 }
 
 .content {
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: start;
-  gap: 20px;
+  gap: 0.4rem;
   height: 100%;
+}
+
+#curso {
+  width: 16rem;
 }
 
 .content span {
   display: flex;
   align-items: center;
-  justify-content: left;
+  justify-content: center;
   flex-direction: row;
-  padding-left: 10px;
   gap: 10px;
   height: 100%;
   line-height: 100%;
   height: 50px;
-  width: 150px;
-  transition: 0.3s;
-  border-radius: 5px;
-
-}
-
-.content span:hover {
-  background-color: rgb(237, 240, 70);
-  transition: 0.3s;
+  padding: 0.6rem;
+  text-align: start;
 }
 
 b {
   font-weight: bold;
 }
 
-.disciplina-item:hover {
-  background-color: #f9f9f9;
-}
 
 .disciplina-nome {
   display: flex;
-  flex-direction: column;
-  justify-content: start;
-  align-items: start;
+  align-items: center;
+  width: 14rem; /* ⬅ Define um limite para o nome */
+  overflow-x: auto; /* ⬅ Permite rolagem horizontal */
+  white-space: nowrap; /* ⬅ Mantém o texto em uma única linha */
+  text-overflow: ellipsis; /* ⬅ Adiciona '...' quando o texto for muito grande */
 }
 
 .disciplina-nome p {
-  padding-left: 10px;
   text-align: start;
-  width: 100%;
+  font-size: 12pt;
+  font-weight: 600
 }
-
-
 
 
 .buttons {
   display: flex;
-  gap: 10px;
   height: 100%;
 }
 
@@ -115,11 +120,12 @@ b {
   border: none;
   color: white;
   padding: 5px 10px;
-  border-radius: 5px;
+  transition: 0.4s;
 }
 
 .buttons .remover {
-  background-color: #ff0000;
+  background-color: #db0000;
+  border-radius: 0 0.4rem 0.4rem 0;
 }
 
 .buttons button:hover {

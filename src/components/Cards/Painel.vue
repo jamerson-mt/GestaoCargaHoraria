@@ -1,8 +1,9 @@
 <script setup>
 
-import { ref, defineAsyncComponent } from 'vue';
+import { ref, defineAsyncComponent, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import CardDocenteOne from "@/components/Docentes/CardDocenteOne.vue";
+import CardInfos from './CardInfos.vue';
 import { disciplinas } from "@/data/disciplinas";
 import { cursos } from "@/data/cursos";
 import { docentes } from "@/data/docentes";
@@ -28,6 +29,18 @@ const DisciplinasComponent = defineAsyncComponent(() => import('@/components/Dis
 // const ApoioComponent = defineAsyncComponent(() => import('@/components/ApoioAdm/ListaApoioAdm.vue'));
 // const AdministracaoComponent = defineAsyncComponent(() => import('@/components/Adm/ListaAttAdm.vue'));
 // const ExtensaoComponent = defineAsyncComponent(() => import('@/components/Extensao/ListaExtensao.vue'));
+//
+const disciplinasSemDocentes = computed(() => {
+  return disciplinas.filter(d => !d.disciplinaDocentes || d.disciplinaDocentes.length === 0).length;
+});
+
+const docentesComCargaAlta = computed(() => {
+  return docentes.filter(d => d.disciplinaDocentes && d.disciplinaDocentes.length > 3).length;
+});
+
+const docentesComCargaBaixa = computed(() => {
+  return docentes.filter(d => d.disciplinaDocentes && d.disciplinaDocentes.length <= 1).length;
+});
 </script>
 
 <template>
@@ -40,9 +53,16 @@ const DisciplinasComponent = defineAsyncComponent(() => import('@/components/Dis
         @click="handleCardClick(CursosComponent)" />
       <CardDocenteOne titulo="Total de Disciplinas" :qtdd="disciplinas.length" icone="book"
         @click="handleCardClick(DisciplinasComponent)" />
-      <!-- <CardDocenteOne titulo="Apoio ao ensino" :qtdd="apoioaoensino.length" icone="book" @click="handleCardClick(ApoioComponent)" /> -->
-      <!-- <CardDocenteOne titulo="Atividades Administrativa" :qtdd="administracao.length" icone="book" @click="handleCardClick(AdministracaoComponent)" />
-      <CardDocenteOne titulo="Atividades de Extensão" :qtdd="extensao.length" icone="book" @click="handleCardClick(ExtensaoComponent)" /> -->
+    </div>
+
+    <div v-if="!selectedComponent" class="info-gerais">
+      <h2>Informações Gerais</h2>
+      <div class="info-cards">
+        <CardInfos title="Docentes com Carga Alta" :qtd="docentesComCargaAlta" status="vermelho" />
+        <CardInfos title="Docentes com Carga Moderada" :qtd="docentes.length - (docentesComCargaAlta + docentesComCargaBaixa)" status="amarelo" />
+        <CardInfos title="Docentes com Carga Baixa" :qtd="docentesComCargaBaixa" status="verde" />
+        <CardInfos title="Disciplinas sem Docentes" :qtd="disciplinasSemDocentes" status="vermelho" />
+      </div>
     </div>
 
     <div v-if="selectedComponent" class="info-display">
@@ -77,6 +97,30 @@ h1 {
   width: 100%;
   gap: 20px;
   padding: 0px;
+}
+
+.info-gerais {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  width: 80%;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.info-gerais h2 {
+  margin-bottom: 10px;
+  font-weight: bold;
+  color: #3f743f;
+}
+
+.info-cards {
+  display: flex;
+  justify-content: center;
+  gap: 1.2rem;
 }
 
 .info-display {
