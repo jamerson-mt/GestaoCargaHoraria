@@ -1,6 +1,7 @@
 <script setup>
-import { onMounted, } from 'vue';
+import { onMounted } from 'vue';
 import { cursos } from "@/data/cursos";
+
 
 const props = defineProps({
   disciplina: {
@@ -23,6 +24,34 @@ cursos.forEach(curso => {
 });
 
 console.log(cursoSelecionado)
+
+const deletarDisciplina = () => {
+  // lógica para deletar a disciplina
+  console.log(`Deletando disciplina com id: ${props.disciplina.id}`);
+  fetch(`http://localhost:5117/api/disciplina/${props.disciplina.id}`, {
+    method: 'DELETE',
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Erro ao deletar disciplina');
+      }
+      return response.text(); // Use text() instead of json()
+    })
+    .then(data => {
+      if (data) {
+        console.log('Disciplina deletada com sucesso:', JSON.parse(data));
+      } else {
+        console.log('Disciplina deletada com sucesso');
+        //reload
+      }
+      // Emita um evento para o componente pai
+    })
+    .catch(error => {
+      console.error('Erro ao deletar disciplina:', error);
+    });
+  // Emita um evento para o componente pai
+
+};
 </script>
 <template>
   <div class="disciplina-item" @click="$emit('click')">
@@ -36,7 +65,7 @@ console.log(cursoSelecionado)
     </div>
     <span class="buttons">
       <button class="editar" @click.stop="$emit('edit')">Editar</button>
-      <button class="remover" @click.stop="$emit('remove')">Remover</button>
+      <button class="remover" @click.stop="deletarDisciplina">Remover</button>
     </span>
   </div>
 </template>

@@ -13,6 +13,9 @@ const disciplina = ref({
 
 const cursos = ref([])
 
+const mensagem = ref('');
+const tipoMensagem = ref('');
+
 const criarDisciplina = () => {
   if (disciplina.value.name && disciplina.value.cursoId) {
     fetch('http://localhost:5117/api/disciplina', {
@@ -24,18 +27,21 @@ const criarDisciplina = () => {
     })
       .then(response => response.json())
       .then(data => {
-        alert('Disciplina cadastrada com sucesso!', data);
+        tipoMensagem.value = 'sucesso';
+        mensagem.value = 'Disciplina cadastrada com sucesso!';
         router.push('/').then(() => {
           window.location.reload();
         });
       })
       .catch((error) => {
         console.error('Error:', error);
-        alert('Erro no cadastro da Disciplina, contate a nossa equipe!');
+        tipoMensagem.value = 'erro';
+        mensagem.value = 'Erro no cadastro da Disciplina, contate a nossa equipe!';
       });
     // Lógica para criar um novo disciplina
   } else {
-    alert('Preencha todos os campos');
+    tipoMensagem.value = 'erro';
+    mensagem.value = 'Preencha todos os campos';
   }
 };
 
@@ -61,6 +67,7 @@ const voltar = () => {
   <div class="container-criar-disciplina">
     <button @click="voltar">Voltar</button>
     <h1>Cadastrar Disciplina</h1>
+    <div v-if="mensagem" :class="tipoMensagem">{{ mensagem }}</div>
     <form @submit.prevent="criarDisciplina">
       <div>
         <label for="name">Nome da disciplina:</label>
@@ -154,5 +161,15 @@ const voltar = () => {
 
 .container-criar-disciplina form button:hover {
   background-color: #0056b3;
+}
+
+.sucesso {
+  color: green;
+  margin-bottom: 1rem;
+}
+
+.erro {
+  color: red;
+  margin-bottom: 1rem;
 }
 </style>
