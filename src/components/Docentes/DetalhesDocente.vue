@@ -6,7 +6,7 @@ import { extensao } from "@/data/extensao";
 import { apoioaoensino } from "@/data/apoioAoEnsino";
 
 
-let disciplinas = [];
+const disciplinas = ref([]); // Agora Vue rastreia mudanças
 const route = useRoute();
 const docenteId = parseInt(route.params.id); // Certifique-se de que o ID é um número
 const docenteDisciplinas = ref([]);
@@ -16,9 +16,9 @@ const docenteApoio = apoioaoensino.filter((a) => a.docenteId === docenteId);
 
 const totalHoras = ref(0);
 
-const getDisciplinas = (disciplinaIds) => {
-  disciplinaIds.forEach(async (d) => {
-
+const getDisciplinas = async (disciplinaIds) => {
+  const fetchedDisciplinas = [];
+  for (const d of disciplinaIds) {
     try {
       const response = await fetch(`http://localhost:5117/api/disciplina/${d.disciplinaId}`, {
         method: "GET",
@@ -27,13 +27,13 @@ const getDisciplinas = (disciplinaIds) => {
         },
       });
       const data = await response.json();
-      disciplinas.push(data);
+      fetchedDisciplinas.push(data);
     } catch (error) {
       console.error("Erro ao buscar disciplinas do docente", error);
     }
-  });
-  return disciplinas;
-}
+  }
+  return fetchedDisciplinas;
+};
 
 const fetchDisciplinas = async () => {
   try {
@@ -45,16 +45,16 @@ const fetchDisciplinas = async () => {
     });
     const data = await response.json();
     docenteDisciplinas.value = data;
-    disciplinas = getDisciplinas(docenteDisciplinas.value);
-    console.log(disciplinas.length);
 
+    // Buscar as disciplinas relacionadas
+    disciplinas.value = await getDisciplinas(docenteDisciplinas.value);
 
     // Recalcular total de horas após carregar as disciplinas
     totalHoras.value =
+      docenteApoio.reduce((sum, a) => sum + a.horaSemanal, 0) +
       docenteAdministracao.reduce((sum, a) => sum + a.horaSemanal, 0) +
       docenteExtensao.reduce((sum, e) => sum + e.horaSemanal, 0) +
-      docenteApoio.reduce((sum, a) => sum + a.horaSemanal, 0) +
-      disciplinas.reduce((sum,d) => sum + d.cargaHoraria, 0);
+      disciplinas.value.reduce((sum, d) => sum + d.cargaHoraria*2, 0);
   } catch (error) {
     console.error("Erro ao buscar disciplinas do docente", error);
   }
