@@ -1,23 +1,68 @@
 <script setup>
+import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
-import { docentes } from "@/data/docentes";
-import { disciplinas } from "@/data/disciplinas";
 import { administracao } from "@/data/administracao";
 import { extensao } from "@/data/extensao";
 import { apoioaoensino } from "@/data/apoioAoEnsino";
 
+
+let disciplinas = [];
 const route = useRoute();
 const docenteId = parseInt(route.params.id); // Certifique-se de que o ID é um número
-const docente = docentes.find((d) => d.id === docenteId);
-const docenteDisciplinas = disciplinas.filter((d) => d.docenteId === docenteId);
+const docenteDisciplinas = ref([]);
 const docenteAdministracao = administracao.filter((a) => a.docenteId === docenteId);
 const docenteExtensao = extensao.filter((e) => e.docenteId === docenteId);
 const docenteApoio = apoioaoensino.filter((a) => a.docenteId === docenteId);
 
-const totalHoras = docenteDisciplinas.reduce((sum, d) => sum + (d.horaSemanal * 2), 0) +
-                   docenteAdministracao.reduce((sum, a) => sum + a.horaSemanal, 0) +
-                   docenteExtensao.reduce((sum, e) => sum + e.horaSemanal, 0) +
-                   docenteApoio.reduce((sum, a) => sum + a.horaSemanal, 0);
+const totalHoras = ref(0);
+
+const getDisciplinas = (disciplinaIds) => {
+  disciplinaIds.forEach(async (d) => {
+
+    try {
+      const response = await fetch(`http://localhost:5117/api/disciplina/${d.disciplinaId}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await response.json();
+      disciplinas.push(data);
+    } catch (error) {
+      console.error("Erro ao buscar disciplinas do docente", error);
+    }
+  });
+  return disciplinas;
+}
+
+const fetchDisciplinas = async () => {
+  try {
+    const response = await fetch(`http://localhost:5117/api/disciplinadocente/docente/${docenteId}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const data = await response.json();
+    docenteDisciplinas.value = data;
+    disciplinas = getDisciplinas(docenteDisciplinas.value);
+    console.log(disciplinas.length);
+
+
+    // Recalcular total de horas após carregar as disciplinas
+    totalHoras.value =
+      docenteAdministracao.reduce((sum, a) => sum + a.horaSemanal, 0) +
+      docenteExtensao.reduce((sum, e) => sum + e.horaSemanal, 0) +
+      docenteApoio.reduce((sum, a) => sum + a.horaSemanal, 0) +
+      disciplinas.reduce((sum,d) => sum + d.cargaHoraria, 0);
+  } catch (error) {
+    console.error("Erro ao buscar disciplinas do docente", error);
+  }
+};
+
+onMounted(() => {
+  fetchDisciplinas();
+});
 </script>
 
 <template>
@@ -25,9 +70,9 @@ const totalHoras = docenteDisciplinas.reduce((sum, d) => sum + (d.horaSemanal * 
     <div class="container-detalhes">
       <div class="docente-info-left">
         <div class="docente-info-item">
-          <h1>Disciplinas de <strong>{{ docente.name }}</strong></h1>
-          <p v-for="disciplina in docenteDisciplinas" :key="disciplina.id">
-            {{ disciplina.nome }} <b>hora semanal:</b> {{ disciplina.horaSemanal }}h
+          <h1>Participações de <strong>{{ docenteId }}</strong></h1>
+          <p v-for="disciplina in disciplinas" :key="disciplina.id">
+            {{ disciplina.name }} <b>hora semanal:</b> {{ disciplina.cargaHoraria }}h
           </p>
         </div>
         <div class="docente-info-item">
