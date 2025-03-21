@@ -1,18 +1,12 @@
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import { useRoute } from "vue-router";
-import { administracao } from "@/data/administracao";
-import { extensao } from "@/data/extensao";
-import { apoioaoensino } from "@/data/apoioAoEnsino";
 
-
-const disciplinas = ref([]); // Agora Vue rastreia mudanças
 const route = useRoute();
+
 const docenteId = parseInt(route.params.id); // Certifique-se de que o ID é um número
 const docenteDisciplinas = ref([]);
-const docenteAdministracao = administracao.filter((a) => a.docenteId === docenteId);
-const docenteExtensao = extensao.filter((e) => e.docenteId === docenteId);
-const docenteApoio = apoioaoensino.filter((a) => a.docenteId === docenteId);
+const docenteAtividades = ref([]);
 
 const totalHoras = ref(0);
 
@@ -47,21 +41,51 @@ const fetchDisciplinas = async () => {
     docenteDisciplinas.value = data;
 
     // Buscar as disciplinas relacionadas
-    disciplinas.value = await getDisciplinas(docenteDisciplinas.value);
+    docenteDisciplinas.value = await getDisciplinas(docenteDisciplinas.value);
 
-    // Recalcular total de horas após carregar as disciplinas
-    totalHoras.value =
-      docenteApoio.reduce((sum, a) => sum + a.horaSemanal, 0) +
-      docenteAdministracao.reduce((sum, a) => sum + a.horaSemanal, 0) +
-      docenteExtensao.reduce((sum, e) => sum + e.horaSemanal, 0) +
-      disciplinas.value.reduce((sum, d) => sum + d.cargaHoraria*2, 0);
   } catch (error) {
     console.error("Erro ao buscar disciplinas do docente", error);
   }
 };
+const fetchAtividades = async () => {
+  try {
+    const response = await fetch(`http://localhost:5117/api/atividade/docente/${docenteId}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const data = await response.json();
+    docenteAtividades.value = data;
+
+  } catch (error) {
+    console.error("Erro ao buscar atividades do docente", error);
+  }
+};
+
+const docenteExtensao = computed(() =>
+  docenteAtividades.value.filter((a) => a.tipo === 0)
+);
+const docenteApoio = computed(() =>
+  docenteAtividades.value.filter((a) => a.tipo === 1)
+);
+const docenteAdministracao = computed(() =>
+  docenteAtividades.value.filter((a) => a.tipo === 2)
+);
+
+const calcularTotalHoras = () => {
+  totalHoras.value =
+    docenteAtividades.value.reduce((sum, a) => sum + a.duracao, 0) +
+    docenteDisciplinas.value.reduce((sum, d) => sum + d.cargaHoraria * 2, 0);
+};
 
 onMounted(() => {
-  fetchDisciplinas();
+  fetchDisciplinas().then(() => {
+    fetchAtividades().then(() => {
+      calcularTotalHoras();
+    });
+  });
+
 });
 </script>
 
@@ -69,28 +93,29 @@ onMounted(() => {
   <div class="detalhes-docente">
     <div class="container-detalhes">
       <div class="docente-info-left">
+        <h1>Participações de <strong>{{ docenteId }}</strong></h1>
         <div class="docente-info-item">
-          <h1>Participações de <strong>{{ docenteId }}</strong></h1>
-          <p v-for="disciplina in disciplinas" :key="disciplina.id">
+          <h2>Disciplinas </h2>
+          <p v-for="disciplina in docenteDisciplinas" :key="disciplina.id">
             {{ disciplina.name }} <b>hora semanal:</b> {{ disciplina.cargaHoraria }}h
           </p>
         </div>
-        <div class="docente-info-item">
+        <div class="docente-info-item" v-if="docenteExtensao.length">
           <h2>Participação em Extensão:</h2>
           <li v-for="ext in docenteExtensao" :key="ext.id">
-            {{ ext.titulo }} <b>(Horas semanais:</b> {{ ext.horaSemanal }}h)
+            {{ ext.titulo }} <b>(Horas semanais:</b> {{ ext.duracao }}h)
           </li>
         </div>
-        <div class="docente-info-item">
+        <div class="docente-info-item" v-if="docenteApoio.length">
           <h2>Apoio Administrativo:</h2>
           <li v-for="apo in docenteApoio" :key="apo.id">
-            {{ apo.titulo }} (<b>Horas semanais:</b> {{ apo.horaSemanal }}h)
+            {{ apo.titulo }} (<b>Horas semanais:</b> {{ apo.duracao }}h)
           </li>
         </div>
-        <div class="docente-info-item">
+        <div class="docente-info-item" v-if="docenteAdministracao.length">
           <h2>Administrativo:</h2>
           <li v-for="adm in docenteAdministracao" :key="adm.id">
-            {{ adm.titulo }} (<b>Horas semanais:</b> {{ adm.horaSemanal }}h)
+            {{ adm.titulo }} (<b>Horas semanais:</b> {{ adm.duracao }}h)
           </li>
         </div>
       </div>
