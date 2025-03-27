@@ -1,12 +1,8 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { useRouter } from 'vue-router';
-import { disciplinas } from '@/data/disciplinas';
-import { extensao } from '@/data/extensao';
-import { apoioaoensino } from '@/data/apoioAoEnsino';
-import { administracao } from '@/data/administracao';
-// import Status from '@/components/Cards/Status.vue';
 
+// eslint-disable-next-line no-unused-vars
 const horasAulasSemanais = ref(0);
 const horasTotais = ref(0);
 
@@ -23,19 +19,7 @@ const props = defineProps({
 
 const router = useRouter();
 
-const pegarDisciplinasEDocente = async () => {
-  // Filtrar as disciplinas do respectivo docente com base no id
-  const disciplinasDocente = disciplinas.filter(disciplina => disciplina.docenteId === props.docenteId);
 
-  horasAulasSemanais.value = disciplinasDocente.reduce((total, disciplina) => total + disciplina.horaSemanal, 0);
-};
-
-const pegarHorasTotais = async () => {
-  const atividades = [...extensao, ...apoioaoensino, ...administracao];
-  const atividadesDocente = atividades.filter(atividade => atividade.docenteId === props.docenteId);
-
-  horasTotais.value = atividadesDocente.reduce((total, atividade) => total + atividade.horaSemanal , 0); // Atribuir o valor total de horas do docente em atividades de extensão, apoio ao ensino e administração
-};
 
 const irParaDisciplinas = () => {
   router.push({ path: `/docentes/${props.docenteId}`, query: { view: 'disciplinas' } });
@@ -62,18 +46,92 @@ const editarDocente = () => {
   // Lógica para editar o docente
 };
 
+const docenteDisciplinas = ref([]);
+const docenteAtividades = ref([]);
+
+const getDisciplinas = async (disciplinaIds) => {
+  const fetchedDisciplinas = [];
+  for (const d of disciplinaIds) {
+    try {
+      const response = await fetch(`http://localhost:5117/api/disciplina/${d.disciplinaId}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await response.json();
+      fetchedDisciplinas.push(data);
+    } catch (error) {
+      console.error("Erro ao buscar disciplinas do docente", error);
+    }
+  }
+  return fetchedDisciplinas;
+};
+
+const fetchDisciplinas = async () => {
+  try {
+    const response = await fetch(`http://localhost:5117/api/disciplinadocente/docente/${props.docenteId}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const data = await response.json();
+    docenteDisciplinas.value = await getDisciplinas(data);
+  } catch (error) {
+    console.error("Erro ao buscar disciplinas do docente", error);
+  }
+};
+
+const fetchAtividades = async () => {
+  try {
+    const response = await fetch(`http://localhost:5117/api/atividade/docente/${props.docenteId}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const data = await response.json();
+    docenteAtividades.value = data;
+  } catch (error) {
+    console.error("Erro ao buscar atividades do docente", error);
+  }
+};
+
+// eslint-disable-next-line no-unused-vars
+const docenteExtensao = computed(() =>
+  docenteAtividades.value.filter((a) => a.tipo === 0)
+);
+// eslint-disable-next-line no-unused-vars
+const docenteApoio = computed(() =>
+  docenteAtividades.value.filter((a) => a.tipo === 1)
+);
+// eslint-disable-next-line no-unused-vars
+const docenteAdministracao = computed(() =>
+  docenteAtividades.value.filter((a) => a.tipo === 2)
+);
+
+const calcularHorasTotais = () => {
+  horasTotais.value =
+    docenteAtividades.value.reduce((sum, a) => sum + a.duracao, 0) +
+    docenteDisciplinas.value.reduce((sum, d) => sum + d.cargaHoraria*2, 0);
+};
+
 onMounted(() => {
-  pegarDisciplinasEDocente();
-  pegarHorasTotais();
+  fetchDisciplinas().then(() => {
+    fetchAtividades().then(() => {
+      calcularHorasTotais();
+    });
+  });
 });
 </script>
 
 <template>
   <div :class="['carga-horaria', props.status]">
     <div class="content">
-      <p id="tem">{{ horasAulasSemanais }}h</p>
+      <p id="tem">{{ horasTotais }}h</p>
       <p id="de">de</p>
-      <p id="meta">6h</p>
+      <p id="meta">40h</p>
       <p class="text">semanais</p>
     </div>
     <div class="buttons">
@@ -110,7 +168,8 @@ onMounted(() => {
   justify-content: start;
   gap: 2px;
 }
-.actions{
+
+.actions {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -118,6 +177,7 @@ onMounted(() => {
   height: 100%;
   padding-left: 0.6rem;
 }
+
 .actions button {
   cursor: pointer;
   background-color: #e09b1b;
@@ -141,22 +201,27 @@ onMounted(() => {
   color: #3e3e3e;
   font-weight: 400;
 }
+
 #de {
   color: #2e2e2e;
   font-weight: 500;
 }
+
 #meta {
   color: #2e2e2e;
   font-weight: bold;
 }
+
 .text {
   color: #2e2e2e;
   font-weight: 400;
 }
+
 p {
   color: #2e2e2e;
   font-weight: bold;
 }
+
 .p-bold {
   font-size: 14px;
   color: rgb(46, 15, 3);
@@ -165,6 +230,7 @@ p {
   padding: 2px;
   text-align: center;
 }
+
 .buttons {
   display: flex;
   flex-direction: row;
@@ -174,7 +240,7 @@ p {
   justify-content: center;
 }
 
-img{
+img {
   width: 24px;
   height: 24px;
   cursor: pointer;
