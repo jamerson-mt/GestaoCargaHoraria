@@ -1,24 +1,21 @@
 <script setup>
-import { onMounted } from 'vue';
 import { cursos } from "@/data/cursos";
 
 
 const props = defineProps({
+  disciplinaId: {
+    type: Number,
+    required: true
+  },
   disciplina: {
     type: Object,
-    required: true,
-  },
+    required: true
+  }
 });
 
-// faça um fetch para busque a disciplina pelo id
-
-onMounted(async () => {
-});
-
-console.log("ola")
 let cursoSelecionado = {};
 cursos.forEach(curso => {
-  if (curso.id == props.disciplina.cursoId) {
+  if (curso.id == props.disciplina.value?.cursoId) {
     cursoSelecionado = curso
   }
 });
@@ -27,8 +24,8 @@ console.log(cursoSelecionado)
 
 const deletarDisciplina = () => {
   // lógica para deletar a disciplina
-  console.log(`Deletando disciplina com id: ${props.disciplina.id}`);
-  fetch(`http://localhost:5117/api/disciplina/${props.disciplina.id}`, {
+  console.log(`Deletando disciplina com id: ${props.disciplina.value?.id}`);
+  fetch(`http://localhost:5117/api/disciplina/${props.disciplina.value?.id}`, {
     method: 'DELETE',
   })
     .then(response => {
@@ -56,36 +53,30 @@ const deletarDisciplina = () => {
 <template>
   <div class="disciplina-item" @click="$emit('click')">
     <div class="content">
-      <span class="disciplina-nome" :title="props.disciplina.name">
-        <p>{{ props.disciplina.name }}</p>
-      </span>
-      <span class="disciplina-periodo"><b>Periodo: </b>{{ props.disciplina.periodo }}</span>
-      <span class="disciplina-periodo"><b>Carga Horária: </b>{{ props.disciplina.cargaHoraria }}</span>
-      <span class="disciplina-periodo" id="curso"><b>Curso: </b>{{ cursoSelecionado.name }}</span>
+      <p class="disciplina-nome" :title="disciplina.name">{{ props.disciplina.name }}</p>
+      <p class="disciplina-info"><b>Período:</b> {{ disciplina.periodo }}</p>
+      <p class="disciplina-info"><b>Carga Horária:</b> {{ disciplina.cargaHoraria }}</p>
+      <p class="disciplina-info"><b>Curso:</b> {{ cursoSelecionado.name }}</p>
     </div>
-    <span class="buttons">
+    <div class="buttons">
       <button class="editar" @click.stop="$emit('edit')">Editar</button>
       <button class="remover" @click.stop="deletarDisciplina">Remover</button>
-    </span>
+    </div>
   </div>
 </template>
 <style scoped>
 .disciplina-item {
   display: flex;
-  flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  background-color: white;
-  border: 1px solid #ccc;
-  height: 8rem; /* ⬅ Define uma altura fixa */
-  width: 60rem; /* ⬅ Define uma largura fixa */
-  border-radius: 0.6rem;
-  color: #2e2e2e;
-  margin: 0 0.2rem;
-  transition: 0.4s;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  margin-bottom: 0.5rem;
+  transition: background-color 0.3s;
   cursor: pointer;
-  overflow: hidden; /* ⬅ Evita que o conteúdo ultrapasse o card */
-  text-align: start;
+  width: 100%;
 }
 
 .disciplina-item:hover {
@@ -94,74 +85,56 @@ const deletarDisciplina = () => {
 
 .content {
   display: flex;
-  flex-direction: row;
   align-items: center;
-  gap: 0.4rem;
-  height: 100%;
+  gap: 1rem;
+  flex-wrap: wrap;
 }
-
-#curso {
-  width: 16rem;
-}
-
-.content span {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: row;
-  gap: 10px;
-  height: 100%;
-  line-height: 100%;
-  height: 50px;
-  padding: 0.6rem;
-  text-align: start;
-}
-
-b {
-  font-weight: bold;
-}
-
 
 .disciplina-nome {
-  display: flex;
-  align-items: center;
-  width: 14rem; /* ⬅ Define um limite para o nome */
-  overflow-x: auto; /* ⬅ Permite rolagem horizontal */
-  white-space: nowrap; /* ⬅ Mantém o texto em uma única linha */
-  text-overflow: ellipsis; /* ⬅ Adiciona '...' quando o texto for muito grande */
+  font-size: 1rem;
+  font-weight: bold;
+  color: #333;
+  margin: 0;
+  max-width: 10rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.disciplina-nome p {
-  text-align: start;
-  font-size: 12pt;
-  font-weight: 600
+.disciplina-info {
+  font-size: 1rem;
+  color: #555;
+  margin: 0;
 }
-
 
 .buttons {
   display: flex;
-  height: 100%;
+  gap: 0.5rem;
 }
 
 .buttons button {
   cursor: pointer;
-  background-color: #007bff;
   border: none;
+  border-radius: 0.3rem;
+  padding: 0.3rem 0.8rem;
+  font-size: 0.8rem;
   color: white;
-  padding: 5px 10px;
-  transition: 0.4s;
-}
-
-.buttons .remover {
-  background-color: #db0000;
-  border-radius: 0 0.4rem 0.4rem 0;
-}
-
-.buttons button:hover {
-  background-color: #0056b3;
+  transition: background-color 0.3s;
 }
 
 .buttons .editar {
-  background-color: #e09b1b;
+  background-color: #f0ad4e;
+}
+
+.buttons .editar:hover {
+  background-color: #ec971f;
+}
+
+.buttons .remover {
+  background-color: #d9534f;
+}
+
+.buttons .remover:hover {
+  background-color: #c9302c;
 }
 </style>

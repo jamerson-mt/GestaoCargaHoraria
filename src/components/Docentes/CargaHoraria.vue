@@ -1,6 +1,7 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue';
 import { useRouter } from 'vue-router';
+import { getDisciplinas } from '@/utils/getDiscipline.js'; // Atualizado para usar o utilitário
 
 // eslint-disable-next-line no-unused-vars
 const horasAulasSemanais = ref(0);
@@ -49,24 +50,7 @@ const editarDocente = () => {
 const docenteDisciplinas = ref([]);
 const docenteAtividades = ref([]);
 
-const getDisciplinas = async (disciplinaIds) => {
-  const fetchedDisciplinas = [];
-  for (const d of disciplinaIds) {
-    try {
-      const response = await fetch(`http://localhost:5117/api/disciplina/${d.disciplinaId}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      const data = await response.json();
-      fetchedDisciplinas.push(data);
-    } catch (error) {
-      console.error("Erro ao buscar disciplinas do docente", error);
-    }
-  }
-  return fetchedDisciplinas;
-};
+
 
 const fetchDisciplinas = async () => {
   try {
@@ -77,7 +61,7 @@ const fetchDisciplinas = async () => {
       },
     });
     const data = await response.json();
-    docenteDisciplinas.value = await getDisciplinas(data);
+    docenteDisciplinas.value = await getDisciplinas(data); // Reutilizando a função getDisciplinas
   } catch (error) {
     console.error("Erro ao buscar disciplinas do docente", error);
   }
@@ -124,6 +108,8 @@ onMounted(() => {
     });
   });
 });
+
+// If needed, move `getDisciplinas` to a separate composable file for reuse.
 </script>
 
 <template>

@@ -2,10 +2,7 @@
 import { ref, onMounted, defineProps } from "vue";
 import DisciplinaItem from './DisciplinaItem.vue';
 import DisciplinaDetalhes from './DisciplinaDetalhes.vue';
-import { disciplinas as todasDisciplinas, getDisciplinasByDocenteId, atribuirDocenteDisciplina } from '../../data/disciplinas';
-
-
-
+import { getDisciplinas } from "../../utils/getDiscipline.js";
 const mostrar = ref(false);
 
 const disciplinasDisponiveis = ref([]);
@@ -19,7 +16,6 @@ const props = defineProps({
   }
 });
 
-
 onMounted(async () => {
   disciplinasOfDocente.value = await fetch(`http://localhost:5117/api/disciplinadocente/docente/${props.docente.id}`, {
     method: 'GET',
@@ -27,35 +23,33 @@ onMounted(async () => {
       'Content-Type': 'application/json',
     },
   }).then((response) => response.json())
-    .then((data) => {
-      return data;
-    });
+    .then(async (data) => {
+      console.log(data)
+      disciplinasOfDocente.value = await getDisciplinas(data);
 
-  const disciplinasOfDocenteIds = disciplinasOfDocente.value.map(disciplina => disciplina.disciplinaId);
-  disciplinasDisponiveis.value = todasDisciplinas.filter(disciplina => !disciplinasOfDocenteIds.includes(disciplina.id));
+    }).finally(() => {
+      console.log(disciplinasOfDocente.value)
+    });
 });
 
 const selectDisciplina = (disciplina) => {
   disciplinaSelecionada.value = disciplina;
 };
-
-// const insertDisciplina = (disciplinaId,docenteId) => {
-
-//   atruibui
-//   // disciplinas.value.push(disciplina);
-
-// };
-
-
 </script>
 
 <template>
   <div class="gerir-disciplinas">
     <h1>Gerir Disciplinas de <b>{{ props.docente.name }}</b></h1>
     <p><strong>Email: </strong> {{ props.docente.email }}</p>
-    <ul>
-      <DisciplinaItem v-for="disciplina in disciplinasOfDocente" :key="disciplina.id"
-        :disciplinaId="disciplina.disciplinaId" @click="selectDisciplina(disciplina)" />
+    <h2>Disciplinas alocadas a este docente</h2>
+    <ul class="disciplinas" v-if="disciplinasOfDocente.length > 0">
+
+      <DisciplinaItem v-for="disciplina in disciplinasOfDocente" :key="disciplina.id" :disciplinaId="disciplina.id"
+        :disciplina="disciplina" @click="selectDisciplina(disciplina)"
+        :class="{ 'selected-disciplina': disciplinaSelecionada && disciplinaSelecionada.id === disciplina.id }" />
+    </ul>
+    <ul v-else>
+      <li>Não há disciplinas alocadas a este docente</li>
     </ul>
 
     <DisciplinaDetalhes v-if="disciplinaSelecionada" :disciplina="disciplinaSelecionada" />
@@ -113,5 +107,18 @@ h2 {
 #disciplinasDisponiveis {
   color: #127247;
   font-size: 14pt;
+}
+
+.selected-disciplina {
+  background-color: #f0f8ff;
+  border: 1px solid #127247;
+  border-radius: 5px;
+  padding: 5px;
+}
+
+.disciplinas {
+  display: flex;
+  width: 100%;
+  padding: 0px;
 }
 </style>
