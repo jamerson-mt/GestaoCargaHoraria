@@ -1,21 +1,31 @@
+<!-- eslint-disable vue/multi-word-component-names -->
 <script setup>
 
-import { ref, defineAsyncComponent, computed } from 'vue';
+import { ref, defineAsyncComponent, computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import CardDocenteOne from "@/components/Docentes/CardDocenteOne.vue";
 import CardInfos from './CardInfos.vue';
 import { disciplinas } from "@/data/disciplinas";
 import { cursos } from "@/data/cursos";
 import { docentes } from "@/data/docentes";
+import { getAtividades } from '@/utils/getAtividades';
 // import { administracao } from '@/data/administracao';
 // import { extensao } from '@/data/extensao';
 // import { apoioaoensino } from '@/data/apoioAoEnsino';
 
+const atividades = ref([]);
 
+onMounted(() => {
+  getAtividades().then((data) => {
+    atividades.value = data;
+  });
+});
 const selectedComponent = ref(null);
+const selectedProps = ref({});
 
-function handleCardClick(component) {
+function handleCardClick(component, props = {}) {
   selectedComponent.value = component;
+  selectedProps.value = props;
 }
 
 const router = useRouter();
@@ -26,6 +36,8 @@ const telaDocentes = () => {
 // const DocentesComponent = defineAsyncComponent(() => import('@/components/Docentes/ListaDocentes.vue'));
 const CursosComponent = defineAsyncComponent(() => import('@/components/Cursos/ListaCursos.vue'));
 const DisciplinasComponent = defineAsyncComponent(() => import('@/components/Disciplinas/ListaDisciplinas.vue'));
+const AtividadesComponent = defineAsyncComponent(() => import('@/components/Atividades/ListaAtividades.vue'));
+
 // const ApoioComponent = defineAsyncComponent(() => import('@/components/ApoioAdm/ListaApoioAdm.vue'));
 // const AdministracaoComponent = defineAsyncComponent(() => import('@/components/Adm/ListaAttAdm.vue'));
 // const ExtensaoComponent = defineAsyncComponent(() => import('@/components/Extensao/ListaExtensao.vue'));
@@ -50,23 +62,26 @@ const docentesComCargaBaixa = computed(() => {
       <CardDocenteOne titulo="Total de Docentes" :qtdd="docentes.length" icone="pessoasgreen"
         @click="telaDocentes()" />
       <CardDocenteOne titulo="Total de Cursos" :qtdd="cursos.length" icone="cursogreen"
-        @click="handleCardClick(CursosComponent)" />
+        @click="handleCardClick(CursosComponent, { cursos })" />
       <CardDocenteOne titulo="Total de Disciplinas" :qtdd="disciplinas.length" icone="book"
-        @click="handleCardClick(DisciplinasComponent)" />
+        @click="handleCardClick(DisciplinasComponent, { disciplinas })" />
+      <CardDocenteOne titulo="Total de Atividades" :qtdd="atividades.length" icone="book"
+        @click="handleCardClick(AtividadesComponent, { atividades })" />
     </div>
 
     <div v-if="!selectedComponent" class="info-gerais">
       <h2>Informações Gerais</h2>
       <div class="info-cards">
         <CardInfos title="Docentes com Carga Alta" :qtd="docentesComCargaAlta" status="vermelho" />
-        <CardInfos title="Docentes com Carga Moderada" :qtd="docentes.length - (docentesComCargaAlta + docentesComCargaBaixa)" status="amarelo" />
+        <CardInfos title="Docentes com Carga Moderada"
+          :qtd="docentes.length - (docentesComCargaAlta + docentesComCargaBaixa)" status="amarelo" />
         <CardInfos title="Docentes com Carga Baixa" :qtd="docentesComCargaBaixa" status="verde" />
         <CardInfos title="Disciplinas sem Docentes" :qtd="disciplinasSemDocentes" status="vermelho" />
       </div>
     </div>
 
     <div v-if="selectedComponent" class="info-display">
-      <component :is="selectedComponent"></component>
+      <component :is="selectedComponent" v-bind="selectedProps"></component>
     </div>
   </div>
 </template>

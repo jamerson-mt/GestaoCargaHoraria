@@ -1,5 +1,5 @@
 <script setup>
-import { ref, defineProps } from "vue";
+import { defineProps } from "vue";
 import { useRouter } from "vue-router";
 
 const props = defineProps({
@@ -55,6 +55,7 @@ const nextPage = () => {
   line-height: 24px;
   cursor: pointer;
 }
+
 .content {
   width: 100%;
   display: flex;
@@ -62,16 +63,19 @@ const nextPage = () => {
   align-items: center;
   justify-content: space-evenly;
 }
+
 h3 {
   font-size: 1rem;
-  font-weight:500;
+  font-weight: 500;
   color: #2e2e2e;
 }
+
 h2 {
   font-size: 2rem;
   font-weight: bold;
   color: #2e2e2e;
 }
+
 img {
   width: 40px;
   height: 40px;
