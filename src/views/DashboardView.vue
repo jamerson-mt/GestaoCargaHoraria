@@ -3,7 +3,7 @@
 import { ref, onMounted } from "vue";
 import Painel from "@/components/Cards/Painel.vue";
 
-const apiStatus = ref(true);
+const apiStatus = ref(false);
 const mensagemErro = ref("");
 
 onMounted(() => {
@@ -11,6 +11,8 @@ onMounted(() => {
     .then((response) => {
       if (!response.ok) {
         throw new Error("API não está acessível.");
+      }else{
+        apiStatus.value = true;
       }
     })
     .catch((error) => {

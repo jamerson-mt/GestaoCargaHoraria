@@ -1,6 +1,6 @@
 async function testApi(url) {
   try {
-    const response = await fetch(url, { method: "HEAD" });
+    const response = await fetch(url, { method: "GET" });
     return response.ok;
   } catch (error) {
     console.error("API não está acessível:", error);
