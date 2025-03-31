@@ -68,7 +68,7 @@ watch([searchQuery, filterProfessor, filterCurso], () => {
 });
 
 const cadastrarDisciplina = () => {
-  router.push('/disciplinas/criar');
+  router.push('/disciplina/criar');
 };
 </script>
 

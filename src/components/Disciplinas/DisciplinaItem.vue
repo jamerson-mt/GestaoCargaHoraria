@@ -1,11 +1,22 @@
 <script setup>
 import { cursos } from "@/data/cursos";
+import { useRouter } from 'vue-router';
+import { ref } from 'vue';
 
+const router = useRouter();
+const notification = ref({ message: '', type: '' });
+
+const showNotification = (message, type) => {
+  notification.value = { message, type };
+  setTimeout(() => {
+    notification.value = { message: '', type: '' };
+  }, 3000);
+};
 
 const props = defineProps({
   disciplinaId: {
     type: Number,
-    required: true
+    required: false
   },
   disciplina: {
     type: Object,
@@ -15,42 +26,47 @@ const props = defineProps({
 
 let cursoSelecionado = {};
 cursos.forEach(curso => {
-  if (curso.id == props.disciplina.value?.cursoId) {
+  if (curso.id == props.disciplina.cursoId) {
     cursoSelecionado = curso
   }
 });
 
-console.log(cursoSelecionado)
-
 const deletarDisciplina = () => {
-  // lógica para deletar a disciplina
-  console.log(`Deletando disciplina com id: ${props.disciplina.value?.id}`);
-  fetch(`http://localhost:5117/api/disciplina/${props.disciplina.value?.id}`, {
-    method: 'DELETE',
-  })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Erro ao deletar disciplina');
-      }
-      return response.text(); // Use text() instead of json()
+  if (confirm(`Tem certeza que deseja excluir a disciplina "${props.disciplina.name}"?`)) {
+    fetch(`http://localhost:5117/api/disciplina/${props.disciplina.id}`, {
+      method: 'DELETE',
     })
-    .then(data => {
-      if (data) {
-        console.log('Disciplina deletada com sucesso:', JSON.parse(data));
-      } else {
-        console.log('Disciplina deletada com sucesso');
-        //reload
-      }
-      // Emita um evento para o componente pai
-    })
-    .catch(error => {
-      console.error('Erro ao deletar disciplina:', error);
-    });
-  // Emita um evento para o componente pai
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Erro ao deletar disciplina');
+        }
+        return response.text();
+      })
+      .then(data => {
+        if (data) {
+          showNotification('Disciplina deletada com sucesso!', 'success');
+        } else {
+          showNotification('Disciplina deletada com sucesso!', 'success');
+        }
+        window.location.reload();
+      })
+      .catch(error => {
+        showNotification('Erro ao deletar disciplina!', 'error');
+        console.error('Erro ao deletar disciplina:', error);
+      });
+  }
+};
 
+const editarDisciplina = () => {
+  router.push({
+    path: `/disciplina/edit/${props.disciplina.id}`,
+  });
 };
 </script>
 <template>
+  <div v-if="notification.message" :class="`notification ${notification.type}`">
+    {{ notification.message }}
+  </div>
   <div class="disciplina-item" @click="$emit('click')">
     <div class="content">
       <p class="disciplina-nome" :title="disciplina.name">{{ props.disciplina.name }}</p>
@@ -59,7 +75,7 @@ const deletarDisciplina = () => {
       <p class="disciplina-info"><b>Curso:</b> {{ cursoSelecionado.name }}</p>
     </div>
     <div class="buttons">
-      <button class="editar" @click.stop="$emit('edit')">Editar</button>
+      <button class="editar" @click.stop="editarDisciplina">Editar</button>
       <button class="remover" @click.stop="deletarDisciplina">Remover</button>
     </div>
   </div>
@@ -136,5 +152,28 @@ const deletarDisciplina = () => {
 
 .buttons .remover:hover {
   background-color: #c9302c;
+}
+
+.notification {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  color: white;
+  z-index: 1000;
+}
+
+.notification.success {
+  background-color: #5cb85c;
+}
+
+.notification.error {
+  background-color: #d9534f;
+}
+
+.notification.info {
+  background-color: #5bc0de;
 }
 </style>
