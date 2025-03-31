@@ -10,8 +10,7 @@ const currentComponent = shallowRef(null);
 const componentProps = shallowRef({});
 const disciplinas = ref([]);
 const cursos = ref([]);
-const selectedDisciplina = ref(null)
-
+const selectedDisciplina = ref(null);
 
 const fetchDisciplinas = async () => {
   try {
@@ -33,6 +32,31 @@ const fetchCursos = async () => {
   }
 };
 
+const fetchDocentesNames = async (disciplinaId) => {
+  try {
+    // Buscar a disciplina para obter os docentesIds
+    const disciplinaResponse = await fetch(`http://localhost:5117/api/disciplinadocente/disciplina/${disciplinaId}`);
+    const docentesIds = await disciplinaResponse.json();
+
+    if (Array.isArray(docentesIds) && docentesIds.length > 0) {
+      // Buscar os nomes dos docentes usando os docentesIds
+      const docentesPromises = docentesIds.map(async (docente) => {
+
+        const docenteResponse = await fetch(`http://localhost:5117/api/docente/${docente.docenteId}`);
+        const docenteData = await docenteResponse.json();
+        return docenteData.name || "Sem nome";
+      });
+
+      const docentesNames = await Promise.all(docentesPromises);
+      return docentesNames;
+    }
+    return ["Sem professor"];
+  } catch (error) {
+    console.error("Erro ao buscar docentes:", error);
+    return ["Erro ao buscar professores"];
+  }
+};
+
 onMounted(() => {
   fetchDisciplinas();
   fetchCursos();
@@ -41,10 +65,6 @@ onMounted(() => {
 const deactivateDetails = () => {
   currentComponent.value = null;
   componentProps.value = {};
-};
-
-const showComponent = (disciplina) => {
-  selectedDisciplina.value = disciplina;
 };
 
 const searchQuery = ref("");
@@ -70,15 +90,28 @@ watch([searchQuery, filterProfessor, filterCurso], () => {
 const cadastrarDisciplina = () => {
   router.push('/disciplina/criar');
 };
+
+const expandedDisciplinaId = ref(null);
+
+const toggleDisciplinaDetails = async (disciplinaId) => {
+  if (expandedDisciplinaId.value === disciplinaId) {
+    expandedDisciplinaId.value = null;
+  } else {
+    expandedDisciplinaId.value = disciplinaId;
+
+    // Atualizar os nomes dos docentes para a disciplina expandida
+    const disciplina = disciplinas.value.find((d) => d.id === disciplinaId);
+    if (disciplina) {
+      disciplina.docentesNames = await fetchDocentesNames(disciplinaId);
+    }
+  }
+};
 </script>
 
 <template>
   <div class="container">
-    <DisciplinaDetalhes
-      v-if="selectedDisciplina"
-      :disciplina="selectedDisciplina"
-      @voltar="selectedDisciplina = null"
-    />
+    <DisciplinaDetalhes v-if="selectedDisciplina" :disciplina="selectedDisciplina"
+      @voltar="selectedDisciplina = null" />
 
     <div v-else>
       <div class="filtro">
@@ -97,17 +130,23 @@ const cadastrarDisciplina = () => {
       </div>
 
       <div class="container-disciplinas">
-        <DisciplinaItem
-          v-for="disciplina in filteredDisciplinas"
-          :key="disciplina.id"
-          :disciplina="disciplina"
-          @click="showComponent(disciplina)"
-        />
+        <div v-for="disciplina in filteredDisciplinas" :key="disciplina.id" class="disciplina-item"
+          @click="toggleDisciplinaDetails(disciplina.id)">
+          <DisciplinaItem :disciplina="disciplina" />
+          <div v-if="expandedDisciplinaId === disciplina.id" class="disciplina-detalhes">
+            <p><strong>Professores:</strong></p>
+            <ul>
+              <li v-for="docenteName in disciplina.docentesNames || ['Sem professor']" :key="docenteName">
+                {{ docenteName }}
+              </li>
+            </ul>
+
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </template>
-
 
 <style scoped>
 .container {
@@ -215,5 +254,27 @@ const cadastrarDisciplina = () => {
   display: flex;
   align-items: center;
   gap: 5px;
+}
+
+.disciplina-item {
+  width: 100%;
+  cursor: pointer;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background-color: #fff;
+  transition: all 0.3s ease;
+}
+
+.disciplina-item:hover {
+  background-color: #f0f0f0;
+}
+
+.disciplina-detalhes {
+  margin-top: 10px;
+  padding: 10px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 10px;
 }
 </style>
