@@ -1,5 +1,21 @@
+async function testApi(url) {
+  try {
+    const response = await fetch(url, { method: "HEAD" });
+    return response.ok;
+  } catch (error) {
+    console.error("API não está acessível:", error);
+    return false;
+  }
+}
+
 async function getCursos() {
-  return fetch("http://localhost:5117/api/curso", {
+  const apiUrl = "http://localhost:5117/api/curso";
+  const isApiAvailable = await testApi(apiUrl);
+  if (!isApiAvailable) {
+    console.error("API não está acessível. Retornando array vazio.");
+    return [];
+  }
+  return fetch(apiUrl, {
     method: "GET",
     headers: {
       "Content-Type": "application/json"
@@ -12,12 +28,3 @@ async function getCursos() {
 }
 
 export const cursos = await getCursos();
-
-// import {disciplinas} from "@/data/disciplinas";
-
-// export const cursos = [
-//   { id: 1, nome: "Sistemas para internet"  },
-//   { id: 2, nome: "Administracao" },
-//   { id: 3, nome: "Qualidade" },
-//   // Adicione mais cursos conforme necessário
-// ];

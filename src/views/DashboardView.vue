@@ -1,13 +1,34 @@
 <script setup>
-import SideBar from "@/components/SideBar/SideBar.vue"
-import Painel from "@/components/Cards/Painel.vue"
+
+import { ref, onMounted } from "vue";
+import Painel from "@/components/Cards/Painel.vue";
+
+const apiStatus = ref(true);
+const mensagemErro = ref("");
+
+onMounted(() => {
+  fetch("http://localhost:5117/api/disciplina")
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("API não está acessível.");
+      }
+    })
+    .catch((error) => {
+      console.error("Erro ao conectar com a API:", error);
+      apiStatus.value = false;
+      mensagemErro.value = "Não foi possível conectar ao servidor. Por favor, tente novamente mais tarde.";
+    });
+});
 </script>
 
 <template>
-
   <div class="container-dashboard">
-    <Painel/>
-
+    <div v-if="!apiStatus" class="erro-api">
+      <p>{{ mensagemErro }}</p>
+    </div>
+    <div v-else>
+      <Painel />
+    </div>
   </div>
 </template>
 
@@ -18,7 +39,12 @@ import Painel from "@/components/Cards/Painel.vue"
   align-items: center;
   width: 100vw;
   height: 100%;
-
 }
 
+.erro-api {
+  color: #f44336;
+  font-size: 18px;
+  text-align: center;
+  margin: auto;
+}
 </style>
