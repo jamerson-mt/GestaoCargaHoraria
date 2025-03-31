@@ -3,6 +3,7 @@ import { shallowRef, watch, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import DisciplinaDetalhes from "@/components/Disciplinas/DisciplinaDetalhes.vue";
 import DisciplinaItem from "./DisciplinaItem.vue";
+import DisciplinaDetalhesExpandido from "./DisciplinaDetalhesExpandido.vue";
 import { ref, computed } from "vue";
 
 const router = useRouter();
@@ -34,14 +35,11 @@ const fetchCursos = async () => {
 
 const fetchDocentesNames = async (disciplinaId) => {
   try {
-    // Buscar a disciplina para obter os docentesIds
     const disciplinaResponse = await fetch(`http://localhost:5117/api/disciplinadocente/disciplina/${disciplinaId}`);
     const docentesIds = await disciplinaResponse.json();
 
     if (Array.isArray(docentesIds) && docentesIds.length > 0) {
-      // Buscar os nomes dos docentes usando os docentesIds
       const docentesPromises = docentesIds.map(async (docente) => {
-
         const docenteResponse = await fetch(`http://localhost:5117/api/docente/${docente.docenteId}`);
         const docenteData = await docenteResponse.json();
         return docenteData.name || "Sem nome";
@@ -95,11 +93,10 @@ const expandedDisciplinaId = ref(null);
 
 const toggleDisciplinaDetails = async (disciplinaId) => {
   if (expandedDisciplinaId.value === disciplinaId) {
-    expandedDisciplinaId.value = null;
+    console.log("Fechando detalhes da disciplina", disciplinaId);
   } else {
     expandedDisciplinaId.value = disciplinaId;
 
-    // Atualizar os nomes dos docentes para a disciplina expandida
     const disciplina = disciplinas.value.find((d) => d.id === disciplinaId);
     if (disciplina) {
       disciplina.docentesNames = await fetchDocentesNames(disciplinaId);
@@ -133,15 +130,10 @@ const toggleDisciplinaDetails = async (disciplinaId) => {
         <div v-for="disciplina in filteredDisciplinas" :key="disciplina.id" class="disciplina-item"
           @click="toggleDisciplinaDetails(disciplina.id)">
           <DisciplinaItem :disciplina="disciplina" />
-          <div v-if="expandedDisciplinaId === disciplina.id" class="disciplina-detalhes">
-            <p><strong>Professores:</strong></p>
-            <ul>
-              <li v-for="docenteName in disciplina.docentesNames || ['Sem professor']" :key="docenteName">
-                {{ docenteName }}
-              </li>
-            </ul>
-
-          </div>
+          <DisciplinaDetalhesExpandido
+            v-if="expandedDisciplinaId === disciplina.id"
+            :disciplina="disciplina"
+          />
         </div>
       </div>
     </div>
@@ -222,11 +214,6 @@ const toggleDisciplinaDetails = async (disciplinaId) => {
   border: 1px solid #ccc;
   border-radius: 10px;
   font-size: 12pt;
-}
-
-.filtro input:focus {
-  outline: none;
-  border: 1px solid #a5a5a5;
 }
 
 .filtro select {
