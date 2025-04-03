@@ -1,12 +1,11 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script setup>
 
-import { ref, defineAsyncComponent, computed, onMounted } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import CardDocenteOne from "@/components/Docentes/CardDocenteOne.vue";
 import CardInfos from './CardInfos.vue';
 import { disciplinas } from "@/data/disciplinas";
-import { cursos } from "@/data/cursos";
 import { docentes } from "@/data/docentes";
 import { getAtividades } from '@/utils/getAtividades';
 // import { administracao } from '@/data/administracao';
@@ -23,20 +22,18 @@ onMounted(() => {
 const selectedComponent = ref(null);
 const selectedProps = ref({});
 
-function handleCardClick(component, props = {}) {
-  selectedComponent.value = component;
-  selectedProps.value = props;
-}
+// function handleCardClick(component, props = {}) {
+//   selectedComponent.value = component;
+//   selectedProps.value = props;
+// }
 
 const router = useRouter();
-const telaDocentes = () => {
-  router.push('/docentes');
-};
+
 
 // const DocentesComponent = defineAsyncComponent(() => import('@/components/Docentes/ListaDocentes.vue'));
-const CursosComponent = defineAsyncComponent(() => import('@/components/Cursos/ListaCursos.vue'));
-const DisciplinasComponent = defineAsyncComponent(() => import('@/components/Disciplinas/ListaDisciplinas.vue'));
-const AtividadesComponent = defineAsyncComponent(() => import('@/components/Atividades/ListaAtividades.vue'));
+// const CursosComponent = defineAsyncComponent(() => import('@/components/Cursos/ListaCursos.vue'));
+// const DisciplinasComponent = defineAsyncComponent(() => import('@/components/Disciplinas/ListaDisciplinas.vue'));
+// const AtividadesComponent = defineAsyncComponent(() => import('@/components/Atividades/ListaAtividades.vue'));
 
 // const ApoioComponent = defineAsyncComponent(() => import('@/components/ApoioAdm/ListaApoioAdm.vue'));
 // const AdministracaoComponent = defineAsyncComponent(() => import('@/components/Adm/ListaAttAdm.vue'));
@@ -59,14 +56,14 @@ const docentesComCargaBaixa = computed(() => {
   <div class="container">
     <h1>Painel principal</h1>
     <div class="painel-dashboard">
-      <CardDocenteOne titulo="Total de Docentes" :qtdd="docentes.length" icone="pessoasgreen"
-        @click="telaDocentes()" />
-      <CardDocenteOne titulo="Total de Cursos" :qtdd="cursos.length" icone="cursogreen"
-        @click="handleCardClick(CursosComponent, { cursos })" />
-      <CardDocenteOne titulo="Total de Disciplinas" :qtdd="disciplinas.length" icone="book"
-        @click="handleCardClick(DisciplinasComponent, { disciplinas })" />
-      <CardDocenteOne titulo="Total de Atividades" :qtdd="atividades.length" icone="book"
-        @click="handleCardClick(AtividadesComponent, { atividades })" />
+      <CardDocenteOne titulo="Gerir Docentes" :qtdd="docentes.length" icone="pessoasgreen"
+        @click="router.push('/docentes')" />
+
+      <CardDocenteOne titulo="Gerir Disciplinas" :qtdd="disciplinas.length" icone="book"
+        @click="router.push('/disciplinas')" />
+
+      <CardDocenteOne @click="router.push('/atividades')" titulo="Gerir Atividades" :qtdd="atividades.length"
+        icone="atividade" />
     </div>
 
     <div v-if="!selectedComponent" class="info-gerais">
@@ -96,7 +93,7 @@ h1 {
   flex-direction: column;
   align-items: center;
   background-color: transparent;
-  width: 100%;
+  width: 100vw;
   gap: 20px;
   padding: 20px;
   height: 100vh;
@@ -119,7 +116,7 @@ h1 {
   flex-direction: column;
   align-items: center;
   gap: 2rem;
-  width: 80%;
+  width: 80vw;
   padding: 20px;
   border-radius: 10px;
   text-align: center;
@@ -135,11 +132,13 @@ h1 {
 .info-cards {
   display: flex;
   justify-content: center;
+  position: relative;
+  width: 100%;
   gap: 1.2rem;
 }
 
 .info-display {
-  width: 80%;
+  width: 100%;
   background-color: transparent;
 }
 </style>

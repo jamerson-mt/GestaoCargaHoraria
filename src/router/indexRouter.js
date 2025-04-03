@@ -2,10 +2,11 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import DashboardView from '../views/DashboardView.vue'
 
-import cursosRoutes from './cursos'
-import disciplinasRoutes from './disciplinas'
-import DocentesRoutes from './docentes'
-import AbonarRoutes from './abonar'
+import cursosRoutes from './cursosRouter'
+import disciplinasRoutes from './disciplinasRouter'
+import DocentesRoutes from './docentesRouter'
+import AbonarRoutes from './abonarRouter'
+import AtividadesRoutes from './atividadesRouter'
 
 
 const router = createRouter({
@@ -26,6 +27,7 @@ const router = createRouter({
     ...cursosRoutes,
     ...disciplinasRoutes,
     ...AbonarRoutes,
+    ...AtividadesRoutes,
   ],
 })
 

@@ -5,6 +5,7 @@ import DisciplinaDetalhes from "@/components/Disciplinas/DisciplinaDetalhes.vue"
 import DisciplinaItem from "./DisciplinaItem.vue";
 import DisciplinaDetalhesExpandido from "./DisciplinaDetalhesExpandido.vue";
 import { ref, computed } from "vue";
+import HeaderDasViewsParaVoltar from "../Header/HeaderDasViewsParaVoltar.vue";
 
 const router = useRouter();
 const currentComponent = shallowRef(null);
@@ -107,6 +108,8 @@ const toggleDisciplinaDetails = async (disciplinaId) => {
 
 <template>
   <div class="container">
+
+    <HeaderDasViewsParaVoltar title="Painel de Disciplinas" />
     <DisciplinaDetalhes v-if="selectedDisciplina" :disciplina="selectedDisciplina"
       @voltar="selectedDisciplina = null" />
 
@@ -130,10 +133,7 @@ const toggleDisciplinaDetails = async (disciplinaId) => {
         <div v-for="disciplina in filteredDisciplinas" :key="disciplina.id" class="disciplina-item"
           @click="toggleDisciplinaDetails(disciplina.id)">
           <DisciplinaItem :disciplina="disciplina" />
-          <DisciplinaDetalhesExpandido
-            v-if="expandedDisciplinaId === disciplina.id"
-            :disciplina="disciplina"
-          />
+          <DisciplinaDetalhesExpandido v-if="expandedDisciplinaId === disciplina.id" :disciplina="disciplina" />
         </div>
       </div>
     </div>
@@ -145,7 +145,7 @@ const toggleDisciplinaDetails = async (disciplinaId) => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+
   background-color: transparent;
   width: 100%;
   height: 100%;

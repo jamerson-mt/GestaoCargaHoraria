@@ -6,7 +6,7 @@ import GerirDisciplinas from "../Disciplinas/GerirDisciplinas.vue";
 import DetalhesAbonamento from "../Abonar/DetalhesAbonamento.vue";
 import DetalhesDocente from "./DetalhesDocente.vue";
 import CriarAbonamento from "../Abonar/CriarAbonamento.vue";
-import router from '@/router';
+import router from '@/router/indexRouter';
 
 const route = useRoute();
 const view = ref(route.query.view);

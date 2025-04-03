@@ -1,6 +1,6 @@
 <script setup>
 
-import router from '@/router';
+import router from '@/router/indexRouter';
 import { ref } from 'vue';
 
 const docente = ref({

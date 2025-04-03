@@ -1,6 +1,6 @@
 <script setup>
 
-import router from '@/router';
+import router from '@/router/indexRouter';
 import { onMounted } from 'vue';
 import { ref } from 'vue';
 import { useRoute } from 'vue-router';

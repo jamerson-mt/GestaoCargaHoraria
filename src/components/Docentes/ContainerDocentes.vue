@@ -1,10 +1,10 @@
 <script setup>
 import { ref, computed, onMounted, watch } from 'vue';
-import router from '@/router';
 import { useRoute } from 'vue-router';
 import CardDocenteOne from "./CardDocenteOne.vue";
 import ListaDocentes from "./ListaDocentes.vue";
 import { docentes } from '@/data/docentes';
+import HeaderDasViewsParaVoltar from '../Header/HeaderDasViewsParaVoltar.vue';
 
 
 const route = useRoute();
@@ -31,18 +31,12 @@ function toggleListaDocentes(tipo) {
   }
 }
 
-const goToHome = () => {
-  router.push('/');
-};
+
 </script>
 
 <template>
   <div class="container">
-    <div class="head-docentes">
-      <button @click="goToHome()">Ir ao início</button>
-      <h1>Gerenciar Docentes</h1>
-      <span>Gestor de Carga Horaria</span>
-    </div>
+   <HeaderDasViewsParaVoltar title="Painel de Docentes" />
     <div class="card-container">
       <CardDocenteOne :titulo="'Docentes totais'" :qtdd="totalDocentes" icone="pessoasgreen" @click="toggleListaDocentes('todos')" />
       <CardDocenteOne titulo="Abonamentos" :qtdd="totalDocentes" icone="pessoasgreen" @click="toggleListaDocentes('abonar')" />
@@ -59,9 +53,9 @@ const goToHome = () => {
   align-items: center;
   background-color: transparent;
   width: 100%;
-  gap: 20px;
+  gap:0.4rem;
   padding: 20px;
-  height: 100vh;
+  height: 100%;
 }
 .card-container {
   display: flex;

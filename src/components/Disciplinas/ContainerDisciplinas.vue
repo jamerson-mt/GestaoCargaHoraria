@@ -7,6 +7,7 @@ const filterStatus = ref("");
 import CardDocenteOne from "@/components/Docentes/CardDocenteOne.vue";
 import {disciplinas} from "../../data/disciplinas";
 import ListaDisciplinas from "./ListaDisciplinas.vue";
+import HeaderDasViewsParaVoltar from "../Header/HeaderDasViewsParaVoltar.vue";
 
 onMounted(() => {
   fetchDisciplinasStatus();
@@ -35,19 +36,8 @@ const filteredDisciplinas = computed(() => {
 
 <template>
   <div class="container">
-    <div class="head-disciplinas">
-      <button @click="goToHome()">Voltar</button>
-      <h1>Gerenciar Disciplinas</h1>
-      <span>Gestor de Carga Horaria</span>
-    </div>
-    <div class="card-container">
-      <CardDocenteOne
-        titulo="Total de Disciplinas "
-        :qtdd="disciplinasqtdd"
-        icone="book"
-        @click="alternarDisciplinas"
-      />
-    </div>
+    <HeaderDasViewsParaVoltar title="Painel de Disciplinas" />
+
     <ListaDisciplinas v-if="mostrarDisciplinas" :disciplinas="filteredDisciplinas" />
   </div>
 </template>

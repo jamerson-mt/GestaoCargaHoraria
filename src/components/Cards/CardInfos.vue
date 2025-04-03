@@ -35,10 +35,11 @@ const statusColor = computed(() => {
   align-items: start;
   justify-content: center;
   background-color: white;
-  padding: 15px;
+  padding: 5px;
   border-radius: 8px;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  width: 20rem;
+  min-width: 25%;
+  height: 100px;
   border-left: 8px solid;
 }
 

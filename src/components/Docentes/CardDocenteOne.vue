@@ -1,6 +1,6 @@
 <script setup>
-import { ref, defineProps } from "vue";
-import { useRouter } from "vue-router";
+import {  defineProps } from "vue";
+
 
 const props = defineProps({
   titulo: {
@@ -45,6 +45,16 @@ const props = defineProps({
   text-align: center;
   line-height: 24px;
   cursor: pointer;
+}
+.card:hover {
+  background-color: #1dd881;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  transform: scale(1.05);
+  color: white;
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  font-weight: bold;
+  text-decoration: none;
 }
 .content {
   width: 100%;
