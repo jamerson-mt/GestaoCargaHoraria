@@ -2,12 +2,7 @@
 import FiltroTipoAtividade from './FiltroTipoAtividade.vue';
 import { computed, ref, reactive, onMounted } from 'vue';
 
-const props = defineProps({
-  atividades: {
-    type: Array,
-    default: () => [],
-  },
-});
+const atividades = ref([]);
 
 const emit = defineEmits(['atividadeCriada', 'atividadeRemovida']);
 
@@ -24,8 +19,8 @@ function validarTipo(tipo) {
 const tipoFiltrado = ref(null);
 
 const atividadesFiltradas = computed(() => {
-  if (tipoFiltrado.value === null) return props.atividades;
-  return props.atividades.filter((atividade) => validarTipo(atividade.tipo) === tipoFiltrado.value);
+  if (tipoFiltrado.value === null) return atividades.value;
+  return atividades.value.filter((atividade) => validarTipo(atividade.tipo) === tipoFiltrado.value);
 });
 
 function atualizarFiltro(novoFiltro) {
@@ -34,7 +29,7 @@ function atualizarFiltro(novoFiltro) {
 
 const docentes = ref([]);
 
-onMounted(() => {
+function carregarDocentes() {
   fetch("http://localhost:5117/api/docente")
     .then(response => {
       if (!response.ok) {
@@ -49,6 +44,28 @@ onMounted(() => {
       console.error('Erro ao carregar docentes:', error);
       alert('Erro ao carregar a lista de docentes.');
     });
+}
+
+function carregarAtividades() {
+  fetch("http://localhost:5117/api/atividade")
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Erro ao carregar atividades');
+      }
+      return response.json();
+    })
+    .then(data => {
+      atividades.value = data;
+    })
+    .catch(error => {
+      console.error('Erro ao carregar atividades:', error);
+      alert('Erro ao carregar a lista de atividades.');
+    });
+}
+
+onMounted(() => {
+  carregarDocentes();
+  carregarAtividades();
 });
 
 const novaAtividade = reactive({
@@ -70,10 +87,7 @@ function fecharModalCriar() {
 }
 
 function criarAtividade() {
-  if (!novaAtividade.titulo || !novaAtividade.tipo || !novaAtividade.docenteId) {
-    alert('Título, Tipo e Docente são obrigatórios!');
-    return;
-  }
+
 
   console.log('Criando atividade:', novaAtividade);
 
@@ -93,7 +107,7 @@ function criarAtividade() {
       })
       .then(data => {
         emit('atividadeCriada', data); // Emite evento para atualizar a lista de atividades no componente pai
-        props.atividades.push(data); // Adiciona a nova atividade na lista local
+        atividades.value.push(data); // Adiciona a nova atividade na lista local
         fecharModalCriar();
         console.log('Atividade criada com sucesso:', data);
       })
@@ -122,7 +136,7 @@ function removerAtividade(atividadeId) {
         throw new Error('Erro ao remover atividade');
       }
       // Atualiza a lista local de atividades
-      const atividadeRemovida = props.atividades.find(atividade => atividade.id === atividadeId);
+      const atividadeRemovida = atividades.value.find(atividade => atividade.id === atividadeId);
 
       // atualize o componente
       emit('atividadeRemovida', atividadeRemovida); // Emite evento para o componente pai
@@ -133,6 +147,45 @@ function removerAtividade(atividadeId) {
       alert('Erro ao remover a atividade. Tente novamente.');
     });
 }
+
+function atualizarAtividade(atividadeId) {
+  const atividade = atividades.value.find((a) => a.id === atividadeId);
+  if (!atividade) {
+    alert('Atividade não encontrada.');
+    return;
+  }
+
+  Object.assign(novaAtividade, { ...atividade }); // Preenche o modal com os dados da atividade
+  mostrarModalCriar.value = true;
+  console.log('Atualizando atividade:', novaAtividade);
+
+}
+
+function salvarAlteracoes() {
+  fetch(`http://localhost:5117/api/atividade/${novaAtividade.id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(novaAtividade)
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Erro ao atualizar atividade');
+      }
+      //feche o modal e atualize os dados
+      const index = atividades.value.findIndex(atividade => atividade.id === novaAtividade.id);
+      if (index !== -1) {
+        atividades.value[index] = { ...novaAtividade }; // Atualiza a atividade na lista local
+      }
+      emit('atividadeCriada', novaAtividade); // Emite evento para atualizar a lista de atividades no componente pai
+
+      fecharModalCriar();
+    })
+
+}
+
+
 </script>
 
 <template>
@@ -144,21 +197,23 @@ function removerAtividade(atividadeId) {
     <div class="atividades-container">
       <ul class="atividades">
         <li v-if="!atividadesFiltradas.length">Nenhuma atividade encontrada.</li>
-        <li v-for="atividade in atividadesFiltradas" :key="atividade.id">
+        <li class="atividade-item" v-for="atividade in atividadesFiltradas" :key="atividade.id">
           <p><strong>Título:</strong> {{ atividade.titulo || 'Título não disponível' }}</p>
-          <p><strong>Descrição:</strong> {{ atividade.descricao || 'Descrição não disponível' }}</p>
+          <p id="desc"><strong>Descrição:</strong> {{ atividade.descricao || 'Descrição não disponível' }}</p>
           <p><strong>Horas Semanais:</strong> {{ atividade.duracao ? atividade.duracao + 'h' : 'Horas não especificadas' }}</p>
           <p><strong>Tipo de atividade:</strong>
             <b>{{ tipoAtividadeMap[validarTipo(atividade.tipo)] || 'Tipo não especificado' }}</b>
           </p>
           <p><strong>Docente:</strong> {{ docentes.find(docente => docente.id === atividade.docenteId)?.name || 'Docente não especificado' }}</p>
+        <div class="button">
           <button @click="removerAtividade(atividade.id)" class="botao-remover">Remover</button>
+          <button @click="atualizarAtividade(atividade.id)" class="botao-editar">Editar</button></div>
         </li>
       </ul>
     </div>
     <div v-if="mostrarModalCriar" class="modal">
       <div class="modal-conteudo">
-        <h2>Criar Nova Atividade</h2>
+        <h2>{{ novaAtividade.id ? 'Editar Atividade' : 'Criar Nova Atividade' }}</h2>
         <label>
           Título:
           <input v-model="novaAtividade.titulo" type="text" />
@@ -185,7 +240,8 @@ function removerAtividade(atividadeId) {
             </option>
           </select>
         </label>
-        <button @click="criarAtividade">Salvar</button>
+        <button v-if="novaAtividade.id" @click="salvarAlteracoes()">Salvar Alterações</button>
+        <button v-else @click="criarAtividade">Salvar</button>
         <button @click="fecharModalCriar">Cancelar</button>
       </div>
     </div>
@@ -193,9 +249,16 @@ function removerAtividade(atividadeId) {
 </template>
 
 <style scoped>
+
 .lista-extensao {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #f4f4f4;
+  width: 100%;
   font-family: Arial, sans-serif;
   margin: 20px;
+
 }
 
 h1 {
@@ -206,10 +269,36 @@ h1 {
 
 .atividades-container {
   max-height: 400px;
+  min-width: 800px ;
   overflow-y: auto;
   border: 1px solid #ccc;
   border-radius: 8px;
   padding: 10px;
+}
+.atividades{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  width: 100%;
+  padding: 0px;
+  margin: 0px;
+}
+.atividade-item {
+  width: 350px;
+  padding: 15px;
+  max-height: 200px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 10px;
+}
+
+#desc {
+  font-style: italic;
+  color: #555;
+  margin-top: 0px;
+  line-height: 1.4;
 }
 
 ul {
@@ -235,7 +324,11 @@ b {
   font-weight: bold;
   text-transform: capitalize;
 }
-
+.button{
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
 .botao-criar {
   margin-top: 10px;
   padding: 10px 15px;
@@ -246,14 +339,20 @@ b {
   cursor: pointer;
 }
 
-.botao-remover {
+button {
   margin-top: 10px;
   padding: 10px 15px;
-  background-color: #f44336;
   color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+}
+
+.botao-remover{
+  background-color: #f44336;
+}
+.botao-editar{
+  background-color: #2196F3;
 }
 
 .modal {
