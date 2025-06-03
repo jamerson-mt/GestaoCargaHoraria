@@ -93,10 +93,10 @@ h1 {
   flex-direction: column;
   align-items: center;
   background-color: transparent;
-  width: 100vw;
+  width: 100%;
   gap: 20px;
   padding: 20px;
-  height: 100vh;
+  height: 100%;
 }
 
 .painel-dashboard {
@@ -116,7 +116,7 @@ h1 {
   flex-direction: column;
   align-items: center;
   gap: 2rem;
-  width: 80vw;
+  width: 100%;
   padding: 20px;
   border-radius: 10px;
   text-align: center;

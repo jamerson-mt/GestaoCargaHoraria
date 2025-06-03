@@ -1,5 +1,4 @@
 <script setup>
-import { ref } from 'vue';
 import { useActiveButton } from '../../store/activeButton'; // Importe o estado global
 import SideBarButton from "./SideBarButton.vue"; // Importe o componente SideBarButton
 
@@ -8,9 +7,10 @@ const { activeButton, setActiveButton } = useActiveButton();
 
 <template>
   <div class="container-sidebar">
-    <SideBarButton title="Dashboard" :active="activeButton === 'Dashboard'" @click="setActiveButton('Dashboard')" />
     <SideBarButton title="Docentes" :active="activeButton === 'Docentes'" @click="setActiveButton('Docentes')" />
     <SideBarButton title="Disciplinas" :active="activeButton === 'Disciplinas'" @click="setActiveButton('Disciplinas')" />
+    <SideBarButton title="Pesquisa e extensão" :active="activeButton === 'Pesquisa e extensão'" @click="setActiveButton('Pesquisa e extensão')" />
+    <SideBarButton title="Abonamentos" :active="activeButton === 'Abonamentos'" @click="setActiveButton('Abonamentos')" />
     <!-- <SideBarButton title="Cursos" :active="activeButton === 'Cursos'" @click="setActiveButton('Cursos')" /> -->
   </div>
 </template>
