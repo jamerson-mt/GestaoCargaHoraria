@@ -3,7 +3,7 @@ import AbonarView from '../views/AbonarView.vue'
 
 export default [
   {
-    path: '/abonar',
+    path: '/abonamentos',
     name: 'abonar',
     component: AbonarView,
   },

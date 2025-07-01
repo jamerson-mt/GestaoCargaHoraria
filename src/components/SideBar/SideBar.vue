@@ -1,30 +1,79 @@
 <script setup>
-import { useActiveButton } from '../../store/activeButton'; // Importe o estado global
+import { useActiveButton } from "../../store/activeButton"; // Importe o estado global
 import SideBarButton from "./SideBarButton.vue"; // Importe o componente SideBarButton
 
 const { activeButton, setActiveButton } = useActiveButton();
 </script>
 
 <template>
-  <div class="container-sidebar">
-    <SideBarButton title="Docentes" :active="activeButton === 'Docentes'" @click="setActiveButton('Docentes')" />
-    <SideBarButton title="Disciplinas" :active="activeButton === 'Disciplinas'" @click="setActiveButton('Disciplinas')" />
-    <SideBarButton title="Pesquisa e extensão" :active="activeButton === 'Pesquisa e extensão'" @click="setActiveButton('Pesquisa e extensão')" />
-    <SideBarButton title="Abonamentos" :active="activeButton === 'Abonamentos'" @click="setActiveButton('Abonamentos')" />
-    <!-- <SideBarButton title="Cursos" :active="activeButton === 'Cursos'" @click="setActiveButton('Cursos')" /> -->
+  <div class="container">
+    <div id="logo">
+      <img src="/svg/logo.svg" alt="Logo" />
+    </div>
+    <div class="container-sidebar">
+      <SideBarButton
+        title="Docentes"
+        icon="docentesicone"
+        :active="activeButton === 'Docentes'"
+        @click="setActiveButton('Docentes')"
+      />
+      <SideBarButton
+        title="Disciplinas"
+        icon="disciplinaicone"
+        :active="activeButton === 'Disciplinas'"
+        @click="setActiveButton('Disciplinas')"
+      />
+      <SideBarButton
+        title="Pesquisa e extensão"
+        icon="pesquisaicone"
+        :active="activeButton === 'Pesquisa e extensão'"
+        @click="setActiveButton('Pesquisa e extensão')"
+      />
+      <SideBarButton
+        title="Abonamentos"
+        icon="abonamentoicone"
+        :active="activeButton === 'Abonamentos'"
+        @click="setActiveButton('Abonamentos')"
+      />
+      <!-- <SideBarButton title="Cursos" :active="activeButton === 'Cursos'" @click="setActiveButton('Cursos')" /> -->
+    </div>
   </div>
 </template>
 
 <style scoped>
+.container{
+  width: 200px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: initial;
+  gap:20px ;
+  background-color: #185C37;
+
+}
+#logo {
+  display: flex;
+  margin-top: 40px;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 81px;
+  height: 81px;
+
+}
+img{
+  width: 100%;
+  height: 100%;
+}
 .container-sidebar {
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: #142b1e;
-  width: 200px;
-  height: 100vh;
+
+  width: 100%;
   padding: 5px;
 }
 </style>

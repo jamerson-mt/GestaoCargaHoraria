@@ -1,6 +1,5 @@
 <script setup>
 import ContainerAbonar from "@/components/Abonar/PainelAbonar.vue";
-import SideBar from "@/components/SideBar/SideBar.vue";
 </script>
 
 <template>
