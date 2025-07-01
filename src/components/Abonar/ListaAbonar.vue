@@ -1,8 +1,14 @@
 <script setup>
 import { ref, computed } from 'vue';
-import CardAbonar from './CardAbonar.vue';
 import { defineProps } from 'vue';
-import { abonar } from '@/data/abonar';
+
+// Dados estáticos para teste
+const abonar = [
+  { id: 1, nome: 'Abonamento 1', tipo: 'tipo1', status: 'pendente' },
+  { id: 2, nome: 'Abonamento 2', tipo: 'tipo2', status: 'pronto' },
+  { id: 3, nome: 'Abonamento 3', tipo: 'tipo1', status: 'urgente' },
+  { id: 4, nome: 'Abonamento 4', tipo: 'tipo2', status: 'pendente' },
+];
 
 const props = defineProps({
   tipo: {

@@ -1,61 +1,11 @@
 <script setup>
-import { ref, computed } from "vue";
-import CardDocente from "../Docentes/CardDocente.vue";
-import CardDocenteOne from "../Docentes/CardDocenteOne.vue"; // Certifique-se de importar o componente correto
-import { docentes } from "../../data/docentes.js";
-
-const mostrarDocentes = ref(true);
-const searchQuery = ref("");
-const filterStatus = ref("");
-
-const alternarDocentes = () => {
-  mostrarDocentes.value = !mostrarDocentes.value;
-};
-
-const filteredDocentes = computed(() => {
-  return docentes.filter((docente) => {
-    const matchesSearch = docente.nome
-      .toLowerCase()
-      .includes(searchQuery.value.toLowerCase());
-    const matchesFilter = filterStatus.value
-      ? docente.status === filterStatus.value
-      : true;
-    return matchesSearch && matchesFilter;
-  });
-});
+import ListaAbonar from "./ListaAbonar.vue";
 </script>
 
 <template>
   <div class="container">
     <h1>Painel de abonamento</h1>
-    <div class="painel-abonar">
-      <CardDocenteOne
-        titulo="Total de servidores"
-        :qtdd="docentes.length"
-        icone="pessoasgreen"
-        @click="alternarDocentes"
-      />
-    </div>
-    <div v-if="mostrarDocentes" class="container-abonar">
-      <div class="filtro">
-        <input type="text" v-model="searchQuery" placeholder="Pesquisar por nome..." />
-        <select v-model="filterStatus">
-          <option value="">Todos</option>
-          <option value="urgente">Urgente</option>
-          <option value="pronto">Pronto</option>
-          <option value="pendente">Pendente</option>
-        </select>
-      </div>
-      <CardDocente
-        v-for="(docente, index) in filteredDocentes"
-        :key="index"
-        :nome="docente.nome"
-        :status="docente.status"
-        :rota="`docentes/${docente.id}`"
-        isAbonar="true"
-        :docente="docente"
-      />
-    </div>
+    <ListaAbonar />
   </div>
 </template>
 <style scoped>
