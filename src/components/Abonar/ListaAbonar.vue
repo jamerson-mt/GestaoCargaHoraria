@@ -1,11 +1,16 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue';
+import CardAbonamento from './CardAbonamento.vue';
+import CriarAbonamento from './CriarAbonamento.vue';
 
 // Dados reativos
 const abonar = ref([]);
 const docentes = ref([]);
 const horasTotais = 52;
 const docenteSelecionado = ref(null);
+const exibirCriarAbonamento = ref(false);
+const mensagemSucesso = ref('');
+const mensagemErro = ref('');
 
 // Função para buscar os docentes da API
 async function fetchDocentes() {
@@ -35,7 +40,7 @@ async function fetchAbonar() {
       titulo: abono.titulo,
       descricao: abono.descricao,
       duracao: abono.duracao,
-      urlPdf: abono.pdfUrl,
+      urlPdf: abono.urlPdf,
       dataInicio: new Date(abono.dataInicio), // Converte a data para um objeto Date
     }));
   } catch (error) {
@@ -45,24 +50,17 @@ async function fetchAbonar() {
 
 // Computed para calcular as horas utilizadas pelo docente selecionado
 const horasUtilizadas = computed(() => {
-  if (!docenteSelecionado.value) return 0;
+  if (!docenteSelecionado.value || docenteSelecionado.value === 'todos') return 0;
   const abonosDocente = abonar.value.filter(item => item.docenteId === docenteSelecionado.value.id);
   return abonosDocente.reduce((total, abono) => total + (abono.duracao || 0), 0);
 });
 
-// Computed para filtrar o histórico de abonos do docente selecionado
+// Computed para filtrar o histórico de abonos do docente selecionado ou exibir todos
 const historicoAbonar = computed(() => {
+  if (docenteSelecionado.value === 'todos') return abonar.value;
   if (!docenteSelecionado.value) return [];
   return abonar.value.filter(item => item.docenteId === docenteSelecionado.value.id);
 });
-
-// Função para formatar a data
-function formatarData(data) {
-  const dia = String(data.getDate()).padStart(2, '0');
-  const mes = String(data.getMonth() + 1).padStart(2, '0');
-  const ano = data.getFullYear();
-  return `${dia}/${mes}/${ano}`;
-}
 
 // Chama as funções ao montar o componente
 onMounted(() => {
@@ -71,7 +69,11 @@ onMounted(() => {
 });
 
 function criarAbonamento() {
-  // Lógica para redirecionar para a tela de criação de abono
+  exibirCriarAbonamento.value = true;
+}
+
+function fecharCriarAbonamento() {
+  exibirCriarAbonamento.value = false;
 }
 </script>
 
@@ -79,12 +81,13 @@ function criarAbonamento() {
   <div class="lista-abonar">
     <select v-model="docenteSelecionado">
       <option :value="null" disabled>Selecione um docente</option>
+      <option value="todos">Todos</option>
       <option v-for="docente in docentes" :key="docente.id" :value="docente">
         {{ docente.nome }}
       </option>
     </select>
 
-    <div v-if="docenteSelecionado" class="detalhes-docente">
+    <div v-if="docenteSelecionado && docenteSelecionado !== 'todos'" class="detalhes-docente">
       <h3>Detalhes do Docente</h3>
       <div class="barra-utilizacao">
         <div class="barra-preenchida" :style="{ width: (horasUtilizadas / horasTotais) * 100 + '%' }"></div>
@@ -92,24 +95,32 @@ function criarAbonamento() {
       <p>{{ horasUtilizadas }}h de {{ horasTotais }}h utilizadas</p>
     </div>
 
-    <div v-if="docenteSelecionado" class="historico-abonar">
+    <div v-if="historicoAbonar.length" class="historico-abonar">
       <h3>Histórico de Abonamentos</h3>
       <ul>
-        <li v-for="item in historicoAbonar" :key="item.id">
-          <p><strong>{{ item.titulo }}</strong></p>
-          <p>Descrição: {{ item.descricao }}</p>
-          <p>Duração: {{ item.duracao }}h</p>
-          <p>Data de Início: {{ formatarData(item.dataInicio) }}</p>
-          <a :href="item.urlPdf" target="_blank">Visualizar PDF</a>
-        </li>
+        <CardAbonamento
+          v-for="item in historicoAbonar"
+          :key="item.id"
+          :abono="item"
+        />
       </ul>
     </div>
 
     <button @click="criarAbonamento">Criar Abonamento</button>
+    <CriarAbonamento
+      v-if="exibirCriarAbonamento"
+      :docentes="docentes"
+      @fechar="fecharCriarAbonamento"
+    />
+
+    <div v-if="mensagemSucesso" class="mensagem-sucesso">{{ mensagemSucesso }}</div>
+    <div v-if="mensagemErro" class="mensagem-erro">{{ mensagemErro }}</div>
   </div>
 </template>
 
 <style scoped>
+@import url("https://fonts.googleapis.com/css2?family=Dongle&family=Winky+Sans:wght@300..900&display=swap");
+
 .lista-abonar {
   width: 100%;
   padding: 20px;
@@ -190,5 +201,22 @@ button:hover {
   border-radius: 5px;
   margin-bottom: 5px;
   background-color: #f9f9f9;
+}
+#title,b {
+  font-family: 'Winky Sans', sans-serif;
+  font-size: 1rem;
+  margin-bottom: 5px;
+}
+
+.mensagem-sucesso {
+  color: #4caf50;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+.mensagem-erro {
+  color: #f44336;
+  font-size: 14px;
+  margin-top: 10px;
 }
 </style>

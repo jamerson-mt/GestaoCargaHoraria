@@ -1,63 +1,50 @@
 <template>
-  <div class="card" @click="$emit('click')">
-    <div class="card-icon">
-      <i :class="icone"></i>
-    </div>
-    <div class="card-content">
-      <h3>{{ titulo }}</h3>
-      <p>{{ qtdd }}</p>
-    </div>
-  </div>
+  <li class="card-abonamento" @click="$emit('click', abono.urlPdf)">
+    <p id="title"><b>{{ abono.titulo }}</b></p>
+    <p>Descrição: {{ abono.descricao }}</p>
+    <p>Duração: {{ abono.duracao }}h</p>
+    <p>Data de Início: {{ formatarData(abono.dataInicio) }}</p>
+    <a v-if="abono.urlPdf" :href="'http://localhost:5117/'+abono.urlPdf " target="_blank">Visualizar PDF</a>
+    <p v-else>PDF não disponível</p>
+  </li>
 </template>
 
 <script setup>
-import { defineProps, defineEmits } from 'vue';
+import { defineProps } from 'vue';
 
 const props = defineProps({
-  titulo: String,
-  qtdd: Number,
-  icone: String
+  abono: {
+    type: Object,
+    required: true,
+  },
 });
 
-defineEmits(['click']);
+console.log('abono:', props.abono
+);
+function formatarData(data) {
+  const dia = String(data.getDate()).padStart(2, '0');
+  const mes = String(data.getMonth() + 1).padStart(2, '0');
+  const ano = data.getFullYear();
+  return `${dia}/${mes}/${ano}`;
+}
+
+
 </script>
 
 <style scoped>
-.card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 150px;
-  height: 150px;
-  background-color: #f5f5f5;
-  border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  cursor: pointer;
-  transition: transform 0.2s;
+@import url("https://fonts.googleapis.com/css2?family=Dongle&family=Winky+Sans:wght@300..900&display=swap");
+
+.card-abonamento {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-bottom: 5px;
+  background-color: #f9f9f9;
 }
 
-.card:hover {
-  transform: scale(1.05);
-}
-
-.card-icon {
-  font-size: 2em;
-  margin-bottom: 10px;
-}
-
-.card-content {
-  text-align: center;
-}
-
-.card-content h3 {
-  margin: 0;
-  font-size: 1.2em;
-}
-
-.card-content p {
-  margin: 0;
-  font-size: 1em;
-  color: #666;
+#title, b {
+  font-family: 'Winky Sans', sans-serif;
+  font-size: 1rem;
+  margin-bottom: 5px;
 }
 </style>
