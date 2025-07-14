@@ -1,10 +1,12 @@
 <script setup>
 import ListaAbonar from "./ListaAbonar.vue";
+import HeaderTopo from "../Header/HeaderDasViewsParaVoltar.vue";
 </script>
 
 <template>
   <div class="container">
-    <h1>Painel de abonamento</h1>
+    <HeaderTopo title="Painel de Abonamentos" />
+
     <ListaAbonar />
   </div>
 </template>

@@ -24,10 +24,10 @@ const { activeButton, setActiveButton } = useActiveButton();
         @click="setActiveButton('Disciplinas')"
       />
       <SideBarButton
-        title="Pesquisa e extensão"
+        title="Atividades"
         icon="pesquisaicone"
-        :active="activeButton === 'Pesquisa e extensão'"
-        @click="setActiveButton('Pesquisa e extensão')"
+        :active="activeButton === 'Atividades'"
+        @click="setActiveButton('Atividades')"
       />
       <SideBarButton
         title="Abonamentos"

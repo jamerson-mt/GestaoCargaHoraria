@@ -13,7 +13,7 @@ console.log(listaAtual.value);
 
 <template>
   <div class="container">
-    <HeaderTopo title="Gerenciar Atividades" />
+    <HeaderTopo title="Painel de Atividades" />
 
     <ListaAtividades />
 

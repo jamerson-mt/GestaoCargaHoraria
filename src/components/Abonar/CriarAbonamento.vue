@@ -39,6 +39,7 @@ function validarFormulario() {
 async function salvarAbonamento() {
   if (!validarFormulario()) {
     return;
+
   }
 
   const formData = new FormData();
@@ -79,6 +80,7 @@ async function salvarAbonamento() {
 
     alert('Abonamento criado com sucesso!');
     emit('fechar'); // Fechar o componente após salvar
+    //atualize a pagina
   } catch (error) {
     console.error('Erro ao criar abonamento:', error);
     alert(`Erro ao criar abonamento: ${error.message}`);

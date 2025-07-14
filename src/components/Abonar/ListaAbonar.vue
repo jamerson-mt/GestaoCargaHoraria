@@ -77,6 +77,8 @@ function criarAbonamento() {
 
 function fecharCriarAbonamento() {
   exibirCriarAbonamento.value = false;
+  //atualize a pagina
+  location.reload(); // Atualiza a página ao fechar o componente
 }
 
 function handleAbonamentoEvent(eventData) {
@@ -95,7 +97,7 @@ function fecharEditarAbonamento() {
 
 function atualizarAbonar(abonoAtualizado) {
   if (!abonoAtualizado || !abonoAtualizado.id) {
-    location.reload(); // Adicionado para refrescar a página
+    location.reload(); // Atualiza a página ao criar um novo abonamento
     return;
   }
   const index = abonar.value.findIndex(abono => abono.id === abonoAtualizado.id);
@@ -105,7 +107,7 @@ function atualizarAbonar(abonoAtualizado) {
     abonar.value.push(abonoAtualizado);
   }
   exibirCriarAbonamento.value = false;
-  location.reload(); // Adicionado para refrescar a página
+  location.reload(); // Atualiza a página após a criação ou edição
 }
 </script>
 
