@@ -2,42 +2,34 @@
 import { ref, defineEmits } from 'vue';
 
 const props = defineProps({
-  docentes: Array, // Receber a lista de docentes como prop
-  abono: Object, // Receber o objeto de abono como prop
+  docentes: Array,
+  abono: Object,
 });
 
-console.log('Props recebidas:', props.abono);
-
-// Emitir eventos para fechar o componente
-const emit = defineEmits(['fechar']);
+const emit = defineEmits(['fechar', 'atualizar']);
 
 const docenteId = ref(props.abono?.docenteId || null);
 const titulo = ref(props.abono?.titulo || '');
 const descricao = ref(props.abono?.descricao || '');
 const duracao = ref(props.abono?.duracao || 0);
-const dataInicio = ref(props.abono?.dataInicio || '');
-const file = ref(props.abono?.file || null);
-
-const handleFileChange = (event) => {
-  const selectedFile = event.target.files[0];
-  if (selectedFile && selectedFile.type === 'application/pdf') {
-    file.value = selectedFile;
-  } else {
-    file.value = null;
-    alert('Por favor, selecione um arquivo PDF válido.');
-  }
-};
 
 function validarFormulario() {
-  if (!docenteId.value || !titulo.value || !descricao.value || !duracao.value || !dataInicio.value || !file.value) {
-    alert('Por favor, preencha todos os campos obrigatórios e anexe um arquivo PDF válido.');
+  if (!docenteId.value || !titulo.value || !descricao.value || !duracao.value) {
+    alert('Por favor, preencha todos os campos obrigatórios.');
     return false;
   }
   return true;
 }
 
-async function salvarAbonamento() {
+async function atualizarAbonamento() {
   if (!validarFormulario()) {
+    return;
+  }
+
+  console.log('Valor de props.abono:', props.abono); // Depuração
+
+  if (!props.abono || !props.abono.id) {
+    alert('Erro: Abono inválido ou não selecionado.');
     return;
   }
 
@@ -46,54 +38,47 @@ async function salvarAbonamento() {
   formData.append('titulo', titulo.value);
   formData.append('descricao', descricao.value);
   formData.append('duracao', duracao.value);
-  formData.append('dataInicio', dataInicio.value);
-  formData.append('file', file.value);
 
   console.log('Dados enviados:', {
     docenteId: docenteId.value,
     titulo: titulo.value,
     descricao: descricao.value,
     duracao: duracao.value,
-    dataInicio: dataInicio.value,
-    file: file.value,
   });
 
   try {
-    const response = await fetch('http://localhost:5117/api/abonamento', {
-      method: 'POST',
+    const response = await fetch(`http://localhost:5117/api/abonamento/${props.abono.id}`, {
+      method: 'PUT',
       body: formData,
     });
 
     if (!response.ok) {
-      let errorMessage = 'Erro ao criar abonamento';
-      const contentType = response.headers.get('Content-Type');
-      if (contentType && contentType.includes('application/json')) {
-        const errorData = await response.json();
-        errorMessage = errorData.message || errorMessage;
-      } else {
-        const textResponse = await response.text();
-        errorMessage = `Erro inesperado: ${textResponse}`;
-      }
-      throw new Error(errorMessage);
+      throw new Error('Erro ao atualizar abonamento');
     }
 
-    alert('Abonamento criado com sucesso!');
-    emit('fechar'); // Fechar o componente após salvar
+    let abonoAtualizado = null;
+    const responseText = await response.text();
+    if (responseText) {
+      abonoAtualizado = JSON.parse(responseText);
+    }
+
+    emit('atualizar', abonoAtualizado);
+    emit('fechar');
   } catch (error) {
-    console.error('Erro ao criar abonamento:', error);
-    alert(`Erro ao criar abonamento: ${error.message}`);
+    console.error('Erro ao atualizar abonamento:', error);
+    alert(`Erro ao atualizar abonamento: ${error.message}`);
   }
 }
 
 const fecharComponente = () => {
-  emit('fechar'); // Emitir evento para fechar o componente
+  emit('fechar');
 };
 </script>
 
 <template>
-  <div class="criar-abonamento">
-    <h2>Criar Novo Abonamento</h2>
-    <form @submit.prevent="salvarAbonamento">
+  <div class="editar-abonamento">
+    <h2>Editar Abonamento</h2>
+    <form @submit.prevent="atualizarAbonamento">
       <label for="docenteId">Docente:</label>
       <select id="docenteId" v-model="docenteId">
         <option v-for="docente in docentes" :key="docente.id" :value="docente.id">
@@ -120,14 +105,8 @@ const fecharComponente = () => {
         <span>{{ duracao }} horas</span>
       </div>
 
-      <label for="dataInicio">Data de início:</label>
-      <input type="date" id="dataInicio" v-model="dataInicio" class="input-pequeno" />
-
-      <label for="file">Anexar PDF:</label>
-      <input type="file" id="file" @change="handleFileChange" accept="application/pdf" class="input-pequeno" />
-
       <div class="botao-container">
-        <button type="submit">Salvar</button>
+        <button type="submit">Atualizar</button>
         <button type="button" @click="fecharComponente" class="fechar-botao">Fechar</button>
       </div>
     </form>
@@ -135,7 +114,8 @@ const fecharComponente = () => {
 </template>
 
 <style scoped>
-.criar-abonamento {
+.editar-abonamento {
+  /* Estilos semelhantes ao CriarAbonamento */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -170,10 +150,7 @@ label {
 select,
 input[type="text"],
 textarea,
-input[type="date"],
-input[type="file"],
-input[type="range"],
-input[type="number"] {
+input[type="range"] {
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
@@ -181,16 +158,6 @@ input[type="number"] {
   color: #333;
   background-color: #fff;
   transition: border-color 0.3s;
-}
-
-select,
-input[type="text"],
-textarea {
-  width: 80%;
-}
-
-.input-pequeno {
-  width: 50%;
 }
 
 textarea {
@@ -206,7 +173,7 @@ textarea {
 
 button {
   padding: 12px 20px;
-  background-color: #71a47a;
+  background-color: #007bff;
   color: #fff;
   border: none;
   border-radius: 5px;
@@ -217,7 +184,7 @@ button {
 }
 
 button:hover {
-  background-color: #5a8a62;
+  background-color: #0056b3;
 }
 
 .botao-container {
@@ -227,15 +194,7 @@ button:hover {
 }
 
 .fechar-botao {
-  padding: 12px 20px;
   background-color: #d9534f;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.3s;
 }
 
 .fechar-botao:hover {

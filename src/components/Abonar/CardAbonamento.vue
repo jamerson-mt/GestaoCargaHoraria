@@ -1,17 +1,25 @@
 <template>
-  <li class="card-abonamento" @click="$emit('click', abono.urlPdf)">
-    <p id="title"><b>{{ abono.titulo }}</b></p>
-    <p>Descrição: {{ abono.descricao }}</p>
-    <p>Duração: {{ abono.duracao }}h</p>
-    <p>Data de Início: {{ formatarData(abono.dataInicio) }}</p>
-    <a v-if="abono.urlPdf" :href="'http://localhost:5117/'+abono.urlPdf " target="_blank">Visualizar PDF</a>
-    <p v-else>PDF não disponível</p>
+  <li class="card-abonamento" @click="alternarExpandido">
+    <div class="resumo">
+      <h4>{{ abono.titulo }}</h4>
+      <p>{{ abono.duracao }} horas</p>
+    </div>
+    <div v-if="expandido" class="detalhes">
+      <p><strong>Descrição:</strong> {{ abono.descricao }}</p>
+      <p><strong>Data de Início:</strong> {{ abono.dataInicio.toLocaleDateString() }}</p>
+      <a :href="abono.urlPdf" target="_blank">Visualizar PDF</a>
+      <div class="acoes">
+        <button @click.stop="editarAbonamento">Editar</button>
+        <button @click.stop="$emit('remover', abono.id)">Remover</button>
+      </div>
+    </div>
   </li>
 </template>
 
 <script setup>
-import { defineProps } from 'vue';
+import { ref } from 'vue';
 
+// Props recebidas
 const props = defineProps({
   abono: {
     type: Object,
@@ -19,16 +27,27 @@ const props = defineProps({
   },
 });
 
-console.log('abono:', props.abono
-);
-function formatarData(data) {
-  const dia = String(data.getDate()).padStart(2, '0');
-  const mes = String(data.getMonth() + 1).padStart(2, '0');
-  const ano = data.getFullYear();
-  return `${dia}/${mes}/${ano}`;
+// Estado para controlar a expansão
+const expandido = ref(false);
+
+function alternarExpandido() {
+  expandido.value = !expandido.value;
 }
 
+const emit = defineEmits(['editar', 'remover']);
 
+function editarAbonamento() {
+  const valoresExistentes = {
+    id: props.abono.id,
+    titulo: props.abono.titulo,
+    duracao: props.abono.duracao,
+    descricao: props.abono.descricao,
+    dataInicio: props.abono.dataInicio,
+    urlPdf: props.abono.urlPdf,
+    docenteId: props.abono.docenteId,
+  };
+  emit('editar', valoresExistentes); // Emitindo os valores ao clicar em "Editar"
+}
 </script>
 
 <style scoped>
@@ -40,6 +59,52 @@ function formatarData(data) {
   border-radius: 5px;
   margin-bottom: 5px;
   background-color: #f9f9f9;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.card-abonamento:hover {
+  background-color: #e0e0e0;
+}
+
+.resumo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.detalhes {
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.acoes {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+button {
+  padding: 5px 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+button:last-child {
+  background-color: #f44336;
+}
+
+button:last-child:hover {
+  background-color: #d32f2f;
 }
 
 #title, b {

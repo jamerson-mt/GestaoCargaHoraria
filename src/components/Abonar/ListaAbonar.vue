@@ -2,15 +2,18 @@
 import { ref, computed, onMounted } from 'vue';
 import CardAbonamento from './CardAbonamento.vue';
 import CriarAbonamento from './CriarAbonamento.vue';
+import EditarAbonamento from './EditarAbonamento.vue'; // Novo componente para edição
 
 // Dados reativos
 const abonar = ref([]);
 const docentes = ref([]);
 const horasTotais = 52;
-const docenteSelecionado = ref(null);
+const docenteSelecionado = ref('todos'); // Alterado de null para 'todos'
 const exibirCriarAbonamento = ref(false);
+const exibirEditarAbonamento = ref(false); // Controle para exibir o componente de edição
 const mensagemSucesso = ref('');
 const mensagemErro = ref('');
+const abonoParaEdicao = ref(null); // Adicionado para armazenar o abono para edição
 
 // Função para buscar os docentes da API
 async function fetchDocentes() {
@@ -75,6 +78,35 @@ function criarAbonamento() {
 function fecharCriarAbonamento() {
   exibirCriarAbonamento.value = false;
 }
+
+function handleAbonamentoEvent(eventData) {
+  console.log('Evento recebido do CardAbonamento:', eventData);
+  // Adicione lógica para tratar o evento aqui, se necessário
+}
+
+function handleEditarAbonamento(abonoEditado) {
+  exibirEditarAbonamento.value = true;
+  abonoParaEdicao.value = abonoEditado;
+}
+
+function fecharEditarAbonamento() {
+  exibirEditarAbonamento.value = false;
+}
+
+function atualizarAbonar(abonoAtualizado) {
+  if (!abonoAtualizado || !abonoAtualizado.id) {
+    location.reload(); // Adicionado para refrescar a página
+    return;
+  }
+  const index = abonar.value.findIndex(abono => abono.id === abonoAtualizado.id);
+  if (index !== -1) {
+    abonar.value[index] = abonoAtualizado;
+  } else {
+    abonar.value.push(abonoAtualizado);
+  }
+  exibirCriarAbonamento.value = false;
+  location.reload(); // Adicionado para refrescar a página
+}
 </script>
 
 <template>
@@ -102,6 +134,8 @@ function fecharCriarAbonamento() {
           v-for="item in historicoAbonar"
           :key="item.id"
           :abono="item"
+          @editar="handleEditarAbonamento"
+          @remover="handleAbonamentoEvent"
         />
       </ul>
     </div>
@@ -110,7 +144,16 @@ function fecharCriarAbonamento() {
     <CriarAbonamento
       v-if="exibirCriarAbonamento"
       :docentes="docentes"
+      :abono="abonoParaEdicao"
       @fechar="fecharCriarAbonamento"
+      @atualizar="atualizarAbonar"
+    />
+    <EditarAbonamento
+      v-if="exibirEditarAbonamento"
+      :docentes="docentes"
+      :abono="abonoParaEdicao"
+      @fechar="fecharEditarAbonamento"
+      @atualizar="atualizarAbonar"
     />
 
     <div v-if="mensagemSucesso" class="mensagem-sucesso">{{ mensagemSucesso }}</div>
@@ -122,21 +165,22 @@ function fecharCriarAbonamento() {
 @import url("https://fonts.googleapis.com/css2?family=Dongle&family=Winky+Sans:wght@300..900&display=swap");
 
 .lista-abonar {
-  width: 100%;
-  padding: 20px;
+  width: 60%; /* Reduzido de 100% para 80% */
+  padding: 15px; /* Reduzido de 20px para 15px */
   background-color: transparent;
   border: 1px solid #ddd;
   border-radius: 8px;
   overflow-x: auto;
+  margin: 0 auto; /* Centraliza o componente */
 }
 
 .detalhes-docente {
-  margin-top: 20px;
+  margin-top: 15px; /* Reduzido de 20px para 15px */
 }
 
 .barra-utilizacao {
   width: 100%;
-  height: 20px;
+  height: 15px; /* Reduzido de 20px para 15px */
   background-color: #e0e0e0;
   border-radius: 10px;
   overflow: hidden;
@@ -163,8 +207,8 @@ function fecharCriarAbonamento() {
 }
 
 select {
-  width: 100%;
-  padding: 10px;
+  width: 40%; /* Reduzido de 50% para 40% */
+  padding: 8px; /* Reduzido de 10px para 8px */
   margin: 10px 0;
   border: 1px solid #ccc;
   border-radius: 5px;
@@ -173,14 +217,14 @@ select {
 
 button {
   display: block;
-  width: 100%;
-  padding: 10px;
-  margin-top: 20px;
+  width: 40%; /* Reduzido de 100% para 40% */
+  padding: 8px; /* Reduzido de 10px para 8px */
+  margin: 15px auto; /* Centraliza o botão */
   background-color: #007bff;
   color: white;
   border: none;
   border-radius: 5px;
-  font-size: 16px;
+  font-size: 14px; /* Reduzido de 16px para 14px */
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
@@ -196,27 +240,21 @@ button:hover {
 }
 
 .historico-abonar li {
-  padding: 10px;
+  padding: 8px; /* Reduzido de 10px para 8px */
   border: 1px solid #ddd;
   border-radius: 5px;
   margin-bottom: 5px;
   background-color: #f9f9f9;
 }
-#title,b {
+
+#title, b {
   font-family: 'Winky Sans', sans-serif;
-  font-size: 1rem;
+  font-size: 0.9rem; /* Reduzido de 1rem para 0.9rem */
   margin-bottom: 5px;
 }
 
-.mensagem-sucesso {
-  color: #4caf50;
-  font-size: 14px;
-  margin-top: 10px;
-}
-
-.mensagem-erro {
-  color: #f44336;
-  font-size: 14px;
-  margin-top: 10px;
+.mensagem-sucesso, .mensagem-erro {
+  font-size: 12px; /* Reduzido de 14px para 12px */
+  margin-top: 8px; /* Reduzido de 10px para 8px */
 }
 </style>
