@@ -23,4 +23,7 @@ export default defineConfig({
       VITE_API_URL_PROD: 'http://localhost:5117/api/account/test-auth', // Adiciona URL de produção
     },
   },
+  build: {
+    target: 'esnext', // Define o ambiente como ESNext, que suporta Top-level await
+  },
 })
