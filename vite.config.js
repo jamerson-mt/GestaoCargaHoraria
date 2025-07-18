@@ -17,4 +17,10 @@ export default defineConfig({
       '@root': path.resolve(fileURLToPath(new URL('.', import.meta.url))), // Adiciona o alias para @root
     },
   },
+  define: {
+    'process.env': {
+      VITE_API_URL_DEV: 'http://localhost:5117/api/account/test-auth',
+      VITE_API_URL_PROD: 'http://localhost:5117/api/account/test-auth', // Adiciona URL de produção
+    },
+  },
 })

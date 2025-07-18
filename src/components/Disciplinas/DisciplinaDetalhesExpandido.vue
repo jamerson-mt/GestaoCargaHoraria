@@ -13,7 +13,13 @@ const sucessoAlocacao = ref(false);
 
 const fetchProfessoresDisponiveis = async () => {
   try {
-    const response = await fetch("http://localhost:5117/api/docente");
+    const response = await fetch("http://localhost:5117/api/docente",{
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+      },
+      credentials: "include",
+    });
     const data = await response.json();
     professoresDisponiveis.value = data;
   } catch (error) {
@@ -80,7 +86,7 @@ const removerProfessor = async (docenteId) => {
 
     if (response.ok) {
       alert("Professor removido com sucesso!");
-      props.disciplina.docentesNames = props.disciplina.docentesNames.filter(
+      disciplinaState.value.docentesNames = disciplinaState.value.docentesNames.filter(
         (name) => name !== professoresDisponiveis.value.find((p) => p.id === docenteId)?.name
       );
     } else {

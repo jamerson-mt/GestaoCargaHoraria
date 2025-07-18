@@ -7,11 +7,20 @@ const apiStatus = ref(false);
 const mensagemErro = ref("");
 
 onMounted(() => {
-  fetch("http://localhost:5117/api/disciplina")
+
+  fetch("http://localhost:5117/api/disciplina",{
+    headers: {
+      "Content-Type": "application/json",
+      "Accept": "application/json",
+    },
+    credentials: "include", // Incluindo credenciais para autenticação
+  })
     .then((response) => {
-      if (!response.ok) {
-        throw new Error("API não está acessível.");
-      }else{
+      if (!response.status === 403) {
+        window.location.href = "/auth/login";
+        throw new Error("Usuário não autenticado. Redirecionando para login...");
+
+      } else {
         apiStatus.value = true;
       }
     })

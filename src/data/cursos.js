@@ -1,6 +1,12 @@
 async function testApi(url) {
   try {
-    const response = await fetch(url, { method: "GET" });
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      credentials: "include"
+    });
     return response.ok;
   } catch (error) {
     console.error("API não está acessível:", error);
@@ -19,7 +25,8 @@ async function getCursos() {
     method: "GET",
     headers: {
       "Content-Type": "application/json"
-    }
+    },
+    credentials: "include"
   })
     .then((response) => response.json())
     .then((data) => {

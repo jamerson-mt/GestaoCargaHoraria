@@ -15,6 +15,20 @@ const router = useRouter();
 const goToHome = () => {
   router.push('/dashboard');
 };
+
+const logout = async () => {
+  try {
+    await fetch('http://localhost:5117/api/account/logout', { method: 'POST' ,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include', // Incluindo credenciais para autenticação
+    });
+    router.push('/auth/login'); // Redireciona para a página de login após logout
+  } catch (error) {
+    console.error('Erro ao fazer logout:', error);
+  }
+};
 </script>
 
 <template>
@@ -22,8 +36,9 @@ const goToHome = () => {
     <CustomButton label="&#8592; Voltar" :onClick="goToHome" />
     <div class="head-content">
       <h1>{{ title }}</h1>
+      <span class="head-span">Gestor de Carga Horária</span> <!-- Texto movido para baixo do título -->
     </div>
-    <span class="head-span">Gestor de Carga Horária</span>
+    <CustomButton label="Logout" :onClick="logout" />
   </header>
 </template>
 
@@ -50,6 +65,7 @@ const goToHome = () => {
   flex-direction: column;
   align-items: center;
   text-align: center;
+
 }
 
 .head-content h1 {
@@ -60,8 +76,7 @@ const goToHome = () => {
 }
 
 .head-span {
-  position: absolute; /* Permite posicionar o span fora do fluxo normal */
-  right: 1rem; /* Posiciona o span à direita */
+  position: static; /* Remove posicionamento absoluto */
   font-size: 12pt;
   color: #ffffff;
 }

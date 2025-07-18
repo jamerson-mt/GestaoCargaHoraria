@@ -18,7 +18,13 @@ const abonoParaEdicao = ref(null); // Adicionado para armazenar o abono para edi
 // Função para buscar os docentes da API
 async function fetchDocentes() {
   try {
-    const response = await fetch('http://localhost:5117/api/docente'); // Substitua pela URL correta da API
+    const response = await fetch('http://localhost:5117/api/docente',{
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+      credentials: 'include', // Incluindo credenciais para autenticação
+    }); // Substitua pela URL correta da API
     if (!response.ok) throw new Error('Erro ao buscar docentes');
     const data = await response.json();
     docentes.value = data.map(docente => ({
@@ -34,7 +40,13 @@ async function fetchDocentes() {
 // Função para buscar todos os abonos da API
 async function fetchAbonar() {
   try {
-    const response = await fetch('http://localhost:5117/api/abonamento'); // Substitua pela URL correta da API
+    const response = await fetch('http://localhost:5117/api/abonamento',{
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+      credentials: 'include', // Incluindo credenciais para autenticação
+    }); // Substitua pela URL correta da API
     if (!response.ok) throw new Error('Erro ao buscar abonos');
     const data = await response.json();
     abonar.value = data.map(abono => ({
@@ -49,6 +61,15 @@ async function fetchAbonar() {
   } catch (error) {
     console.error(error);
   }
+}
+
+// Função para formatar a data no formato brasileiro
+function formatarDataBrasileira(data) {
+  if (!data) return "";
+  const dia = data.getDate().toString().padStart(2, "0");
+  const mes = (data.getMonth() + 1).toString().padStart(2, "0");
+  const ano = data.getFullYear();
+  return `${dia}/${mes}/${ano}`;
 }
 
 // Computed para calcular as horas utilizadas pelo docente selecionado
@@ -138,7 +159,11 @@ function atualizarAbonar(abonoAtualizado) {
           :abono="item"
           @editar="handleEditarAbonamento"
           @remover="handleAbonamentoEvent"
-        />
+        >
+          <template #default>
+            <p>Data de início: {{ formatarDataBrasileira(item.dataInicio) }}</p>
+          </template>
+        </CardAbonamento>
       </ul>
     </div>
 

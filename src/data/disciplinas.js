@@ -1,6 +1,6 @@
 async function testApi(url) {
   try {
-    const response = await fetch(url, { method: "GET" });
+    const response = await fetch(url, { method: "GET", credentials: "include" });
     return response.ok;
   } catch (error) {
     console.error("API não está acessível:", error);
@@ -19,7 +19,8 @@ async function getDisciplinas() {
     method: "GET",
     headers: {
       "Content-Type": "application/json"
-    }
+    },
+    credentials: "include"
   })
     .then((response) => response.json())
     .then((data) => {
@@ -38,7 +39,8 @@ export async function getDisciplinasByDocenteId(docenteId) {
     method: "GET",
     headers: {
       "Content-Type": "application/json"
-    }
+    },
+    credentials: "include"
   })
     .then((response) => response.json())
     .then((data) => {
@@ -58,6 +60,7 @@ export async function atribuirDocenteDisciplina(disciplinaId, docenteId) {
     headers: {
       "Content-Type": "application/json"
     },
+    credentials: "include",
     body: JSON.stringify({ disciplinaId, docenteId })
   })
     .then((response) => response.json())

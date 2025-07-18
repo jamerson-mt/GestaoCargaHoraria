@@ -16,7 +16,13 @@ const selectedDisciplina = ref(null);
 
 const fetchDisciplinas = async () => {
   try {
-    const response = await fetch("http://localhost:5117/api/disciplina");
+    const response = await fetch("http://localhost:5117/api/disciplina",{
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+      credentials: "include"
+    });
     const data = await response.json();
     disciplinas.value = data;
   } catch (error) {
@@ -26,7 +32,13 @@ const fetchDisciplinas = async () => {
 
 const fetchCursos = async () => {
   try {
-    const response = await fetch("http://localhost:5117/api/curso");
+    const response = await fetch("http://localhost:5117/api/curso",{
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+      credentials: "include"
+    });
     const data = await response.json();
     cursos.value = data;
   } catch (error) {
@@ -36,7 +48,13 @@ const fetchCursos = async () => {
 
 const fetchDocentesNames = async (disciplinaId) => {
   try {
-    const disciplinaResponse = await fetch(`http://localhost:5117/api/disciplinadocente/disciplina/${disciplinaId}`);
+    const disciplinaResponse = await fetch(`http://localhost:5117/api/disciplinadocente/disciplina/${disciplinaId}`,{
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+      credentials: "include"
+    });
     const docentesIds = await disciplinaResponse.json();
 
     if (Array.isArray(docentesIds) && docentesIds.length > 0) {

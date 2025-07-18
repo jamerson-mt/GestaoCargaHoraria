@@ -3,7 +3,6 @@ import { shallowRef, markRaw } from "vue";
 import { useRoute } from "vue-router";
 import CardAbonamento from "@/components/Abonar/CardAbonamento.vue";
 import DetalhesAbonamento from "@/components/Abonar/DetalhesAbonamento.vue";
-import CriarAbonamento from "@/components/Abonar/CriarAbonamento.vue";
 import { docentes } from "@/data/docentes.js";
 
 const route = useRoute();
@@ -13,10 +12,6 @@ const docente = docentes.find((d) => d.id === parseInt(docenteId)); // Pegando o
 const currentComponent = shallowRef(null);
 const componentProps = shallowRef({});
 
-const showComponent = (component, props = {}) => {
-  currentComponent.value = markRaw(component);
-  componentProps.value = props;
-};
 
 const toggleComponent = (component, props = {}) => {
   if (currentComponent.value === component) {
@@ -28,10 +23,7 @@ const toggleComponent = (component, props = {}) => {
   }
 };
 
-const create = () => {
-  console.log("Criar novo abonamento");
-  toggleComponent(CriarAbonamento, { docente });
-};
+
 </script>
 
 <template>

@@ -33,6 +33,10 @@ const irParaAbonamento = () => {
 const removeDocente = () => {
   fetch(`http://localhost:5117/api/docente/${props.docenteId}`, {
     method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include', // Incluindo credenciais para autenticação
   })
     .then(() => {
       window.location.reload();
@@ -59,6 +63,7 @@ const fetchDisciplinas = async () => {
       headers: {
         "Content-Type": "application/json",
       },
+      credentials: "include", // Incluindo credenciais para autenticação
     });
     const data = await response.json();
     docenteDisciplinas.value = await getDisciplinas(data); // Reutilizando a função getDisciplinas
@@ -74,6 +79,8 @@ const fetchAtividades = async () => {
       headers: {
         "Content-Type": "application/json",
       },
+      credentials: "include", // Incluindo credenciais para autenticação
+
     });
     const data = await response.json();
     docenteAtividades.value = data;

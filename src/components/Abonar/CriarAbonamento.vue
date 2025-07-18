@@ -1,5 +1,7 @@
 <script setup>
 import { ref, defineEmits } from 'vue';
+import { format } from 'date-fns'; // Certifique-se de que o pacote está instalado
+import { ptBR } from 'date-fns/locale';
 
 const props = defineProps({
   docentes: Array, // Receber a lista de docentes como prop
@@ -15,7 +17,7 @@ const docenteId = ref(props.abono?.docenteId || null);
 const titulo = ref(props.abono?.titulo || '');
 const descricao = ref(props.abono?.descricao || '');
 const duracao = ref(props.abono?.duracao || 0);
-const dataInicio = ref(props.abono?.dataInicio || '');
+const dataInicio = ref(props.abono?.dataInicio ? format(new Date(props.abono.dataInicio), 'dd/MM/yyyy', { locale: ptBR }) : '');
 const file = ref(props.abono?.file || null);
 
 const handleFileChange = (event) => {
@@ -27,6 +29,11 @@ const handleFileChange = (event) => {
     alert('Por favor, selecione um arquivo PDF válido.');
   }
 };
+
+function formatarDataParaISO(data) {
+  const [dia, mes, ano] = data.split('/');
+  return `${ano}-${mes}-${dia}`;
+}
 
 function validarFormulario() {
   if (!docenteId.value || !titulo.value || !descricao.value || !duracao.value || !dataInicio.value || !file.value) {
@@ -47,7 +54,7 @@ async function salvarAbonamento() {
   formData.append('titulo', titulo.value);
   formData.append('descricao', descricao.value);
   formData.append('duracao', duracao.value);
-  formData.append('dataInicio', dataInicio.value);
+  formData.append('dataInicio', formatarDataParaISO(dataInicio.value));
   formData.append('file', file.value);
 
   console.log('Dados enviados:', {
@@ -62,7 +69,12 @@ async function salvarAbonamento() {
   try {
     const response = await fetch('http://localhost:5117/api/abonamento', {
       method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+      },
+      credentials: 'include', // Incluindo credenciais para autenticação
       body: formData,
+
     });
 
     if (!response.ok) {
@@ -111,19 +123,16 @@ const fecharComponente = () => {
 
       <label for="duracao">Horas utilizadas:</label>
       <div class="range-container">
-        <input
-          type="range"
-          id="duracao"
-          min="0"
-          max="24"
-          step="1"
-          v-model="duracao"
-        />
+        <input type="range" id="duracao" min="0" max="24" step="1" v-model="duracao" />
         <span>{{ duracao }} horas</span>
       </div>
 
       <label for="dataInicio">Data de início:</label>
-      <input type="date" id="dataInicio" v-model="dataInicio" class="input-pequeno" />
+      <input
+        type="date"
+        id="dataInicio"
+        v-model="dataInicio"
+      />
 
       <label for="file">Anexar PDF:</label>
       <input type="file" id="file" @change="handleFileChange" accept="application/pdf" class="input-pequeno" />

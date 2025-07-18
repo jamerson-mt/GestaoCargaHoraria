@@ -42,7 +42,6 @@ function carregarDocentes() {
     })
     .catch(error => {
       console.error('Erro ao carregar docentes:', error);
-      alert('Erro ao carregar a lista de docentes.');
     });
 }
 
@@ -59,7 +58,6 @@ function carregarAtividades() {
     })
     .catch(error => {
       console.error('Erro ao carregar atividades:', error);
-      alert('Erro ao carregar a lista de atividades.');
     });
 }
 
@@ -113,11 +111,9 @@ function criarAtividade() {
       })
       .catch((error) => {
         console.error('Erro:', error);
-        alert('Erro ao criar atividade. Tente novamente.');
       });
   } catch (error) {
     console.error('Erro:', error);
-    alert('Erro inesperado. Tente novamente.');
   }
 
   Object.assign(novaAtividade, { titulo: '', descricao: '', duracao: null, tipo: null, docenteId: null }); // Limpa os campos
@@ -144,14 +140,12 @@ function removerAtividade(atividadeId) {
     })
     .catch(error => {
       console.error('Erro ao remover atividade:', error);
-      alert('Erro ao remover a atividade. Tente novamente.');
     });
 }
 
 function atualizarAtividade(atividadeId) {
   const atividade = atividades.value.find((a) => a.id === atividadeId);
   if (!atividade) {
-    alert('Atividade não encontrada.');
     return;
   }
 

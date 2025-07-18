@@ -7,6 +7,7 @@ import disciplinasRoutes from './disciplinasRouter'
 import DocentesRoutes from './docentesRouter'
 import AbonarRoutes from './abonarRouter'
 import AtividadesRoutes from './atividadesRouter'
+import AuthUserRoutes from './authUserRouter'
 
 
 const router = createRouter({
@@ -23,6 +24,8 @@ const router = createRouter({
       component: DashboardView,
     },
 
+
+    ...AuthUserRoutes,
     ...DocentesRoutes,
     ...cursosRoutes,
     ...disciplinasRoutes,
