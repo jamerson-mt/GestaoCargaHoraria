@@ -15,10 +15,16 @@ const criarDocente = () => {
       headers: {
         'Content-Type': 'application/json'
       },
+      credentials: 'include',
+
       body: JSON.stringify(docente.value)
     })
       .then(response => response.json())
       .then(data => {
+        //faca verificacao aqui
+        if (!data || !data.id) {
+          throw new Error('Docente não criado corretamente');
+        }
         alert('Docente criado com sucesso!', data);
         router.push('/docentes').then(() => {
           window.location.reload();

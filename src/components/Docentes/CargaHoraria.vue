@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue';
 import { useRouter } from 'vue-router';
-import { getDisciplinas } from '@/utils/getDiscipline.js'; // Atualizado para usar o utilitário
+import { getDisciplinas } from '@/utils/getDisciplinas.js'; // Atualizado para usar o utilitário
 
 // eslint-disable-next-line no-unused-vars
 const horasAulasSemanais = ref(0);

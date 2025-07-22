@@ -2,7 +2,7 @@
 import { ref, onMounted, defineProps } from "vue";
 import DisciplinaItem from './DisciplinaItem.vue';
 import DisciplinaDetalhes from './DisciplinaDetalhes.vue';
-import { getDisciplinas } from "../../utils/getDiscipline.js";
+import { getDisciplinas } from "../../utils/getDisciplinas.js";
 const mostrar = ref(false);
 
 const disciplinasDisponiveis = ref([]);

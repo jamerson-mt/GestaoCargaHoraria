@@ -30,7 +30,13 @@ function atualizarFiltro(novoFiltro) {
 const docentes = ref([]);
 
 function carregarDocentes() {
-  fetch("http://localhost:5117/api/docente")
+  fetch("http://localhost:5117/api/docente", {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include', // Incluindo credenciais
+  })
     .then(response => {
       if (!response.ok) {
         throw new Error('Erro ao carregar docentes');
@@ -46,7 +52,13 @@ function carregarDocentes() {
 }
 
 function carregarAtividades() {
-  fetch("http://localhost:5117/api/atividade")
+  fetch("http://localhost:5117/api/atividade", {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include', // Incluindo credenciais
+  })
     .then(response => {
       if (!response.ok) {
         throw new Error('Erro ao carregar atividades');
@@ -85,36 +97,28 @@ function fecharModalCriar() {
 }
 
 function criarAtividade() {
-
-
-  console.log('Criando atividade:', novaAtividade);
-
-  try {
-    fetch("http://localhost:5117/api/atividade", {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(novaAtividade)
+  fetch("http://localhost:5117/api/atividade", {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include', // Incluindo credenciais
+    body: JSON.stringify(novaAtividade),
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Erro ao criar atividade');
+      }
+      return response.json();
     })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Erro ao criar atividade');
-        }
-        return response.json();
-      })
-      .then(data => {
-        emit('atividadeCriada', data); // Emite evento para atualizar a lista de atividades no componente pai
-        atividades.value.push(data); // Adiciona a nova atividade na lista local
-        fecharModalCriar();
-        console.log('Atividade criada com sucesso:', data);
-      })
-      .catch((error) => {
-        console.error('Erro:', error);
-      });
-  } catch (error) {
-    console.error('Erro:', error);
-  }
+    .then(data => {
+      emit('atividadeCriada', data);
+      atividades.value.push(data);
+      fecharModalCriar();
+    })
+    .catch(error => {
+      console.error('Erro ao criar atividade:', error);
+    });
 
   Object.assign(novaAtividade, { titulo: '', descricao: '', duracao: null, tipo: null, docenteId: null }); // Limpa os campos
 }
@@ -126,17 +130,14 @@ function removerAtividade(atividadeId) {
 
   fetch(`http://localhost:5117/api/atividade/${atividadeId}`, {
     method: 'DELETE',
+    credentials: 'include', // Incluindo credenciais
   })
     .then(response => {
       if (!response.ok) {
         throw new Error('Erro ao remover atividade');
       }
-      // Atualiza a lista local de atividades
       const atividadeRemovida = atividades.value.find(atividade => atividade.id === atividadeId);
-
-      // atualize o componente
-      emit('atividadeRemovida', atividadeRemovida); // Emite evento para o componente pai
-      console.log('Atividade removida com sucesso');
+      emit('atividadeRemovida', atividadeRemovida);
     })
     .catch(error => {
       console.error('Erro ao remover atividade:', error);
@@ -152,34 +153,32 @@ function atualizarAtividade(atividadeId) {
   Object.assign(novaAtividade, { ...atividade }); // Preenche o modal com os dados da atividade
   mostrarModalCriar.value = true;
   console.log('Atualizando atividade:', novaAtividade);
-
 }
 
 function salvarAlteracoes() {
   fetch(`http://localhost:5117/api/atividade/${novaAtividade.id}`, {
     method: 'PUT',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     },
-    body: JSON.stringify(novaAtividade)
+    credentials: 'include', // Incluindo credenciais
+    body: JSON.stringify(novaAtividade),
   })
     .then(response => {
       if (!response.ok) {
         throw new Error('Erro ao atualizar atividade');
       }
-      //feche o modal e atualize os dados
       const index = atividades.value.findIndex(atividade => atividade.id === novaAtividade.id);
       if (index !== -1) {
-        atividades.value[index] = { ...novaAtividade }; // Atualiza a atividade na lista local
+        atividades.value[index] = { ...novaAtividade };
       }
-      emit('atividadeCriada', novaAtividade); // Emite evento para atualizar a lista de atividades no componente pai
-
+      emit('atividadeCriada', novaAtividade);
       fecharModalCriar();
     })
-
+    .catch(error => {
+      console.error('Erro ao atualizar atividade:', error);
+    });
 }
-
-
 </script>
 
 <template>

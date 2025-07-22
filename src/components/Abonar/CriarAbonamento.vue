@@ -31,7 +31,7 @@ const handleFileChange = (event) => {
 };
 
 function formatarDataParaISO(data) {
-  const [dia, mes, ano] = data.split('/');
+  const [ano, mes, dia] = data.split('-'); // Ajustar para o formato correto
   return `${ano}-${mes}-${dia}`;
 }
 
@@ -54,7 +54,7 @@ async function salvarAbonamento() {
   formData.append('titulo', titulo.value);
   formData.append('descricao', descricao.value);
   formData.append('duracao', duracao.value);
-  formData.append('dataInicio', formatarDataParaISO(dataInicio.value));
+  formData.append('dataInicio', formatarDataParaISO(dataInicio.value)); // Corrigir formatação
   formData.append('file', file.value);
 
   console.log('Dados enviados:', {

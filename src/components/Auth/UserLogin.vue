@@ -1,8 +1,10 @@
 <script setup >
 import { ref } from "vue";
+import { useRouter } from "vue-router"; // Importação do roteador
 
 const email = ref("");
 const password = ref("");
+const router = useRouter(); // Instância do roteador
 
 const handleSubmit = async () => {
   try {
@@ -27,6 +29,10 @@ const handleSubmit = async () => {
 
     const data = await response.json();
     console.log("Login realizado com sucesso:", data);
+
+    router.push("/dashboard"); // Redireciona para /dashboard após login
+    //atualizar
+     // Recarrega a página para refletir o estado atualizado
   } catch (error) {
     console.error("Erro ao realizar a operação:", error.message);
   }

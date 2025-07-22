@@ -5,57 +5,63 @@ import { ref, computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import CardDocenteOne from "@/components/Docentes/CardDocenteOne.vue";
 import CardInfos from './CardInfos.vue';
-import { disciplinas } from "@/data/disciplinas";
-import { docentes } from "@/data/docentes";
 import { getAtividades } from '@/utils/getAtividades';
-// import { administracao } from '@/data/administracao';
-// import { extensao } from '@/data/extensao';
-// import { apoioaoensino } from '@/data/apoioAoEnsino';
+import { getDocentes } from "@/utils/getDocentes";
+import { getDisciplinas } from "@/utils/getDisciplinas";
 
 const atividades = ref([]);
+const docentes = ref([]);
+const disciplinas = ref([]);
+const carregandoAtividades = ref(true);
+const carregandoDocentes = ref(true);
+const carregandoDisciplinas = ref(true);
+
+const fetchAtividades = async () => {
+  const data = await getAtividades();
+  atividades.value = data;
+  carregandoAtividades.value = false;
+};
+
+const fetchDocentes = async () => {
+  const data = await getDocentes();
+  docentes.value = data;
+  carregandoDocentes.value = false;
+};
+
+const fetchDisciplinas = async () => {
+  const data = await getDisciplinas();
+  disciplinas.value = data;
+  carregandoDisciplinas.value = false;
+};
 
 onMounted(() => {
-  getAtividades().then((data) => {
-    atividades.value = data;
-  });
+  fetchAtividades();
+  fetchDocentes();
+  fetchDisciplinas();
 });
-const selectedComponent = ref(null);
-const selectedProps = ref({});
-
-// function handleCardClick(component, props = {}) {
-//   selectedComponent.value = component;
-//   selectedProps.value = props;
-// }
 
 const router = useRouter();
 
-
-// const DocentesComponent = defineAsyncComponent(() => import('@/components/Docentes/ListaDocentes.vue'));
-// const CursosComponent = defineAsyncComponent(() => import('@/components/Cursos/ListaCursos.vue'));
-// const DisciplinasComponent = defineAsyncComponent(() => import('@/components/Disciplinas/ListaDisciplinas.vue'));
-// const AtividadesComponent = defineAsyncComponent(() => import('@/components/Atividades/ListaAtividades.vue'));
-
-// const ApoioComponent = defineAsyncComponent(() => import('@/components/ApoioAdm/ListaApoioAdm.vue'));
-// const AdministracaoComponent = defineAsyncComponent(() => import('@/components/Adm/ListaAttAdm.vue'));
-// const ExtensaoComponent = defineAsyncComponent(() => import('@/components/Extensao/ListaExtensao.vue'));
-//
 const disciplinasSemDocentes = computed(() => {
-  return disciplinas.filter(d => !d.disciplinaDocentes || d.disciplinaDocentes.length === 0).length;
+  return disciplinas.value.filter(d => !d.disciplinaDocentes || d.disciplinaDocentes.length === 0).length;
 });
 
 const docentesComCargaAlta = computed(() => {
-  return docentes.filter(d => d.disciplinaDocentes && d.disciplinaDocentes.length > 3).length;
+  return docentes.value.filter(d => d.disciplinaDocentes && d.disciplinaDocentes.length > 3).length;
 });
 
 const docentesComCargaBaixa = computed(() => {
-  return docentes.filter(d => d.disciplinaDocentes && d.disciplinaDocentes.length <= 1).length;
+  return docentes.value.filter(d => d.disciplinaDocentes && d.disciplinaDocentes.length <= 1).length;
 });
 </script>
 
 <template>
   <div class="container">
     <h1>Painel principal</h1>
-    <div class="painel-dashboard">
+    <div v-if="carregandoDocentes || carregandoDisciplinas || carregandoAtividades" class="loading">
+      <p>Carregando dados...</p>
+    </div>
+    <div v-else class="painel-dashboard">
       <CardDocenteOne titulo="Gerir Docentes" :qtdd="docentes.length" icone="pessoasgreen"
         @click="router.push('/docentes')" />
 
@@ -66,7 +72,7 @@ const docentesComCargaBaixa = computed(() => {
         icone="atividade" />
     </div>
 
-    <div v-if="!selectedComponent" class="info-gerais">
+    <div v-if="!carregandoDocentes && !carregandoDisciplinas && !carregandoAtividades" class="info-gerais">
       <h2>Informações Gerais</h2>
       <div class="info-cards">
         <CardInfos title="Docentes com Carga Alta" :qtd="docentesComCargaAlta" status="vermelho" />
@@ -84,6 +90,12 @@ const docentesComCargaBaixa = computed(() => {
 </template>
 
 <style scoped>
+.loading {
+  text-align: center;
+  font-size: 18px;
+  color: #007bff;
+}
+
 h1 {
   text-align: center;
 }
