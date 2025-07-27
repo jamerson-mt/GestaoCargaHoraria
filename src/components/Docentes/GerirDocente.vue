@@ -31,9 +31,9 @@ const toggleComponent = (component, props = {}) => {
 
 //faca um fetch para pegar um docente especifico
 const docente = ref({});
-
+const apiUrl = import.meta.env.VITE_API_URL;
 onMounted(async () => {
-  fetch(`http://localhost:5117/api/docente/${route.params.id}`)
+  fetch(`${apiUrl}docente/${route.params.id}`)
     .then((response) => response.json())
     .then((data) => {
       docente.value = data;

@@ -4,6 +4,8 @@ import { useRoute } from "vue-router";
 
 const route = useRoute();
 
+const apiUrl = import.meta.env.VITE_API_URL;
+
 const docenteId = parseInt(route.params.id); // Certifique-se de que o ID é um número
 const docenteDisciplinas = ref([]);
 const docenteAtividades = ref([]);
@@ -14,7 +16,7 @@ const getDisciplinas = async (disciplinaIds) => {
   const fetchedDisciplinas = [];
   for (const d of disciplinaIds) {
     try {
-      const response = await fetch(`http://localhost:5117/api/disciplina/${d.disciplinaId}`, {
+      const response = await fetch(`${apiUrl}disciplina/${d.disciplinaId}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -31,7 +33,7 @@ const getDisciplinas = async (disciplinaIds) => {
 
 const fetchDisciplinas = async () => {
   try {
-    const response = await fetch(`http://localhost:5117/api/disciplinadocente/docente/${docenteId}`, {
+    const response = await fetch(`${apiUrl}disciplinadocente/docente/${docenteId}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -49,7 +51,7 @@ const fetchDisciplinas = async () => {
 };
 const fetchAtividades = async () => {
   try {
-    const response = await fetch(`http://localhost:5117/api/atividade/docente/${docenteId}`, {
+    const response = await fetch(`${apiUrl}atividade/docente/${docenteId}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

@@ -2,7 +2,7 @@
 
 import { defineProps } from "vue";
 
-import Status from "@/components/Cards/Status.vue";
+import Status from "@/components/Cards/StatusContainer.vue";
 
 const props = defineProps({
   horasUtilizadas: Number,

@@ -1,6 +1,7 @@
+const apiUrl = import.meta.env.VITE_API_URL;
 export const getAtividades = async () => {
     try {
-      const response = await fetch(`http://localhost:5117/api/atividade/`, {
+      const response = await fetch(`${apiUrl}atividade/`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

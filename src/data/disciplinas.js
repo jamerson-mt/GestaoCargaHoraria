@@ -1,3 +1,4 @@
+const apiUrl = import.meta.env.VITE_API_URL; // Obtém a URL base da API do .env
 async function testApi(url) {
   try {
     const response = await fetch(url, { method: "GET", credentials: "include" });
@@ -9,13 +10,13 @@ async function testApi(url) {
 }
 
 async function getDisciplinas() {
-  const apiUrl = "http://localhost:5117/api/disciplina";
-  const isApiAvailable = await testApi(apiUrl);
+  const endpoint = `${apiUrl}disciplina`; // Usa a constante apiUrl
+  const isApiAvailable = await testApi(endpoint);
   if (!isApiAvailable) {
     console.error("API não está acessível. Retornando array vazio.");
     return [];
   }
-  return fetch(apiUrl, {
+  return fetch(endpoint, {
     method: "GET",
     headers: {
       "Content-Type": "application/json"
@@ -29,13 +30,13 @@ async function getDisciplinas() {
 }
 
 export async function getDisciplinasByDocenteId(docenteId) {
-  const apiUrl = `http://localhost:5117/api/disciplinadocente/docente/${docenteId}`;
-  const isApiAvailable = await testApi(apiUrl);
+  const endpoint = `${apiUrl}disciplinadocente/docente/${docenteId}`; // Usa a constante apiUrl
+  const isApiAvailable = await testApi(endpoint);
   if (!isApiAvailable) {
     console.error("API não está acessível. Retornando array vazio.");
     return [];
   }
-  return fetch(apiUrl, {
+  return fetch(endpoint, {
     method: "GET",
     headers: {
       "Content-Type": "application/json"
@@ -49,13 +50,13 @@ export async function getDisciplinasByDocenteId(docenteId) {
 }
 
 export async function atribuirDocenteDisciplina(disciplinaId, docenteId) {
-  const apiUrl = "http://localhost:5117/api/disciplinadocente/";
-  const isApiAvailable = await testApi(apiUrl);
+  const endpoint = `${apiUrl}disciplinadocente/`; // Usa a constante apiUrl
+  const isApiAvailable = await testApi(endpoint);
   if (!isApiAvailable) {
     console.error("API não está acessível. Não foi possível atribuir docente.");
     return;
   }
-  return fetch(apiUrl, {
+  return fetch(endpoint, {
     method: "POST",
     headers: {
       "Content-Type": "application/json"

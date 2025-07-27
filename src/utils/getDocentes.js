@@ -1,21 +1,23 @@
+const apiUrl = import.meta.env.VITE_API_URL;
+
 async function testApi(url) {
   try {
     const response = await fetch(url, { method: "GET", credentials: "include" });
     return response.ok;
+  // eslint-disable-next-line no-unused-vars
   } catch (error) {
-    console.error("API não está acessível:", error);
+    console.error("API não está acessível:");
     return false;
   }
 }
-
 export async function getDocentes() {
-  const apiUrl = "http://localhost:5117/api/docente";
-  const isApiAvailable = await testApi(apiUrl);
+  const url = apiUrl+"docente";
+  const isApiAvailable = await testApi(url);
   if (!isApiAvailable) {
-    console.error("API não está acessível. Retornando array vazio.");
+    console.error("API não está acessível no momento. Por favor, tente novamente mais tarde.");
     return [];
   }
-  return fetch(apiUrl, {
+  return fetch(url, {
     method: "GET",
     headers: {
       "Content-Type": "application/json"

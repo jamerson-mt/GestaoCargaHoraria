@@ -14,11 +14,11 @@ const exibirEditarAbonamento = ref(false); // Controle para exibir o componente 
 const mensagemSucesso = ref('');
 const mensagemErro = ref('');
 const abonoParaEdicao = ref(null); // Adicionado para armazenar o abono para edição
-
+const apiUrl = import.meta.env.VITE_API_URL; // URL da API
 // Função para buscar os docentes da API
 async function fetchDocentes() {
   try {
-    const response = await fetch('http://localhost:5117/api/docente',{
+    const response = await fetch(`${apiUrl}docente`, {
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
@@ -40,7 +40,7 @@ async function fetchDocentes() {
 // Função para buscar todos os abonos da API
 async function fetchAbonar() {
   try {
-    const response = await fetch('http://localhost:5117/api/abonamento',{
+    const response = await fetch(`${apiUrl}abonamento`, {
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',

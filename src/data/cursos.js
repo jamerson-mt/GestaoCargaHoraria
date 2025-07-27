@@ -1,3 +1,5 @@
+const apiUrl = import.meta.env.VITE_API_URL; // Obtém a URL base da API do .env
+
 async function testApi(url) {
   try {
     const response = await fetch(url, {
@@ -15,13 +17,13 @@ async function testApi(url) {
 }
 
 async function getCursos() {
-  const apiUrl = "http://localhost:5117/api/curso";
-  const isApiAvailable = await testApi(apiUrl);
+  const endpoint = `${apiUrl}curso`; // Usa a constante apiUrl
+  const isApiAvailable = await testApi(endpoint);
   if (!isApiAvailable) {
     console.error("API não está acessível. Retornando array vazio.");
     return [];
   }
-  return fetch(apiUrl, {
+  return fetch(endpoint, {
     method: "GET",
     headers: {
       "Content-Type": "application/json"

@@ -8,6 +8,8 @@ const props = defineProps({
   abono: Object, // Receber o objeto de abono como prop
 });
 
+// Definir a URL base da API
+const apiUrl = import.meta.env.VITE_API_URL
 console.log('Props recebidas:', props.abono);
 
 // Emitir eventos para fechar o componente
@@ -67,7 +69,7 @@ async function salvarAbonamento() {
   });
 
   try {
-    const response = await fetch('http://localhost:5117/api/abonamento', {
+    const response = await fetch(`${apiUrl}abonamento`, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',

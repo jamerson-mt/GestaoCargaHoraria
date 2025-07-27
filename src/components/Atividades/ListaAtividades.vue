@@ -28,9 +28,9 @@ function atualizarFiltro(novoFiltro) {
 }
 
 const docentes = ref([]);
-
+const apiUrl = import.meta.env.VITE_API_URL; // URL da API
 function carregarDocentes() {
-  fetch("http://localhost:5117/api/docente", {
+  fetch(`${apiUrl}docente`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -52,7 +52,7 @@ function carregarDocentes() {
 }
 
 function carregarAtividades() {
-  fetch("http://localhost:5117/api/atividade", {
+  fetch(`${apiUrl}atividade`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -97,7 +97,7 @@ function fecharModalCriar() {
 }
 
 function criarAtividade() {
-  fetch("http://localhost:5117/api/atividade", {
+  fetch(`${apiUrl}atividade`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -128,7 +128,7 @@ function removerAtividade(atividadeId) {
     return;
   }
 
-  fetch(`http://localhost:5117/api/atividade/${atividadeId}`, {
+  fetch(`${apiUrl}atividade/${atividadeId}`, {
     method: 'DELETE',
     credentials: 'include', // Incluindo credenciais
   })
@@ -156,7 +156,7 @@ function atualizarAtividade(atividadeId) {
 }
 
 function salvarAlteracoes() {
-  fetch(`http://localhost:5117/api/atividade/${novaAtividade.id}`, {
+  fetch(`${apiUrl}atividade/${novaAtividade.id}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',

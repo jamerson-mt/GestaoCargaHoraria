@@ -14,15 +14,6 @@ const showComponent = (component, props = {}) => {
   componentProps.value = props;
 };
 
-const toggleComponent = (component, props = {}) => {
-  if (currentComponent.value === component) {
-    currentComponent.value = null;
-    componentProps.value = {};
-  } else {
-    currentComponent.value = markRaw(component);
-    componentProps.value = props;
-  }
-};
 
 const nextPage = (cursoId) => {
   console.log(cursoId);

@@ -15,10 +15,10 @@ const cursos = ref([])
 
 const mensagem = ref('');
 const tipoMensagem = ref('');
-
+const apiUrl = import.meta.env.VITE_API_URL;
 const criarDisciplina = () => {
   if (disciplina.value.name && disciplina.value.cursoId) {
-    fetch('http://localhost:5117/api/disciplina', {
+    fetch(`${apiUrl}disciplina`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -26,10 +26,10 @@ const criarDisciplina = () => {
       body: JSON.stringify(disciplina.value)
     })
       .then(response => response.json())
-      .then(data => {
+      .then(() => {
         tipoMensagem.value = 'sucesso';
         mensagem.value = 'Disciplina cadastrada com sucesso!';
-        router.push('/').then(() => {
+        router.push('/disciplina').then(() => {
           window.location.reload();
         });
       })
@@ -47,7 +47,7 @@ const criarDisciplina = () => {
 
 const fetchCursos = async () => {
   try {
-    const response = await fetch("http://localhost:5117/api/curso");
+    const response = await fetch(`${apiUrl}curso`);
     const data = await response.json();
     cursos.value = data;
   } catch (error) {

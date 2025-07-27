@@ -4,7 +4,6 @@ const disciplinasqtdd = ref(0);
 const mostrarDisciplinas = ref(true);
 const searchQuery = ref("");
 const filterStatus = ref("");
-import CardDocenteOne from "@/components/Docentes/CardDocenteOne.vue";
 import {disciplinas} from "../../data/disciplinas";
 import ListaDisciplinas from "./ListaDisciplinas.vue";
 import HeaderDasViewsParaVoltar from "../Header/HeaderDasViewsParaVoltar.vue";
@@ -17,9 +16,6 @@ const fetchDisciplinasStatus = () => {
    disciplinasqtdd.value =  disciplinas.length;
 };
 
-const alternarDisciplinas = () => {
-  mostrarDisciplinas.value = !mostrarDisciplinas.value;
-};
 
 const filteredDisciplinas = computed(() => {
   return disciplinas.filter((disciplina) => {

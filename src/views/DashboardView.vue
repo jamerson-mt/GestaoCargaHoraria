@@ -6,10 +6,10 @@ const apiStatus = ref(false);
 const contador = ref(0);
 const mensagemErro = ref("");
 const dadosCarregados = ref(false);
-
+const apiUrl = import.meta.env.VITE_API_URL; // URL da API configurada no .env
 const checkAuthentication = async () => {
   try {
-    const response = await fetch("http://localhost:5117/api/disciplina", {
+    const response = await fetch(`${apiUrl}disciplina`, {
       headers: {
         "Content-Type": "application/json",
         "Accept": "application/json",
@@ -19,15 +19,16 @@ const checkAuthentication = async () => {
 
     if (response.status === 403) {
       window.location.href = "/auth/login";
-      throw new Error("Usuário não autenticado. Redirecionando para login...");
+      throw new Error("Usuário não autenticado.");
     }
 
     const data = await response.json();
     contador.value = data.length; // Exemplo de uso dos dados
     apiStatus.value = true;
     dadosCarregados.value = true; // Indica que os dados foram carregados
+  // eslint-disable-next-line no-unused-vars
   } catch (error) {
-    console.error("Erro ao conectar com a API:", error);
+    console.error("Erro ao conectar com a API:");
     apiStatus.value = false;
     mensagemErro.value = "Não foi possível conectar ao servidor. Por favor, tente novamente mais tarde.";
   }

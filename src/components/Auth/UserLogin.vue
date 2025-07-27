@@ -5,10 +5,11 @@ import { useRouter } from "vue-router"; // Importação do roteador
 const email = ref("");
 const password = ref("");
 const router = useRouter(); // Instância do roteador
+const apiUrl = import.meta.env.VITE_API_URL;
 
 const handleSubmit = async () => {
   try {
-    const url = "http://localhost:5117/api/account/login";
+    const url = `${apiUrl}account/login`;
 
     const response = await fetch(url, {
       method: "POST",
