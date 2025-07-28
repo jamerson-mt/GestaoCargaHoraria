@@ -1,8 +1,10 @@
 <script setup>
-import ListaDocentes from "@/components/Docentes/ListaDocentes.vue";
-import { ref } from "vue";
+import ContainerDocentes from "@/components/Docentes/ContainerDocentes.vue";
+import { ref, onMounted } from "vue";
 import router from "@/router/indexRouter";
 
+const isLoading = ref(true);
+const errorMessage = ref("");
 const mensagemErro = ref("");
 const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -29,7 +31,20 @@ const checkAuthentication = async () => {
   }
 };
 
-checkAuthentication();
+onMounted(async () => {
+  await checkAuthentication();
+  if (!mensagemErro.value) {
+    try {
+      // Simulação de carregamento de dados
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      isLoading.value = false;
+    // eslint-disable-next-line no-unused-vars
+    } catch (error) {
+      errorMessage.value = "Erro ao carregar os dados dos docentes.";
+      isLoading.value = false;
+    }
+  }
+});
 </script>
 
 <template>
@@ -37,8 +52,17 @@ checkAuthentication();
     <div v-if="mensagemErro" class="erro-api">
       <p>{{ mensagemErro }}</p>
     </div>
-
-    <ListaDocentes v-else />
+    <template v-else>
+      <template v-if="isLoading">
+        <p>Carregando...</p>
+      </template>
+      <template v-else-if="errorMessage">
+        <p>{{ errorMessage }}</p>
+      </template>
+      <template v-else>
+        <ContainerDocentes />
+      </template>
+    </template>
   </div>
 </template>
 
@@ -46,7 +70,13 @@ checkAuthentication();
 .container-dashboard {
   display: flex;
   flex-direction: row;
+  align-items: center;
   width: 100vw;
-  height: 100%;
+  height: 100vh;
+}
+
+.erro-api {
+  color: red;
+  font-weight: bold;
 }
 </style>

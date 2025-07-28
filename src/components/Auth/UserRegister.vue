@@ -4,6 +4,7 @@ import { useRouter } from "vue-router";
 
 const email = ref("");
 const password = ref("");
+const validationErrors = ref([]); // Armazena os erros de validação
 const router = useRouter();
 const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -16,7 +17,6 @@ const handleSubmit = async () => {
       headers: {
         "Content-Type": "application/json",
       },
-      credentials: "include",
       body: JSON.stringify({
         email: email.value,
         password: password.value,
@@ -25,13 +25,19 @@ const handleSubmit = async () => {
 
     if (!response.ok) {
       const errorData = await response.json();
-      throw new Error(errorData.message || "Erro ao realizar o registro.");
+
+      if (errorData.errors) {
+        validationErrors.value = Object.values(errorData.errors).flat();
+      } else {
+        validationErrors.value = [errorData.message || "Erro ao realizar o registro."];
+      }
+
+      throw new Error("Erro ao realizar o registro.");
     }
 
-    const data = await response.json();
-    console.log("Registro realizado com sucesso:", data);
-
-    router.push("/auth/login"); // Redireciona para a página de login após o registro
+    await response.json();
+    validationErrors.value = [];
+    router.push("/auth/login");
   } catch (error) {
     console.error("Erro ao realizar o registro:", error.message);
   }
@@ -42,6 +48,11 @@ const handleSubmit = async () => {
   <div class="auth-container-filho">
     <h1>Registrar</h1>
     <form @submit.prevent="handleSubmit">
+      <div v-if="validationErrors.length" class="error-messages">
+        <ul>
+          <li v-for="(error, index) in validationErrors" :key="index">{{ error }}</li>
+        </ul>
+      </div>
 
       <div class="form-group">
         <label for="email">Email:</label>
@@ -114,5 +125,10 @@ button {
 
 button:hover {
   background-color: #0056b3;
+}
+
+.error-messages {
+  color: red;
+  margin-bottom: 15px;
 }
 </style>
