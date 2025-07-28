@@ -33,7 +33,13 @@ const toggleComponent = (component, props = {}) => {
 const docente = ref({});
 const apiUrl = import.meta.env.VITE_API_URL;
 onMounted(async () => {
-  fetch(`${apiUrl}docente/${route.params.id}`)
+  fetch(`${apiUrl}docente/${route.params.id}`,{
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    credentials: 'include' // Inclui cookies na requisição
+  })
     .then((response) => response.json())
     .then((data) => {
       docente.value = data;

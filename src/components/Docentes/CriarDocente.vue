@@ -7,10 +7,10 @@ const docente = ref({
   name: '',
   email: ''
 });
-
+const apiUrl = import.meta.env.VITE_API_URL;
 const criarDocente = () => {
   if (docente.value.name && docente.value.email) {
-    fetch('http://localhost:5117/api/docente', {
+    fetch(`${apiUrl}docente`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

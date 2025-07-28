@@ -6,7 +6,7 @@ import { getDisciplinas } from '@/utils/getDisciplinas.js'; // Atualizado para u
 // eslint-disable-next-line no-unused-vars
 const horasAulasSemanais = ref(0);
 const horasTotais = ref(0);
-
+const apiUrl = import.meta.env.VITE_API_URL; // URL da API, se necessário
 const props = defineProps({
   docenteId: {
     type: Number,
@@ -31,7 +31,7 @@ const irParaAbonamento = () => {
 };
 
 const removeDocente = () => {
-  fetch(`http://localhost:5117/api/docente/${props.docenteId}`, {
+  fetch(`${apiUrl}docente/${props.docenteId}`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
@@ -58,7 +58,7 @@ const docenteAtividades = ref([]);
 
 const fetchDisciplinas = async () => {
   try {
-    const response = await fetch(`http://localhost:5117/api/disciplinadocente/docente/${props.docenteId}`, {
+    const response = await fetch(`${apiUrl}disciplinadocente/docente/${props.docenteId}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -74,7 +74,7 @@ const fetchDisciplinas = async () => {
 
 const fetchAtividades = async () => {
   try {
-    const response = await fetch(`http://localhost:5117/api/atividade/docente/${props.docenteId}`, {
+    const response = await fetch(`${apiUrl}atividade/docente/${props.docenteId}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

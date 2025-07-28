@@ -21,6 +21,7 @@ const getDisciplinas = async (disciplinaIds) => {
         headers: {
           "Content-Type": "application/json",
         },
+        credentials: "include", // Incluindo credenciais para autenticação
       });
       const data = await response.json();
       fetchedDisciplinas.push(data);
@@ -38,6 +39,7 @@ const fetchDisciplinas = async () => {
       headers: {
         "Content-Type": "application/json",
       },
+      credentials: "include", // Incluindo credenciais para autenticação
     });
     const data = await response.json();
     docenteDisciplinas.value = data;
@@ -56,6 +58,7 @@ const fetchAtividades = async () => {
       headers: {
         "Content-Type": "application/json",
       },
+      credentials: "include", // Incluindo credenciais para autenticação
     });
     const data = await response.json();
     docenteAtividades.value = data;

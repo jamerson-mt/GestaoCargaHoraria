@@ -15,14 +15,14 @@ defineProps({
 });
 
 const router = useRouter();
-
+const apiUrl = import.meta.env.VITE_API_URL; // URL da API
 const goToHome = () => {
   router.push('/dashboard');
 };
 
 const logout = async () => {
   try {
-    await fetch('http://localhost:5117/api/account/logout', { method: 'POST' ,
+    await fetch(`${apiUrl}account/logout`, { method: 'POST' ,
       headers: {
         'Content-Type': 'application/json',
       },
