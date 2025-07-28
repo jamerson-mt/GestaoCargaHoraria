@@ -3,6 +3,7 @@ import { ref, computed, onMounted } from 'vue';
 import CardAbonamento from './CardAbonamento.vue';
 import CriarAbonamento from './CriarAbonamento.vue';
 import EditarAbonamento from './EditarAbonamento.vue'; // Novo componente para edição
+import FeedbackMensagem from '../Feedback/FeedbackMensagem.vue'; // Importação do novo componente
 
 // Dados reativos
 const abonar = ref([]);
@@ -25,6 +26,14 @@ async function fetchDocentes() {
       },
       credentials: 'include', // Incluindo credenciais para autenticação
     }); // Substitua pela URL correta da API
+    if (response.status === 401) {
+      mensagemErro.value = 'Não autorizado. Verifique suas credenciais.';
+      return;
+    }
+    if (response.status === 403) {
+      mensagemErro.value = 'Acesso negado. Você não tem permissão para realizar esta ação.';
+      return;
+    }
     if (!response.ok) throw new Error('Erro ao buscar docentes');
     const data = await response.json();
     docentes.value = data.map(docente => ({
@@ -33,6 +42,7 @@ async function fetchDocentes() {
       email: docente.email,
     }));
   } catch (error) {
+    mensagemErro.value = 'Erro ao buscar docentes. Tente novamente mais tarde.';
     console.error(error);
   }
 }
@@ -47,6 +57,14 @@ async function fetchAbonar() {
       },
       credentials: 'include', // Incluindo credenciais para autenticação
     }); // Substitua pela URL correta da API
+    if (response.status === 401) {
+      mensagemErro.value = 'Não autorizado. Verifique suas credenciais.';
+      return;
+    }
+    if (response.status === 403) {
+      mensagemErro.value = 'Acesso negado. Você não tem permissão para realizar esta ação.';
+      return;
+    }
     if (!response.ok) throw new Error('Erro ao buscar abonos');
     const data = await response.json();
     abonar.value = data.map(abono => ({
@@ -59,6 +77,7 @@ async function fetchAbonar() {
       dataInicio: new Date(abono.dataInicio), // Converte a data para um objeto Date
     }));
   } catch (error) {
+    mensagemErro.value = 'Erro ao buscar abonos. Tente novamente mais tarde.';
     console.error(error);
   }
 }
@@ -183,8 +202,16 @@ function atualizarAbonar(abonoAtualizado) {
       @atualizar="atualizarAbonar"
     />
 
-    <div v-if="mensagemSucesso" class="mensagem-sucesso">{{ mensagemSucesso }}</div>
-    <div v-if="mensagemErro" class="mensagem-erro">{{ mensagemErro }}</div>
+    <FeedbackMensagem
+      v-if="mensagemSucesso"
+      :mensagem="mensagemSucesso"
+      tipo="sucesso"
+    />
+    <FeedbackMensagem
+      v-if="mensagemErro"
+      :mensagem="mensagemErro"
+      tipo="erro"
+    />
   </div>
 </template>
 

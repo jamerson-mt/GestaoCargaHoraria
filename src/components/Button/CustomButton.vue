@@ -10,18 +10,22 @@ defineProps({
     type: Function,
     required: true,
   },
+  cor: {
+    type: String,
+    default: '#127247', // Cor padrão
+  },
 });
 </script>
 
 <template>
-  <button class="custom-button" @click="onClick">
+  <button class="custom-button" @click="onClick" :style="{ backgroundColor: cor }">
     {{ label }}
   </button>
 </template>
 
 <style scoped>
 .custom-button {
-  background-color: #127247;
+  /* Removido o background-color fixo */
   padding: 0.6rem 1.8rem;
   border-radius: 8px;
   border: none;
@@ -36,12 +40,12 @@ defineProps({
 }
 
 .custom-button:hover {
-  background-color: #0e5a36;
   transform: translateY(-2px);
+  filter: brightness(0.9); /* Ajuste para escurecer a cor no hover */
 }
 
 .custom-button:active {
-  background-color: #0c4a2d;
   transform: translateY(0);
+  filter: brightness(0.8); /* Ajuste para escurecer mais no active */
 }
 </style>

@@ -1,49 +1,48 @@
 <script setup>
 import { ref } from "vue";
-import { useRouter } from "vue-router"; // Importação do roteador
+import { useRouter } from "vue-router";
 
 const email = ref("");
 const password = ref("");
-const router = useRouter(); // Instância do roteador
+const router = useRouter();
 const apiUrl = import.meta.env.VITE_API_URL;
 
 const handleSubmit = async () => {
   try {
-    const url = `${apiUrl}account/login`;
+    const url = `${apiUrl}account/register`;
 
     const response = await fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      credentials: "include", //
+      credentials: "include",
       body: JSON.stringify({
-        Email: email.value,
-        Password: password.value,
+        email: email.value,
+        password: password.value,
       }),
     });
 
     if (!response.ok) {
       const errorData = await response.json();
-      throw new Error(errorData.message || "Erro ao realizar a operação.");
+      throw new Error(errorData.message || "Erro ao realizar o registro.");
     }
 
     const data = await response.json();
-    console.log("Login realizado com sucesso:", data);
+    console.log("Registro realizado com sucesso:", data);
 
-    router.push("/dashboard"); // Redireciona para /dashboard após login
-    //atualizar
-    // Recarrega a página para refletir o estado atualizado
+    router.push("/auth/login"); // Redireciona para a página de login após o registro
   } catch (error) {
-    console.error("Erro ao realizar a operação:", error.message);
+    console.error("Erro ao realizar o registro:", error.message);
   }
 };
 </script>
 
 <template>
   <div class="auth-container-filho">
-    <h1>Login</h1>
+    <h1>Registrar</h1>
     <form @submit.prevent="handleSubmit">
+
       <div class="form-group">
         <label for="email">Email:</label>
         <input id="email" type="email" v-model="email" required />
@@ -52,11 +51,11 @@ const handleSubmit = async () => {
         <label for="password">Senha:</label>
         <input id="password" type="password" v-model="password" required />
         <p>
-          Não tem uma conta?
-          <router-link to="/auth/register">Registrar</router-link>
+          Já tem uma conta?
+          <router-link to="/auth/login">Entrar</router-link>
         </p>
       </div>
-      <button type="submit">Entrar</button>
+      <button type="submit">Registrar</button>
     </form>
   </div>
 </template>

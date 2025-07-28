@@ -8,6 +8,10 @@ defineProps({
     type: String,
     required: true,
   },
+  backgroundColor: {
+    type: String,
+    default: '#21A366', // Cor padrão
+  },
 });
 
 const router = useRouter();
@@ -32,13 +36,13 @@ const logout = async () => {
 </script>
 
 <template>
-  <header class="head-atividades">
+  <header class="head-atividades" :style="{ backgroundColor }">
     <CustomButton label="&#8592; Voltar" :onClick="goToHome" />
     <div class="head-content">
       <h1>{{ title }}</h1>
       <span class="head-span">Gestor de Carga Horária</span> <!-- Texto movido para baixo do título -->
     </div>
-    <CustomButton label="Logout" :onClick="logout" />
+    <CustomButton cor="#FF6F61" label="sair" :onClick="logout" /> <!-- Cor alterada para vermelho suave -->
   </header>
 </template>
 

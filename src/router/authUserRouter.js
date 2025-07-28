@@ -7,4 +7,9 @@ export default [
     name: 'authUser',
     component: AuthView,
   },
+  {
+    path: '/auth/register',
+    name: 'authRegister',
+    component: AuthView,
+  }
 ]

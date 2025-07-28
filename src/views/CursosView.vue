@@ -1,5 +1,4 @@
 <script setup>
-import SideBar from "@/components/SideBar/SideBar.vue";
 import ListaCursos from "@/components/Cursos/ListaCursos.vue";
 </script>
 

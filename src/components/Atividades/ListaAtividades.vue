@@ -1,8 +1,11 @@
 <script setup>
 import FiltroTipoAtividade from './FiltroTipoAtividade.vue';
+import FeedbackMensagem from '../Feedback/FeedbackMensagem.vue';
 import { computed, ref, reactive, onMounted } from 'vue';
 
 const atividades = ref([]);
+const mensagemFeedback = ref('');
+const tipoFeedback = ref('erro');
 
 const emit = defineEmits(['atividadeCriada', 'atividadeRemovida']);
 
@@ -29,6 +32,27 @@ function atualizarFiltro(novoFiltro) {
 
 const docentes = ref([]);
 const apiUrl = import.meta.env.VITE_API_URL; // URL da API
+
+function exibirFeedback(mensagem, tipo = 'erro') {
+  mensagemFeedback.value = mensagem;
+  tipoFeedback.value = tipo;
+  setTimeout(() => {
+    mensagemFeedback.value = '';
+  }, 5000); // Feedback desaparece após 5 segundos
+}
+
+function tratarErro(response) {
+  if (response.status === 401) {
+    exibirFeedback('Não autorizado. Faça login novamente.', 'erro');
+  } else if (response.status === 403) {
+    exibirFeedback('Acesso negado. Você não tem permissão para realizar esta ação.', 'erro');
+  } else if (response.status === 404) {
+    exibirFeedback('Recurso não encontrado.', 'erro');
+  } else {
+    exibirFeedback('Ocorreu um erro inesperado. Tente novamente mais tarde.', 'erro');
+  }
+}
+
 function carregarDocentes() {
   fetch(`${apiUrl}docente`, {
     method: 'GET',
@@ -39,6 +63,7 @@ function carregarDocentes() {
   })
     .then(response => {
       if (!response.ok) {
+        tratarErro(response);
         throw new Error('Erro ao carregar docentes');
       }
       return response.json();
@@ -61,6 +86,7 @@ function carregarAtividades() {
   })
     .then(response => {
       if (!response.ok) {
+        tratarErro(response);
         throw new Error('Erro ao carregar atividades');
       }
       return response.json();
@@ -107,6 +133,7 @@ function criarAtividade() {
   })
     .then(response => {
       if (!response.ok) {
+        tratarErro(response);
         throw new Error('Erro ao criar atividade');
       }
       return response.json();
@@ -115,6 +142,7 @@ function criarAtividade() {
       emit('atividadeCriada', data);
       atividades.value.push(data);
       fecharModalCriar();
+      exibirFeedback('Atividade criada com sucesso!', 'sucesso');
     })
     .catch(error => {
       console.error('Erro ao criar atividade:', error);
@@ -134,10 +162,12 @@ function removerAtividade(atividadeId) {
   })
     .then(response => {
       if (!response.ok) {
+        tratarErro(response);
         throw new Error('Erro ao remover atividade');
       }
       const atividadeRemovida = atividades.value.find(atividade => atividade.id === atividadeId);
       emit('atividadeRemovida', atividadeRemovida);
+      exibirFeedback('Atividade removida com sucesso!', 'sucesso');
     })
     .catch(error => {
       console.error('Erro ao remover atividade:', error);
@@ -166,6 +196,7 @@ function salvarAlteracoes() {
   })
     .then(response => {
       if (!response.ok) {
+        tratarErro(response);
         throw new Error('Erro ao atualizar atividade');
       }
       const index = atividades.value.findIndex(atividade => atividade.id === novaAtividade.id);
@@ -174,6 +205,7 @@ function salvarAlteracoes() {
       }
       emit('atividadeCriada', novaAtividade);
       fecharModalCriar();
+      exibirFeedback('Atividade atualizada com sucesso!', 'sucesso');
     })
     .catch(error => {
       console.error('Erro ao atualizar atividade:', error);
@@ -187,6 +219,7 @@ function salvarAlteracoes() {
     <FiltroTipoAtividade
       :tipos="Object.entries(tipoAtividadeMap).map(([key, value]) => ({ id: Number(key), nome: value }))"
       @filtrar="atualizarFiltro" @criarAtividade="abrirModalCriar" />
+    <FeedbackMensagem :mensagem="mensagemFeedback" :tipo="tipoFeedback" />
     <div class="atividades-container">
       <ul class="atividades">
         <li v-if="!atividadesFiltradas.length">Nenhuma atividade encontrada.</li>
