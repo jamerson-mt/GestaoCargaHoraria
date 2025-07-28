@@ -1,6 +1,7 @@
 <script setup>
 import { ref, watch } from "vue";
 import Painel from "@/components/Cards/Painel.vue";
+import router from "@/router/indexRouter";
 
 const apiStatus = ref(false);
 const contador = ref(0);
@@ -18,15 +19,18 @@ const checkAuthentication = async () => {
     });
 
     if (response.status === 403) {
-      window.location.href = "/auth/login";
-      throw new Error("Usuário não autenticado.");
+      mensagemErro.value = "Usuário não autenticado. Redirecionando para a página de login...";
+      setTimeout(() => {
+        router.push("/auth/login"); // Redireciona sem recarregar o site
+      }, 1000); // Pequeno atraso para exibir a mensagem antes do redirecionamento
+      return;
     }
 
     const data = await response.json();
     contador.value = data.length; // Exemplo de uso dos dados
     apiStatus.value = true;
     dadosCarregados.value = true; // Indica que os dados foram carregados
-  // eslint-disable-next-line no-unused-vars
+    // eslint-disable-next-line no-unused-vars
   } catch (error) {
     console.error("Erro ao conectar com a API:");
     apiStatus.value = false;
