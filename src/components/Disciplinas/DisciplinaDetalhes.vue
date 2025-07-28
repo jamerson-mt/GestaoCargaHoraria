@@ -14,10 +14,16 @@ const disciplinasDocentes = ref([])
 const docenteNome = ref('');
 const cursoNome = ref('');
 const selectedDocenteId = ref(null); // Armazena o ID do docente selecionado
-
+const apiUrl = import .meta.env.VITE_API_URL
 const fetchCursos = async () => {
   try {
-    const response = await fetch("http://localhost:5117/api/curso");
+    const response = await fetch(`${apiUrl}curso`,{
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      credentials: 'include' // Inclui cookies na requisição
+    });
     const data = await response.json();
     cursos.value = data;
     fetchCursoNome(props.disciplina.cursoId)
@@ -28,7 +34,13 @@ const fetchCursos = async () => {
 
 const fetchDisciplinasDocentes = async () => {
   try {
-    const response = await fetch("http://localhost:5117/api/disciplinadocente");
+    const response = await fetch(`${apiUrl}disciplinadocente`,{
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      credentials: 'include' // Inclui cookies na requisição
+    });
     const data = await response.json();
     disciplinasDocentes.value = data;
 
@@ -85,13 +97,15 @@ const alocarDocente = async (disciplinaId, docenteId) => {
   if (!selectedDocenteId.value) return;
 
   try {
-    const response = await fetch(`http://localhost:5117/api/disciplinadocente/`, {
+    const response = await fetch(`${apiUrl}disciplinadocente/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({disciplinaId,docenteId})
+      body: JSON.stringify({disciplinaId,docenteId}),
+      credentials: 'include' // Inclui cookies na requisição
     });
+
 
     if (!response.ok) {
       throw new Error('Erro ao atualizar docente');

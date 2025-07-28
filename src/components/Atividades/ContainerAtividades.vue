@@ -1,12 +1,6 @@
 <script setup>
-import { ref } from 'vue';
-import { useRoute } from 'vue-router';
 import ListaAtividades from "./ListaAtividades.vue";
 import HeaderTopo from "../Header/HeaderDasViewsParaVoltar.vue";
-
-const route = useRoute();
-const listaAtual = ref(route.query.tipo || 'todas');
-console.log(listaAtual.value);
 
 
 </script>

@@ -20,7 +20,7 @@ const docentes = ref([]);
 
 const mensagem = ref('');
 const tipoMensagem = ref('');
-
+const apiUrl = import.meta.env.VITE_API_URL;
 const atualizarDisciplina = () => {
   console.log(disciplina.value);
 
@@ -34,7 +34,7 @@ const atualizarDisciplina = () => {
   };
 
   if (disciplinaAtualizada.name && disciplinaAtualizada.cursoId) {
-    fetch(`http://localhost:5117/api/disciplina/${disciplinaAtualizada.id}`, {
+    fetch(`${apiUrl}disciplina/${disciplinaAtualizada.id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
@@ -68,7 +68,7 @@ const atualizarDisciplina = () => {
 
 const fetchCursos = async () => {
   try {
-    const response = await fetch("http://localhost:5117/api/curso");
+    const response = await fetch(`${apiUrl}curso`);
     const data = await response.json();
     cursos.value = data;
   } catch (error) {
@@ -78,7 +78,7 @@ const fetchCursos = async () => {
 
 const fetchDocentes = async () => {
   try {
-    const response = await fetch("http://localhost:5117/api/docente");
+    const response = await fetch(`${apiUrl}docente`);
     const data = await response.json();
     docentes.value = data;
   } catch (error) {
@@ -88,7 +88,13 @@ const fetchDocentes = async () => {
 
 const fetchDisciplina = async () => {
   try {
-    const response = await fetch(`http://localhost:5117/api/disciplina/${disciplina.value.id}`);
+    const response = await fetch(`${apiUrl}disciplina/${disciplina.value.id}`,{
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+      },
+      credentials: "include",
+    });
     const data = await response.json();
     disciplina.value = data;
   } catch (error) {

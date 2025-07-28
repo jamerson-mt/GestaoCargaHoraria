@@ -10,10 +10,10 @@ const disciplinaState = ref({ ...props.disciplina });
 const professoresDisponiveis = ref([]);
 const selectedProfessorId = ref(null);
 const sucessoAlocacao = ref(false);
-
+const apiUrl = import.meta.env.VITE_API_URL
 const fetchProfessoresDisponiveis = async () => {
   try {
-    const response = await fetch("http://localhost:5117/api/docente",{
+    const response = await fetch(`${apiUrl}docente`,{
       headers: {
         "Content-Type": "application/json",
         "Accept": "application/json",
@@ -32,7 +32,7 @@ const alocarProfessor = async () => {
 
   try {
     const response = await fetch(
-      `http://localhost:5117/api/disciplinadocente`,
+      `${apiUrl}disciplinadocente`,
       {
         method: "POST",
         headers: {
@@ -42,6 +42,7 @@ const alocarProfessor = async () => {
           disciplinaId: props.disciplina.id,
           docenteId: selectedProfessorId.value,
         }),
+        credentials: "include",
       }
     );
 
@@ -69,7 +70,7 @@ const alocarProfessor = async () => {
 const removerProfessor = async (docenteId) => {
   try {
     const response = await fetch(
-      `http://localhost:5117/api/disciplinadocente/${docenteId}/${
+      `${apiUrl}disciplinadocente/${docenteId}/${
         props.disciplina.id
       }`,
       {
@@ -81,6 +82,7 @@ const removerProfessor = async (docenteId) => {
           disciplinaId: props.disciplina.id,
           docenteId,
         }),
+        credentials: "include",
       }
     );
 

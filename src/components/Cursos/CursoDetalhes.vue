@@ -6,7 +6,7 @@ const quantidadeDisciplinas = (cursoId) => {
   return disciplinas.filter(disciplina => disciplina.cursoId === cursoId).length;
 };
 
-const props = defineProps({
+defineProps({
   curso: {
     type: Object,
     required: true

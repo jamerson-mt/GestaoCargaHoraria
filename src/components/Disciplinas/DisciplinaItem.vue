@@ -5,7 +5,7 @@ import { ref } from 'vue';
 
 const router = useRouter();
 const notification = ref({ message: '', type: '' });
-
+const apiUrl = import.meta.env.VITE_API_URL;
 const showNotification = (message, type) => {
   notification.value = { message, type };
   setTimeout(() => {
@@ -33,8 +33,13 @@ cursos.forEach(curso => {
 
 const deletarDisciplina = () => {
   if (confirm(`Tem certeza que deseja excluir a disciplina "${props.disciplina.name}"?`)) {
-    fetch(`http://localhost:5117/api/disciplina/${props.disciplina.id}`, {
+    fetch(`${apiUrl}disciplina/${props.disciplina.id}`, {
       method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+      credentials: 'include',
     })
       .then(response => {
         if (!response.ok) {

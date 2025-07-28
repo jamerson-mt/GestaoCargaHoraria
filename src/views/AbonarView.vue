@@ -20,7 +20,7 @@ const checkAuthentication = async () => {
       mensagemErro.value = "Usuário não autenticado. Redirecionando para a página de login...";
       setTimeout(() => {
         router.push("/auth/login");
-      }, 1000);
+      }, 400);
       return;
     }
   // eslint-disable-next-line no-unused-vars

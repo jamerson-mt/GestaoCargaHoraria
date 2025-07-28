@@ -7,7 +7,7 @@ const mostrar = ref(false);
 
 const disciplinasDisponiveis = ref([]);
 const disciplinasOfDocente = ref([]);
-
+const apiUrl = import.meta.env.VITE_API_URL;
 const disciplinaSelecionada = ref(null);
 const props = defineProps({
   docente: {
@@ -17,11 +17,12 @@ const props = defineProps({
 });
 
 onMounted(async () => {
-  disciplinasOfDocente.value = await fetch(`http://localhost:5117/api/disciplinadocente/docente/${props.docente.id}`, {
+  disciplinasOfDocente.value = await fetch(`${apiUrl}disciplinadocente/docente/${props.docente.id}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
     },
+    credentials: 'include' // Inclui cookies na requisição
   }).then((response) => response.json())
     .then(async (data) => {
       console.log(data)

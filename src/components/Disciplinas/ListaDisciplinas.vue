@@ -13,10 +13,10 @@ const componentProps = shallowRef({});
 const disciplinas = ref([]);
 const cursos = ref([]);
 const selectedDisciplina = ref(null);
-
+const apiUrl = import.meta.env.VITE_API_URL;
 const fetchDisciplinas = async () => {
   try {
-    const response = await fetch("http://localhost:5117/api/disciplina",{
+    const response = await fetch(`${apiUrl}disciplina`,{
       headers: {
         "Content-Type": "application/json",
         "Accept": "application/json"
@@ -32,7 +32,7 @@ const fetchDisciplinas = async () => {
 
 const fetchCursos = async () => {
   try {
-    const response = await fetch("http://localhost:5117/api/curso",{
+    const response = await fetch(`${apiUrl}curso`,{
       headers: {
         "Content-Type": "application/json",
         "Accept": "application/json"
@@ -48,7 +48,7 @@ const fetchCursos = async () => {
 
 const fetchDocentesNames = async (disciplinaId) => {
   try {
-    const disciplinaResponse = await fetch(`http://localhost:5117/api/disciplinadocente/disciplina/${disciplinaId}`,{
+    const disciplinaResponse = await fetch(`${apiUrl}disciplinadocente/disciplina/${disciplinaId}`,{
       headers: {
         "Content-Type": "application/json",
         "Accept": "application/json"
@@ -59,7 +59,7 @@ const fetchDocentesNames = async (disciplinaId) => {
 
     if (Array.isArray(docentesIds) && docentesIds.length > 0) {
       const docentesPromises = docentesIds.map(async (docente) => {
-        const docenteResponse = await fetch(`http://localhost:5117/api/docente/${docente.docenteId}`);
+        const docenteResponse = await fetch(`${apiUrl}docente/${docente.docenteId}`);
         const docenteData = await docenteResponse.json();
         return docenteData.name || "Sem nome";
       });

@@ -22,7 +22,7 @@ const checkAuthentication = async () => {
       mensagemErro.value = "Usuário não autenticado. Redirecionando para a página de login...";
       setTimeout(() => {
         router.push("/auth/login"); // Redireciona sem recarregar o site
-      }, 1000); // Pequeno atraso para exibir a mensagem antes do redirecionamento
+      }, 400); // Pequeno atraso para exibir a mensagem antes do redirecionamento
       return;
     }
 
