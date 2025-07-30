@@ -7,7 +7,7 @@
     <div v-if="expandido" class="detalhes">
       <p><strong>Descrição:</strong> {{ abono.descricao }}</p>
       <p><strong>Data de Início:</strong> {{ new Date(abono.dataInicio).toLocaleDateString('pt-BR') }}</p>
-      <a :href="'/api/'+abono.urlPdf" target="_blank">Visualizar PDF</a>
+      <a :href="'/'+abono.urlPdf" target="_blank">Visualizar PDF</a>
       <div class="acoes">
         <button @click.stop="editarAbonamento">Editar</button>
         <button @click.stop="$emit('remover', abono.id)">Remover</button>
