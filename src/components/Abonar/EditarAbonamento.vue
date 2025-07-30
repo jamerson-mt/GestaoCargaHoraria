@@ -5,6 +5,7 @@ const props = defineProps({
   docentes: Array,
   abono: Object,
 });
+const apiUrl = import.meta.env.VITE_API_URL; // URL da API
 
 const emit = defineEmits(['fechar', 'atualizar']);
 
@@ -47,7 +48,7 @@ async function atualizarAbonamento() {
   });
 
   try {
-    const response = await fetch(`http://localhost:5117/api/abonamento/${props.abono.id}`, {
+    const response = await fetch(`${apiUrl}abonamento/${props.abono.id}`, {
       method: 'PUT',
       body: formData,
     });
