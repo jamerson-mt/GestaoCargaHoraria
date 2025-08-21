@@ -65,6 +65,7 @@ checkAuthentication(); // Chama a função de autenticação ao iniciar
   align-items: center;
   width: 100%;
   height: 100%;
+  background-color: transparent;
 }
 
 .erro-api {

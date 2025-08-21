@@ -1,10 +1,9 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script setup>
 
-import { ref, computed, onMounted } from 'vue';
+import { ref,  onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import CardDocenteOne from "@/components/Docentes/CardDocenteOne.vue";
-import CardInfos from './CardInfos.vue';
 import { getAtividades } from '@/utils/getAtividades';
 import { getDocentes } from "@/utils/getDocentes";
 import { getDisciplinas } from "@/utils/getDisciplinas";
@@ -41,18 +40,6 @@ onMounted(() => {
 });
 
 const router = useRouter();
-
-const disciplinasSemDocentes = computed(() => {
-  return disciplinas.value.filter(d => !d.disciplinaDocentes || d.disciplinaDocentes.length === 0).length;
-});
-
-const docentesComCargaAlta = computed(() => {
-  return docentes.value.filter(d => d.disciplinaDocentes && d.disciplinaDocentes.length > 3).length;
-});
-
-const docentesComCargaBaixa = computed(() => {
-  return docentes.value.filter(d => d.disciplinaDocentes && d.disciplinaDocentes.length <= 1).length;
-});
 </script>
 
 <template>
@@ -72,16 +59,6 @@ const docentesComCargaBaixa = computed(() => {
         icone="atividade" />
     </div>
 
-    <div v-if="!carregandoDocentes && !carregandoDisciplinas && !carregandoAtividades" class="info-gerais">
-      <h2>Informações Gerais</h2>
-      <div class="info-cards">
-        <CardInfos title="Docentes com Carga Alta" :qtd="docentesComCargaAlta" status="vermelho" />
-        <CardInfos title="Docentes com Carga Moderada"
-          :qtd="docentes.length - (docentesComCargaAlta + docentesComCargaBaixa)" status="amarelo" />
-        <CardInfos title="Docentes com Carga Baixa" :qtd="docentesComCargaBaixa" status="verde" />
-        <CardInfos title="Disciplinas sem Docentes" :qtd="disciplinasSemDocentes" status="vermelho" />
-      </div>
-    </div>
 
     <div v-if="selectedComponent" class="info-display">
       <component :is="selectedComponent" v-bind="selectedProps"></component>

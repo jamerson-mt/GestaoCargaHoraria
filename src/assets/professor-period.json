@@ -1,0 +1,67 @@
+{
+  "id": 10802,
+  "idEmployee": "2225399",
+  "name": "ALLAN DIEGO SILVA LIMA",
+  "coursePeriods": [
+    {
+      "id": 1490,
+      "name": "TÉCNICO EM INFORMÁTICA PARA INTERNET",
+      "code": "INFIG",
+      "stage": "Técnico",
+      "periods": [
+        {
+          "year": 2025,
+          "semester": 1,
+          "curricularComponents": [
+            {
+              "id": 14975,
+              "classHours": 75.0,
+              "classCode": "20251.INFIG.1V",
+              "name": "Lógica de Programação e Estrutura de Dados",
+              "code": "INFIG.6",
+              "shift": "Vespertino"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 2732,
+      "name": "TECNOLOGIA EM SISTEMAS PARA INTERNET",
+      "code": "TSIIG",
+      "stage": "Superior",
+      "periods": [
+        {
+          "year": 2025,
+          "semester": 1,
+          "curricularComponents": [
+            {
+              "id": 22374,
+              "classHours": 60.0,
+              "classCode": "20251.TSIIG.6V",
+              "name": "Inteligência Artificial",
+              "code": "TSI.38",
+              "shift": "Vespertino"
+            },
+            {
+              "id": 21316,
+              "classHours": 45.0,
+              "classCode": "20251.TSIIG.3M",
+              "name": "Metodologia Científica",
+              "code": "TSI.13",
+              "shift": "Matutino"
+            },
+            {
+              "id": 21375,
+              "classHours": 60.0,
+              "classCode": "20251.TSIIG.1M",
+              "name": "Programação Imperativa",
+              "code": "TSI.27",
+              "shift": "Matutino"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

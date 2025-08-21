@@ -26,9 +26,6 @@ const irParaDisciplinas = () => {
   router.push({ path: `/docentes/${props.docenteId}`, query: { view: 'disciplinas' } });
 };
 
-const irParaAbonamento = () => {
-  router.push({ path: `/docentes/${props.docenteId}`, query: { view: 'abonamento' } });//
-};
 
 const removeDocente = () => {
   fetch(`${apiUrl}docente/${props.docenteId}`, {
@@ -129,7 +126,6 @@ onMounted(() => {
     </div>
     <div class="buttons">
       <img src="/public/svg/book.svg" alt="book" title="Disciplinas" @click="irParaDisciplinas" />
-      <img src="/public/images/health-checkup.png" alt="abonamento" title="Abonamento" @click="irParaAbonamento" />
     </div>
 
     <div class="actions">
