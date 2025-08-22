@@ -1,7 +1,7 @@
 <script setup>
-import { ref, onMounted, computed } from 'vue';
-import { useRouter } from 'vue-router';
-import { getDisciplinas } from '@/utils/getDisciplinas.js'; // Atualizado para usar o utilitário
+import { ref, onMounted, computed } from "vue";
+import { useRouter } from "vue-router";
+import { getDisciplinas } from "@/utils/getDisciplinas.js"; // Atualizado para usar o utilitário
 
 // eslint-disable-next-line no-unused-vars
 const horasAulasSemanais = ref(0);
@@ -21,19 +21,13 @@ const props = defineProps({
 const router = useRouter();
 
 
-
-const irParaDisciplinas = () => {
-  router.push({ path: `/docentes/${props.docenteId}`, query: { view: 'disciplinas' } });
-};
-
-
 const removeDocente = () => {
   fetch(`${apiUrl}docente/${props.docenteId}`, {
-    method: 'DELETE',
+    method: "DELETE",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
-    credentials: 'include', // Incluindo credenciais para autenticação
+    credentials: "include", // Incluindo credenciais para autenticação
   })
     .then(() => {
       window.location.reload();
@@ -41,7 +35,6 @@ const removeDocente = () => {
     .catch((error) => {
       console.error(error);
     });
-
 };
 
 const editarDocente = () => {
@@ -51,17 +44,18 @@ const editarDocente = () => {
 const docenteDisciplinas = ref([]);
 const docenteAtividades = ref([]);
 
-
-
 const fetchDisciplinas = async () => {
   try {
-    const response = await fetch(`${apiUrl}disciplinadocente/docente/${props.docenteId}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include", // Incluindo credenciais para autenticação
-    });
+    const response = await fetch(
+      `${apiUrl}disciplinadocente/docente/${props.docenteId}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include", // Incluindo credenciais para autenticação
+      }
+    );
     const data = await response.json();
     docenteDisciplinas.value = await getDisciplinas(data); // Reutilizando a função getDisciplinas
   } catch (error) {
@@ -77,7 +71,6 @@ const fetchAtividades = async () => {
         "Content-Type": "application/json",
       },
       credentials: "include", // Incluindo credenciais para autenticação
-
     });
     const data = await response.json();
     docenteAtividades.value = data;
@@ -91,9 +84,7 @@ const docenteExtensao = computed(() =>
   docenteAtividades.value.filter((a) => a.tipo === 0)
 );
 // eslint-disable-next-line no-unused-vars
-const docenteApoio = computed(() =>
-  docenteAtividades.value.filter((a) => a.tipo === 1)
-);
+const docenteApoio = computed(() => docenteAtividades.value.filter((a) => a.tipo === 1));
 // eslint-disable-next-line no-unused-vars
 const docenteAdministracao = computed(() =>
   docenteAtividades.value.filter((a) => a.tipo === 2)
@@ -102,7 +93,7 @@ const docenteAdministracao = computed(() =>
 const calcularHorasTotais = () => {
   horasTotais.value =
     docenteAtividades.value.reduce((sum, a) => sum + a.duracao, 0) +
-    docenteDisciplinas.value.reduce((sum, d) => sum + d.cargaHoraria*2, 0);
+    docenteDisciplinas.value.reduce((sum, d) => sum + d.cargaHoraria * 2, 0);
 };
 
 onMounted(() => {
@@ -117,20 +108,17 @@ onMounted(() => {
 </script>
 
 <template>
-  <div :class="['carga-horaria', props.status]">
-    <div class="content">
-      <p id="tem">{{ horasTotais }}h</p>
-      <p id="de">de</p>
-      <p id="meta">40h</p>
-      <p class="text">semanais</p>
-    </div>
-    <div class="buttons">
-      <img src="/public/svg/book.svg" alt="book" title="Disciplinas" @click="irParaDisciplinas" />
-    </div>
-
+  <div class="carga-horaria">
     <div class="actions">
-      <button @click.stop="editarDocente">Editar</button>
-      <button class="remover" @click.stop="removeDocente">Remover</button>
+      <button @click.stop="editarDocente" title="Editar">
+        <i class="material-icons">edit</i>
+      </button>
+      <button class="remover" @click.stop="removeDocente" title="Remover">
+        <i class="material-icons">delete</i>
+      </button>
+    </div>
+    <div class="progress-bar">
+      <div class="progress" :style="{ width: `${(horasTotais / 40) * 100}%` }"></div>
     </div>
   </div>
 </template>
@@ -138,100 +126,48 @@ onMounted(() => {
 <style scoped>
 .carga-horaria {
   display: flex;
-  flex-direction: row;
+  flex-direction: column; /* Organizar os elementos verticalmente */
   align-items: center;
-  justify-content: space-between;
-  gap: 0px;
-  height: 100%;
+  gap: 1rem;
   width: 100%;
-  background-color: transparent;
-  border-radius: 0px 10px 10px 0px;
-  transition: 0.2s;
 }
 
+.progress-bar {
+  width: 100%; /* Ocupa o tamanho máximo do componente */
+  height: 10px;
+  background-color: #d3d3d3; /* Cor neutra */
+  border-radius: 5px;
+  overflow: hidden;
+}
 
-.content {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: start;
-  gap: 2px;
+.progress {
+  height: 100%;
+  background-color: #808080; /* Cor neutra */
+  transition: width 0.4s ease;
 }
 
 .actions {
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  padding-left: 0.6rem;
+  gap: 0.5rem;
 }
 
 .actions button {
-  cursor: pointer;
-  background-color: #e09b1b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
   border: none;
-  color: white;
-  padding: 5px 10px;
-  height: 100%;
-  transition: 0.4s;
-}
-
-.actions .remover {
-  background-color: #db0000;
-  border-radius: 0 0.4rem 0.4rem 0;
+  cursor: pointer;
+  font-size: 1.5rem; /* Ajustado para Material Icons */
+  color: #555; /* Cor neutra */
+  transition: transform 0.2s ease;
 }
 
 .actions button:hover {
-  background-color: #0056b3;
+  transform: scale(1.1);
 }
 
-#tem {
-  color: #3e3e3e;
-  font-weight: 400;
-}
-
-#de {
-  color: #2e2e2e;
-  font-weight: 500;
-}
-
-#meta {
-  color: #2e2e2e;
-  font-weight: bold;
-}
-
-.text {
-  color: #2e2e2e;
-  font-weight: 400;
-}
-
-p {
-  color: #2e2e2e;
-  font-weight: bold;
-}
-
-.p-bold {
-  font-size: 14px;
-  color: rgb(46, 15, 3);
-  width: 100%;
-  height: 100%;
-  padding: 2px;
-  text-align: center;
-}
-
-.buttons {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 2px;
-  padding: 2px;
-  justify-content: center;
-}
-
-img {
-  width: 24px;
-  height: 24px;
-  cursor: pointer;
+.actions .remover {
+  color: #a52a2a; /* Cor neutra para remoção */
 }
 </style>

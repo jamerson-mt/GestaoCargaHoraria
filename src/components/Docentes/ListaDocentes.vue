@@ -1,9 +1,11 @@
+<!-- eslint-disable no-unused-vars -->
 <script setup>
 import { ref, computed } from "vue";
 import CardDocente from "./CardDocente.vue";
 import { defineProps } from "vue";
 import { docentes } from "@/data/docentes";
 import { useRouter } from 'vue-router';
+import FiltroDocentes from "./FiltroDocentes.vue";
 
 console.log(docentes);
 
@@ -40,18 +42,16 @@ const criarDocente = () => {
 </script>
 
 <template>
-  <div class="filtro">
-    <input type="text" v-model="searchQuery" placeholder="Pesquisar docentes..." />
-    <select v-model="statusFilter">
-      <option value="todos">Todos</option>
-      <option value="pendente">Pendente</option>
-      <option value="pronto">Pronto</option>
-      <option value="urgente">Urgente</option>
-    </select>
-    <button @click="criarDocente">Cadastrar Docente</button>
-  </div>
+
   <div class="lista-docentes">
-    <h2>Lista de Docentes - {{ props.tipo }}</h2>
+    <FiltroDocentes
+      :searchQuery="searchQuery"
+      :statusFilter="statusFilter"
+      @update:searchQuery="(value) => (searchQuery = value)"
+      @update:statusFilter="(value) => (statusFilter = value)"
+      @criarDocente="criarDocente"
+    />
+    <h2>Lista de servidores</h2>
     <div class="carddocente">
       <CardDocente
         v-for="docente in filteredDocentes"
@@ -75,12 +75,12 @@ const criarDocente = () => {
   align-items: center;
   width: 80%;
   padding: 2rem;
-  background-color: #f9f9f9;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   border: 1px solid #ddd;
   border-radius: 1rem;
   overflow-y: scroll;
   max-height: 100%;
+  background-color: transparent; /* Removido o fundo */
+  box-shadow: none; /* Removida a sombra */
 }
 
 .lista-docentes::-webkit-scrollbar {
